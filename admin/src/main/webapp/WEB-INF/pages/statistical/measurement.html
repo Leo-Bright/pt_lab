@@ -1,0 +1,75 @@
+<@override name="page-content">
+<div class="page-breadcrumbs">
+    <ul class="breadcrumb">
+        <li><i class="fa fa-home"></i><a href="#">标准化能力</a></li>
+        <li>标准修订</li>
+    </ul>
+</div>
+
+<div class="page-body">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="well with-header with-footer" id="echartShow">
+                <div id="nationproduct_main_1" style="display: block">
+                    <div id="nationproduct_1" style="width: 100%; height: 730px;">
+                    </div>
+                    <div id="choice_button" style="position:absolute; right: 10px; top: 30%; width:150px; height: 40%">
+                        <dt><button onclick="button1()" class="button button-action button-rounded" style="margin:20px 0px">公用计量标准</button></dt>
+                        <dt><button onclick="button2()" class="button button-action button-rounded" style="margin:20px 0px">检定项目机构</button></dt>
+                        <dt><button onclick="button3()" class="button button-action button-rounded" style="margin:20px 0px">型式批准证书</button></dt>
+                        <dt><button onclick="button4()" class="button button-action button-rounded" style="margin:20px 0px">许可单位个体</button></dt>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</@override>
+<@override name="custom-script">
+<link rel="stylesheet" type="text/css" href="/assets/css/buttons.css">
+<script type="text/javascript" src="/assets/Scripts/echarts.js"></script>
+<script type="text/javascript" src="/assets/Scripts/china.js"></script>
+<script>
+    var jsonData = ${jsonData};
+    var measurementStandard = jsonData.measurementStandard;
+    var measurementAuthorized = jsonData.measurementAuthorized;
+    var newInstrument = jsonData.newInstrument;
+    var maintainInstrument = jsonData.maintainInstrument;
+    var legendArray = [[ '建立在依法设置计量检定机\r\n构的社会公用计量标准', '依法授权的社\r\n会公用计量标准', '依法授权其它单位开\r\n展专项检定工作计量标准', '建立在部门、企事业单位的\r\n最高计量标准' ],
+        ['计量授权-依法设置的计量检定技术机构','依法授权建立的计量检定机构','其它承担专项授权检定任务的机构','其它承担专项授权检定任务的项目','授权承担计量器具型式评价的机构','授权承担计量器具型式评价的项目'],
+        ['型式批准证书-本年','型式批准证书-累证'],
+        ['制造、修理计量器具-取得制造计量器具许可证的单位个体工商户-本年新增','制造、修理计量器具-取得制造计量器具许可证的单位个体工商户-本年减少','制造、修理计量器具-取得制造计量器具许可证的单位个体工商户累计','制造、修理计量器具-取得修理计量器具许可证的单位个体工商户-本年新增','制造、修理计量器具-取得修理计量器具许可证的单位个体工商户-本年减少','制造、修理计量器具-取得修理计量器具许可证的单位个体工商户']];
+
+    var sample_chart = echarts.init(document.getElementById("nationproduct_1"));
+</script>
+<script type="text/javascript" src="/assets/Scripts/measurement.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        sample_chart.setOption(measure_std_option);
+        renderEachCity(sample_chart,measurementStandard,legendArray[0]);
+    });
+    function button1() {
+        sample_chart.setOption(measure_std_option);
+        renderEachCity(sample_chart,measurementStandard,legendArray[0]);
+        console.log(11111)
+    };
+    function button2() {
+        sample_chart.setOption(measure_std_option);
+        renderEachCity(sample_chart,measurementAuthorized,legendArray[1]);
+        console.log(2222)
+    };
+    function button3() {
+        sample_chart.setOption(measure_std_option);
+        renderEachCity(sample_chart,newInstrument,legendArray[2]);
+        console.log(3333)
+
+    };
+    function button4() {
+        sample_chart.setOption(measure_std_option);
+        renderEachCity(sample_chart,maintainInstrument,legendArray[3]);
+        console.log(4444)
+    }
+</script>
+</@override>
+<@extends name="/common/base.html"/>

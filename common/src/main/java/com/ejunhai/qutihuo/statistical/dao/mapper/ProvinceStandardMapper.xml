@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ejunhai.qutihuo.statistical.dao.ProvinceStandardMapper" >
+    <resultMap id="ProvinceStandardMapper" type="com.ejunhai.qutihuo.statistical.model.ProvinceStandard" >
+        <id column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="YEAR" property="year" jdbcType="INTEGER" />
+        <result column="LASTYEAR_CNT" property="lastyear_cnt" jdbcType="INTEGER" />
+        <result column="BND_ZXD_ZD" property="bnd_zxd_zd" jdbcType="INTEGER" />
+        <result column="BND_ZXD_XD" property="bnd_zxd_xd" jdbcType="INTEGER" />
+        <result column="BND_XZ_QZ" property="bnd_xz_qz" jdbcType="INTEGER" />
+        <result column="BND_XZ_TJ" property="bnd_xz_tj" jdbcType="INTEGER" />
+        <result column="BND_FZ" property="bnd_fz" jdbcType="INTEGER" />
+        <result column="BNM_QZ" property="bnm_qz" jdbcType="INTEGER" />
+        <result column="BNM_TJ" property="bnm_tj" jdbcType="INTEGER" />
+        <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        ID,
+        YEAR,
+        LASTYEAR_CNT,
+        BND_ZXD_ZD,
+        BND_ZXD_XD,
+        BND_XZ_QZ,
+        BND_XZ_TJ,
+        BND_FZ,
+        BNM_QZ,
+        BNM_TJ,
+        PROVINCE
+    </sql>
+    
+    <select id="read" resultMap="ProvinceStandardMapper" resultType="com.ejunhai.qutihuo.statistical.model.ProvinceStandard">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM provincestandardinfo
+    </select>
+
+    <select id="readNationalStatistics" resultMap="ProvinceStandardMapper" resultType="com.ejunhai.qutihuo.statistical.model.ProvinceStandard">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM provincestandardinfo
+        WHERE province='全国总计'
+    </select>
+
+    <select id="readProvinceStatistics" resultMap="ProvinceStandardMapper" resultType="com.ejunhai.qutihuo.statistical.model.ProvinceStandard">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM provincestandardinfo
+        WHERE province NOT IN ('全国总计','地方单位合计')
+    </select>
+
+    <select id="readByYear" parameterType="Integer" resultMap="ProvinceStandardMapper" resultType="com.ejunhai.qutihuo.statistical.model.ProvinceStandard">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM provincestandardinfo
+        WHERE YEAR=#{year}
+    </select>
+
+    <select id="getDistinctYear" resultType="Integer">
+        SELECT
+        DISTINCT YEAR
+        FROM provincestandardinfo
+        ORDER BY YEAR ASC
+    </select>
+    
+</mapper>

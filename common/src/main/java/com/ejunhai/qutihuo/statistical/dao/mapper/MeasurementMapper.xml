@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ejunhai.qutihuo.statistical.dao.MeasurementMapper" >
+    <resultMap id="MeasurementMapper" type="com.ejunhai.qutihuo.statistical.model.Measurement" >
+        <id column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="MS_SHGY" property="ms_shgy" jdbcType="INTEGER" />
+        <result column="MS_SQJLBZ" property="ms_sqjlbz" jdbcType="INTEGER" />
+        <result column="MS_ZXJDGZJLBZ" property="ms_zxjdgzjlbz" jdbcType="INTEGER" />
+        <result column="MS_ZGJLBZ" property="ms_zgjlbz" jdbcType="INTEGER" />
+        <result column="JLSQ_YFSZJLJDJSJG" property="jlsq_yfszjljdjsjg" jdbcType="INTEGER" />
+        <result column="JLSQ_YFSQJLJLJDJG" property="jlsq_yfsqjljdjg" jdbcType="INTEGER" />
+        <result column="JLSQ_QTCDZXSQJDRWJG" property="jlsq_qtcdzxsqjdrwjg" jdbcType="INTEGER" />
+        <result column="JLSQ_QTCDZXSQJDRWXM" property="jlsq_qtcdzxsqjdrwxm" jdbcType="INTEGER" />
+        <result column="JLSQ_SQCDJLQJXSPJJG" property="jlsq_sqcdjlqjxspjjg" jdbcType="INTEGER" />
+        <result column="JLSQ_SQCDJLQJXSPJXM" property="jlsq_sqcdjlqjxspjxm" jdbcType="INTEGER" />
+        <result column="JLQJXCP_XSPZZS_year" property="jlqjxcp_xspzzs_year" jdbcType="INTEGER" />
+        <result column="JLQJXCP_XSPZZS_all" property="jlqjxcp_xspzzs_all" jdbcType="INTEGER" />
+        <result column="ZZXLJLQJ_ZZXKZ_ADD" property="zzxljlqj_zzxkz_add" jdbcType="INTEGER" />
+        <result column="ZZXLJLQJ_ZZXKZ_REDUCE" property="zzxljlqj_zzxkz_reduce" jdbcType="INTEGER" />
+        <result column="ZZXLJLQJ_ZZXKZ_all" property="zzxljlqj_zzxkz_all" jdbcType="INTEGER" />
+        <result column="ZZXLJLQJ_XLXKZ_ADD" property="zzxljlqj_xlxkz_add" jdbcType="INTEGER" />
+        <result column="ZZXLJLQJ_XLXKZ_REDUCE" property="zzxljlqj_xlxkz_reduce" jdbcType="INTEGER" />
+        <result column="ZZXLJLQJ_XLXKZ_all" property="zzxljlqj_xlxkz_all" jdbcType="INTEGER" />
+        <result column="YEAR" property="year" jdbcType="INTEGER" />
+        <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        ID,
+        MS_SHGY,
+        MS_SQJLBZ,
+        MS_ZXJDGZJLBZ,
+        MS_ZGJLBZ,
+        JLSQ_YFSZJLJDJSJG,
+        JLSQ_YFSQJLJLJDJG,
+        JLSQ_QTCDZXSQJDRWJG,
+        JLSQ_QTCDZXSQJDRWXM,
+        JLSQ_SQCDJLQJXSPJJG,
+        JLSQ_SQCDJLQJXSPJXM,
+        JLQJXCP_XSPZZS_year,
+        JLQJXCP_XSPZZS_all,
+        ZZXLJLQJ_ZZXKZ_ADD,
+        ZZXLJLQJ_ZZXKZ_REDUCE,
+        ZZXLJLQJ_ZZXKZ_all,
+        ZZXLJLQJ_XLXKZ_ADD,
+        ZZXLJLQJ_XLXKZ_REDUCE,
+        ZZXLJLQJ_XLXKZ_all,
+        YEAR,
+        PROVINCE
+    </sql>
+
+    <select id="readProvinceMeasurements" resultMap="MeasurementMapper" resultType="com.ejunhai.qutihuo.statistical.model.Measurement">
+        SELECT <include refid="Base_Column_List" />
+        FROM measurelegalmanagement
+        WHERE PROVINCE LIKE '%省'
+            or PROVINCE LIKE '%市'
+            or PROVINCE LIKE '%自治区'
+    </select>
+
+    <select id="getDistinctYear" resultType="Integer">
+        SELECT
+        DISTINCT YEAR
+        FROM measurelegalmanagement
+        ORDER BY YEAR ASC
+    </select>
+</mapper>

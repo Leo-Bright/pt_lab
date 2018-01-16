@@ -1,0 +1,412 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Read Only by HTML5</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+
+		<script src="dist/js/jquery.min.js"></script>
+		<script src="dist/js/jquery.jexcel.js"></script>
+		<script src="dist/js/jquery.jcalendar.js"></script>
+		<link rel="stylesheet" href="dist/css/jquery.jexcel.css" type="text/css" />
+		<link rel="stylesheet" href="dist/css/jquery.jcalendar.css" type="text/css" />
+		<script type="text/javascript">
+		$(document).ready(function(){
+			$("#checkmethod").change(function(){
+					if($("#checkmethod").val() == "uniformity"){
+						$("#uniformity_calmethod").css("display","block");
+						$("#stability_calmethod").css("display","none");
+					}else {
+						$("#uniformity_calmethod").css("display","none");
+						$("#stability_calmethod").css("display","block");
+					}
+				})
+});
+		</script>
+	</head>
+	<body>
+
+		<!-- Header -->
+			<section id="header">
+				<header>
+					<span class="image avatar"></span>
+					<h1 id="logo" style="font-family:黑体"><a href="#">能力验证统计<br>分析系统</a></h1>
+
+				</header>
+				<nav id="nav">
+					<ul>
+						<li><a href="#one" class="active">数据导入</a></li>
+						<li><a href="#two">计算汇总统计量</a></li>
+						<li><a href="#three">稳健方法</a></li>
+						<li><a href="#four">均匀性和稳定性检验</a></li>
+						<li><a href="#five">确定指定值及其不确定度</a></li>
+						<li><a href="#six">确定标准差</a></li>
+						<li><a href="#seven">能力评定</a></li>
+						<li><a href="#eight">图示法</a></li>
+					</ul>
+				</nav>
+				<footer>
+					<ul class="icons">
+					</ul>
+				</footer>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+							  <span style="margin-top:20px;margin-left:20px">在以下表格中输入实验室的数据（一个实验室有多个数据）：</span>
+								<div id="my" style="margin-left:20px;width:98%;height:500px;overflow-y:scroll; overflow-x:scroll;" ></div>
+								在以下表格输入实验室的数据（一个实验室只有一个数据）：
+								<div id="my1" style="margin-left:20px;width:98%;height:25%;overflow:auto" ></div>
+							</section>
+
+						<!-- Two -->
+							<section id="two">
+								<br/>
+								<div style="margin-top:20px;margin-left:20px">
+									<div >
+										<h3 >1、计算汇总统计量</h3>
+
+										<br/>
+									<ul class="feature-icons">
+										<li class="fa-code">均值：</li>
+										<li class="fa-cubes">中位数（med(x))：</li>
+										<li class="fa-book">方差：</li>
+										<li class="fa-coffee">标准差：</li>
+										<li class="fa-bolt">75%分位数, Q<sub>3</sub>(x)：</li>
+										<li class="fa-users">25%分位数, Q<sub>1</sub>(x)：</li>
+										<li class="fa-users">四分位距, Q<sub>3</sub>(x)-Q<sub>1</sub>(x)：</li>
+										<li></li>
+										<li class="fa-users">标准化四分位距nlQR, nlQR=0.07413 * (Q<sub>3</sub>(x)-Q<sub>1</sub>(x))：</li><li></li>
+										<li class="fa-book">MADe, d<sub>i</sub>=|x<sub>i</sub>-med(x)|, MADe(x)=1.483*med(d):</li>
+									</ul>
+									<div class="row uniform">
+											<div class="12u">
+												<ul class="actions">
+													<li><input type="submit" class="special" value="计算数值" /></li>
+
+												</ul>
+											</div>
+										</div>
+									</div>
+									<br/>
+								</div>
+								<br/><br/>
+							</section>
+
+						<!-- Three -->
+							<section id="three">
+								<div class="container"  style="margin-left:20px;margin-top:-50px">
+									<h3>2、稳健方法</h3>
+									<br/>
+									<div class="features">
+
+										<div class="row uniform">
+											<div class="2u 4u(xsmall)">选择算法:</div>
+											<div class="6u" style="margin-top:-10px">
+												<div class="select-wrapper">
+												<select id="stability" name="stability">
+												  <option value ="algorithmA">算法A</option>
+												  <option value ="algorithmS">算法S</option>
+												  <option value="QN">Qn方法</option>
+												  <option value="QHampel">Q/Hampel方法</option>
+
+												</select></div></div>
+											<div class="2u 6u(xsmall)" style="margin-top:-10px"><input type="button" class="special" value="计算" id="btn_stability" /></div>
+										</div>
+
+										<br />
+										<div style="height:400px">
+											<div class="2u 64u(xsmall)">计算结果:</div>
+											<div class="12u" style="margin-top:-10px">
+											</div>
+										</div>
+										<div>
+										</div>
+									</div>
+								</div>
+							</section>
+
+						<!-- Four 均匀性和稳定性检验-->
+							<section id="four">
+								<div class="container"  style="margin-left:20px;margin-top:-50px">
+									<h3>3、均匀性与稳定检验</h3>
+									<br/>
+									<form method="post" action="#">
+										<div class="row uniform">
+											<div class="2u 4u(xsmall)">检验方法：</div>
+											<div class="6u" style="margin-top:-10px">
+												<div class="select-wrapper">
+													<select id="checkmethod" >
+														<option value="uniformity">均匀性检验</option>
+														<option value="stability">稳定性检验</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row uniform">
+											<div class="2u 4u(xsmall)">计算方法：</div>
+											<div class="6u" style="margin-top:-10px">
+												<div class="select-wrapper" id="uniformity_calmethod" name="uniformity_calmethod">
+													<select name="checkmethod1" id="checkmethod1" >
+														<option value="danyinzi">单因子方差分析法</option>
+														<option value="sszz">S<sub>s</sub><=0.3σ^准则</option>
+														<option value="extension">扩展方法</option>
+													</select>
+												</div>
+												<div class="select-wrapper" id="stability_calmethod" name="stability_calmethod" style="display:none">
+													<select name="checkmethod" id="checkmethod" >
+														<option value="danyinzi">|x-y|<=0.3σ</option>
+														<option value="t_check_ref">t检验法-与标准值/参考值比较</option>
+														<option value="t_check_avg">t检验法-两个均值的比较</option>
+													</select>
+												</div>
+											</div>
+
+										</div>
+										<br/>
+										<div class="row uniform" id="div_param_input">
+											<div class="2u">输入参数:</div>
+												<div class="3u">能力评定标准差</div>
+												<div class="3u"  style="margin-top:-10px;margin-left:-30px">
+															<input type="text" id="txt_stab_ablity_std_variance" />
+												</div>
+												<div class="3u" >最大允许误差</div>
+												<div class="3u" style="margin-top:-10px;margin-left:-30px">
+													<input type="text" id="txt_stab_max_allow_error" />
+												</div>
+										</div>
+										<div class="2u" style="margin-top:-10px">
+												<input type="button" class="special" value="计算" id="btn_homogeneity" />
+										</div>
+										<br />
+										<div>
+												<div class="2u 4u(xsmall)">输出结果：</div>
+										</div>
+										<div style="height:400px ;">
+
+										</div>
+									</form>
+								</div>
+							</section>
+
+						<!-- five 确定指定值及其不确定度 -->
+							<section id="five">
+								<div style="margin-top:20px;margin-left:20px">
+									<h3>4、确定指定值及其不确定度</h3>
+									<section>
+
+										<div class="row uniform">
+											<div class="2u 4u(xsmall)" style="margin-top:10px;">
+													确定方法：
+											</div>
+											<div class="4u" style="margin-left:-70px;">
+												<div class="select-wrapper" id="div_confirmval" name="div_confirmval">
+													<select name="cmb_confirmvalue" id="cmb_confirmvalue" >
+														<option value="outervalue">由外部值指定</option>
+														<option value="refvalue">参照有证标准样品</option>
+														<option value="publicdiscussvalue">由稳健方法确定公议值</option>
+													</select>
+												</div>
+											</div>
+											<div class="2u" style="margin-top:0px">
+													<input type="button" class="special" value="计算" id="btn_confirmvalue" />
+											</div>
+										</div>
+										<br />
+										<div id="div_confirmval_params">
+											<div class="2u 4u(xsmall)" style="margin-top:10px;">
+													输入参数：
+											</div>
+											<div class="6u">
+													<div id="div_outervalue">
+
+													</div>
+													<div id="div_refvalue">
+
+													</div>
+													<div id="div_publicdiscussvalue">
+
+													</div>
+											</div>
+										</div>
+										<br />
+										<div>
+												<div class="2u 4u(xsmall)">输出结果：</div>
+										</div>
+										<div style="height:600px ;">
+
+										</div>
+									</section>
+								</div>
+							</section>
+
+						<!-- six 确定标准差 -->
+							<section id="six">
+								<div style="margin-top:20px;margin-left:20px">
+									<h3>5、确定标准差</h3>
+									<section>
+										<div class="row">
+											<div class="2u 4u(xsmall)" style="margin-top:10px;">
+													确定方法：
+											</div>
+											<div class="4u"  style="margin-left:-70px;">
+												<div class="select-wrapper" id="div_confirmval" name="div_confirmval">
+													<select name="cmb_confirmvalue" id="cmb_confirmvalue" >
+														<option value="outervalue">由外部值确定</option>
+														<option value="refvalue">由一般模型确定</option>
+														<option value="publicdiscussvalue">由测量方法重复性和再现性确定</option>
+														<option value="publicdiscussvalue">由稳健方法确定</option>
+													</select>
+												</div>
+											</div>
+											<div class="2u" style="margin-top:0px">
+													<input type="button" class="special" value="计算" id="btn_confirmvalue" />
+											</div>
+										</div>
+										<br />
+										<div id="div_confirmval_params">
+											<div class="2u 4u(xsmall)" style="margin-top:10px;">
+													输入参数：
+											</div>
+											<div class="6u">
+													<div id="div_outervalue">
+
+													</div>
+													<div id="div_refvalue">
+
+													</div>
+													<div id="div_publicdiscussvalue">
+
+													</div>
+											</div>
+										</div>
+										<br />
+										<div>
+												<div class="2u 4u(xsmall)">输出结果：</div>
+										</div>
+										<div style="height:600px ;">
+
+										</div>
+									</section>
+								</div>
+							</section>
+
+							<!--seven 能力评定-->
+							<section id="seven">
+								<div style="margin-top:20px;margin-left:20px">
+									<h3>6、能力评定</h3>
+									<section>
+										<div class="row">
+											<div class="2u 4u(xsmall)" style="margin-top:10px;">
+													评定方法：
+											</div>
+											<div class="4u" style="margin-left:-70px;">
+												<div class="select-wrapper" id="div_confirmval" name="div_confirmval">
+													<select name="cmb_confirmvalue" id="cmb_confirmvalue" >
+														<option value="op_checkvaluncertainty">检查指定值不确定度</option>
+														<option value="op_baisval">偏倚</option>
+														<option value="op_zval">z值</option>
+														<option value="op_zquoteval">z'值</option>
+														<option value="op_zetaval">zeta值</option>
+														<option value="op_enval">En值</option>
+													</select>
+												</div>
+											</div>
+											<div class="2u" style="margin-top:0px">
+													<input type="button" class="special" value="计算" id="btn_confirmvalue" />
+											</div>
+										</div>
+										<br />
+										<div id="div_confirmval_params">
+											<div class="2u 4u(xsmall)" style="margin-top:10px;">
+													输入参数：
+											</div>
+											<div class="6u">
+													<div id="div_outervalue">
+
+													</div>
+													<div id="div_refvalue">
+
+													</div>
+													<div id="div_publicdiscussvalue">
+
+													</div>
+											</div>
+										</div>
+										<br />
+										<div>
+												<div class="2u 4u(xsmall)">输出结果：</div>
+										</div>
+										<div style="height:600px ;">
+
+										</div>
+									</section>
+								</div>
+							</section>
+					</div>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; 中国标准化研究院基础标准化所</li></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+
+			<script>
+				data = [
+					['',''],
+
+				];
+
+				$('#my').jexcel({
+					data:data,
+					colHeaders: [ 'A','B'],
+					colWidths: [ 50, 50 ],
+					minDimensions:[26,15],
+					columns: [
+						{ type: 'text' },
+						{ type: 'text'},
+					]
+				});
+
+				data1 = [
+					['',''],
+
+				];
+
+				$('#my1').jexcel({
+					data:data1,
+					colHeaders: [ 'A','B'],
+					colWidths: [ 50, 50 ],
+					minDimensions:[26,1],
+					columns: [
+						{ type: 'text' },
+						{ type: 'text'},
+					]
+				});
+				</script>
+
+			<script src="assets/js/jquery.scrollzer.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
