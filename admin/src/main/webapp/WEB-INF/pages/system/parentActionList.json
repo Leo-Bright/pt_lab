@@ -1,9 +1,0 @@
-{
-	"actionList":[
-		<#list parentActionList as item >{
-			"id":"${item.id}",
-			"actionName":"${item.actionName}"
-			}<#if item_has_next>,</#if>
-		</#list>
-	]
-}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="css/bootstrap-select.css">
+    <link rel="stylesheet" href="css/bootstrapEx.css">
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/global.js"></script>
+    <script type="text/javascript" src="js/from/jquery.smart-form.js"></script>
+    <script type="text/javascript" src="js/from/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="js/from/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="js/from/bootstrap-select.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrapEx.js"></script>
+</head>
+
+<body>
+   
+    <button id="btn3" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">Modal嵌入页签页</button>
+    <button id="btn4" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">页签iframe加载完成后显示Modal</button>
+    <p/>
+    <p/>
+    <span style='font-size:20px;font-weight:bold;'>Modal 与 Tab 事件</span>
+    <p/>
+    <p/>
+    <button id="btn5" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">Modal事件</button>
+    <button id="btn6" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">Tab事件</button>
+
+    <p/>
+    <p/>
+   
+    <p/>
+    <p/>
+   
+</body>
+<script>
+   
+    var Modal5;//Modal事件
+   
+    $(document).ready(function () {
+      
+        InitModal5();//Modal事件
+        $("#btn5").click(function () {
+            Modal5.show();
+        })
+       
+    });
+  
+  
+    //Modal事件
+    function InitModal5() {
+        $(document.body).append('<div id="modal5"></div>');
+        Modal5 = new Modal();
+        Modal5.renderto = "#modal5";//绘制到div
+        Modal5.InitShow = true;
+        Modal5.btns = [{ id: "btn5", text: "保存" }, { id: "closebtn" }]
+        Modal5.body = "Hello World";//内容
+        //Modal5.OnfirstInited = function () { alert("绘制完成"); };
+    }
+
+  
+</script>

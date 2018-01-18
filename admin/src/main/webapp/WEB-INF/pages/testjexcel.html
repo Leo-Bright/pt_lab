@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<script src="dist/js/jquery.min.js"></script>
+		<script src="dist/js/jquery.jexcel.js"></script>
+		<script src="dist/js/jquery.jcalendar.js"></script>
+		<link rel="stylesheet" href="dist/css/jquery.jexcel.css" type="text/css" />
+		<link rel="stylesheet" href="dist/css/jquery.jcalendar.css" type="text/css" />
+		
+		<script type="text/javascript">
+			function insertrow(){
+				$('#my').jexcel(
+				
+					'insertColumn', 1, null, 6
+				);
+			}
+		
+			function insertcol(){
+				
+			}
+		</script>
+		
+</head>
+<input type="button" value="insert row" id="btn_insertrow" onclick="insertrow();" />
+<input type="button" value="insert column" id="btn_insertcol" onclick="insertcol();"/>
+<div id="my"></div>
+<script>
+				data = [
+					['',''],
+
+				];
+
+				$('#my').jexcel({
+					data:data,
+					
+					colWidths: [ 80, 80 ],
+					minDimensions:[6,6],
+					columns: [
+						{ type: 'text' },
+						{ type: 'text'},
+					]
+				});
+
+			
+				</script>
+
+			<script src="assets/js/jquery.scrollzer.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			
+			<script src="assets/js/main.js"></script>
+
+
+			
+<body>
+</body>
+</html>

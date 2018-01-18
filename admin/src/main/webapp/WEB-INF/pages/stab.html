@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>稳健方法-实验室能力验证计算分析系统</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+
+		<script src="dist/js/jquery.min.js"></script>
+		<script src="dist/js/jquery.jexcel.js"></script>
+		<script src="dist/js/jquery.jcalendar.js"></script>
+		<link rel="stylesheet" href="dist/css/jquery.jexcel.css" type="text/css" />
+		<link rel="stylesheet" href="dist/css/jquery.jcalendar.css" type="text/css" />
+
+		<!--Basic Styles-->
+	     <link href="assets/assets/css/bootstrap.min.css" rel="stylesheet" />
+	     <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+	     <link href="assets/assets/css/font-awesome.min.css" rel="stylesheet" />
+	     <link href="assets/assets/css/weather-icons.min.css" rel="stylesheet" />
+	     <!--Beyond styles-->
+	     <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+	     <link href="assets/assets/css/demo.min.css" rel="stylesheet" />
+	     <link href="assets/assets/css/typicons.min.css" rel="stylesheet" />
+	     <link href="assets/assets/css/animate.min.css" rel="stylesheet" />
+	     <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+
+	     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+	     <script src="assets/assets/js/skins.min.js"></script>
+
+
+		<script type="text/javascript">
+
+		</script>
+	</head>
+	<body>
+
+		<!-- Header -->
+			<section id="header">
+				<header>
+					<span class="image avatar"></span>
+					<h1 id="logo" style="font-family:黑体"><a href="#">能力验证统计<br>分析系统</a></h1>
+
+				</header>
+				<nav id="nav">
+					<ul>
+
+						<li><a href="calstats.html" >计算汇总统计量</a></li>
+						<li><a href="stab.html" class="active">稳健方法</a></li>
+						<li><a href="hs.html">均匀性和稳定性检验</a></li>
+						<li><a href="confirm.html">确定指定值及其不确定度</a></li>
+						<li><a href="stddev.html">确定标准差</a></li>
+						<li><a href="ce.html">能力评定</a></li>
+						<li><a href="graphic.html">图示法</a></li>
+					</ul>
+				</nav>
+				<footer>
+					<ul class="icons">
+						<li>&copy; 中国标准化研究院</li>
+					</ul>
+				</footer>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<!-- Two -->
+            <div class="container"  style="margin-left:20px">
+            
+              <br/>
+              <div class="features">
+                <div class="2u">
+                  <ul class="actions">
+                    <li>
+                        <button class="btn btn-success shiny" data-toggle="modal" data-target=".bs-example-modal-lg">输入数据</button>
+                    </li>
+                  </ul>
+                </div>
+                <br />
+                <div class="row uniform">
+                  <div class="1u">选择算法:</div>
+                  <div class="3u" style="margin-top:-10px">
+                    <div class="select-wrapper">
+                    <select id="stability" name="stability">
+                      <option value ="algorithmA">算法A</option>
+                      <option value ="algorithmS">算法S</option>
+                      <option value="QN">Qn方法</option>
+                      <option value="QHampel">Q/Hampel方法</option>
+
+                    </select></div></div>
+                    <div class="2u 6u(xsmall)" style="margin-top:-10px">
+                      <button id="btn_cal" type="button" class="btn btn-primary shiny">计算</button>
+                    </div>
+                </div>
+
+                <br />
+                <div style="height:400px">
+                  <div class="2u 64u(xsmall)">计算结果:</div>
+                  <div class="12u" style="margin-top:-10px">
+                  </div>
+                </div>
+                <div>
+                </div>
+              </div>
+            </div>
+					</div>
+
+			</div>
+			<!--LArge Modal Templates-->
+		    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		        <div class="modal-dialog modal-lg">
+		            <div class="modal-content">
+
+		                <div class="modal-header">
+		                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		                    <h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
+		                </div>
+		                <div class="modal-body" id="my">
+
+										</div>
+										<div style="margin-left:20%;margin-bottom:4px">
+												<button id="btn_save" class="btn btn-primary shiny">保存</button>
+
+										</div>
+		            </div><!-- /.modal-content -->
+		        </div><!-- /.modal-dialog -->
+		    </div>
+		<!-- Scripts -->
+
+			<script>
+
+
+				data = [
+					['',''],
+
+				];
+
+				$('#my').jexcel({
+					data:data,
+					colHeaders: [ '结果1'],
+					colWidths: [ 50, 50 ],
+					minDimensions:[16,1],
+					columns: [
+						{ type: 'text' },
+						{ type: 'text'},
+					]
+				});
+
+			</script>
+			<!--Basic Scripts-->
+		     <script src="assets/assets/js/jquery-2.0.3.min.js"></script>
+		     <script src="assets/assets/js/bootstrap.min.js"></script>
+
+		     <!--Beyond Scripts-->
+		     <script src="assets/assets/js/beyond.min.js"></script>
+				 <script src="assets/assets/js/bootbox/bootbox.js"></script>
+
+			<script src="assets/js/jquery.scrollzer.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script>
+			$("#bootbox-options").on('click', function () {
+									bootbox.dialog({
+											message: $("#myModal").html(),
+											title: "New E-Mail",
+											className: "modal-darkorange",
+											buttons: {
+													success: {
+															label: "Send",
+															className: "btn-blue",
+															callback: function () { }
+													},
+													"Save as Draft": {
+															className: "btn-danger",
+															callback: function () { }
+													}
+											}
+									});
+							});
+			</script>
+	</body>
+</html>
