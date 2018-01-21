@@ -75,15 +75,15 @@
 
 									<ul class="feature-icons">
 										<li class="fa-code">均值：<div id="div_average"></div></li>
-										<li class="fa-cubes">中位数（med(x))：</li>
-										<li class="fa-book">方差：</li>
-										<li class="fa-coffee">标准差：</li>
-										<li class="fa-bolt">75%分位数, Q<sub>3</sub>(x)：</li>
-										<li class="fa-users">25%分位数, Q<sub>1</sub>(x)：</li>
-										<li class="fa-users">四分位距, Q<sub>3</sub>(x)-Q<sub>1</sub>(x)：</li>
+										<li class="fa-cubes">中位数（med(x))：<div id="div_median"></div></li>
+										<li class="fa-book">方差：<div id="div_variance"></div></li>
+										<li class="fa-coffee">标准差：<div id="div_standardVar"></div></li>
+										<li class="fa-bolt">75%分位数, Q<sub>3</sub>(x)：<div id="div_quantile3"></div></li>
+										<li class="fa-users">25%分位数, Q<sub>1</sub>(x)：<div id="div_quantile1"></div></li>
+										<li class="fa-users">四分位距, Q<sub>3</sub>(x)-Q<sub>1</sub>(x)：<div id="div_iqr"></div></li>
 										<li></li>
-										<li class="fa-users">标准化四分位距nlQR, nlQR=0.07413 * (Q<sub>3</sub>(x)-Q<sub>1</sub>(x))：</li><li></li>
-										<li class="fa-book">MADe, d<sub>i</sub>=|x<sub>i</sub>-med(x)|, MADe(x)=1.483*med(d):</li>
+										<li class="fa-users">标准化四分位距nlQR, nlQR=0.07413 * (Q<sub>3</sub>(x)-Q<sub>1</sub>(x))：<div id="div_niqr"></div></li><li></li>
+										<li class="fa-book">MADe, d<sub>i</sub>=|x<sub>i</sub>-med(x)|, MADe(x)=1.483*med(d):<div id="div_made"></div></li>
 									</ul>
 									<div class="row uniform">
 											<div class="2u">
@@ -96,7 +96,7 @@
 											<div class="6u">
 												<ul class="actions">
 													<li>
-															<a href="javascript:void(0);" class="btn btn-primary shiny">数值计算</a>
+															<a href="javascript:calculate();" class="btn btn-primary shiny">数值计算</a>
 													</li>
 
 												</ul>
@@ -128,7 +128,7 @@
 
 										</div>
 										<div style="margin-left:20%;margin-bottom:4px">
-												<button id="btn_save" onclick="getdata()" class="btn btn-primary shiny">保存</button>
+												<button id="btn_save" onclick="getdata()" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
 
 										</div>
 		            </div><!-- /.modal-content -->
@@ -152,7 +152,7 @@
 
 
                 data = [
-                    ['1.4','1.5'],
+                    ['1.4','1.5','1.643','1.235','1.555','1.185','1.955','1.725','1.295','1.365','1.425'],
 
                 ];
 
@@ -166,20 +166,35 @@
                         { type: 'text'},
                     ]
                 });
-
+				var data
 
                 function getdata(){
-                    var input = $('#my').jexcel('getData');
-                    $.post("statistical/calStatistics.jhtml", {
-                            "input":JSON.stringify(input)}, function(data){
-                            if(data.status!=200){
-                                console.log("没有正确返回")
-                            }else{
-                                console.log(data.average)
-                                $('#div_average').html(data.average)
+					data = $('#my').jexcel('getData');
+				};
+				function calculate() {
+				    if(data!=null) {
+                        $.post("statistical/calStatistics.jhtml", {
+                            "input": JSON.stringify(data)
+                        }, function (result) {
+                            if (result.status != 200) {
+                                console.log(result.message)
+                            } else {
+                                $('#div_average').html(result.average)
+                                $('#div_median').html(result.median)
+                                $('#div_variance').html(result.variance)
+                                $('#div_standardVar').html(result.standardVar)
+                                $('#div_quantile3').html(result.quantile3)
+                                $('#div_quantile1').html(result.quantile1)
+                                $('#div_iqr').html(result.iqr)
+                                $('#div_niqr').html(result.niqr)
+                                $('#div_made').html(result.made)
                             }
                         }, "json");
-                };
+                    }else{
+				        console.log("输入数据没有值")
+					}
+                }
+					
 			</script>
 	</body>
 </html>

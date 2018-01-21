@@ -1,29 +1,36 @@
 package com.ejunhai.qutihuo.statistical.service.impl;
 
-import com.ejunhai.qutihuo.statistical.dao.MeasurementMapper;
-import com.ejunhai.qutihuo.statistical.dto.MeasurementDto;
-import com.ejunhai.qutihuo.statistical.model.Measurement;
-import com.ejunhai.qutihuo.statistical.service.MeasurementService;
 import com.ejunhai.qutihuo.statistical.service.StatisticsService;
+import com.ejunhai.qutihuo.statistical.utils.Algorithm;
 import com.ejunhai.qutihuo.statistical.utils.Arith;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service("statisticsService")
 public class StatisticsServiceImpl implements StatisticsService{
 
+    @Resource
+    Algorithm algorithm;
+
     @Override
-    public double calAverage(double[] array){
-        return Arith.div(sum(array),array.length);
+    public Map<String,Object> calStatistics(double[] array){
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("message","计算发生错误，请查看后台报错！");
+        resultMap.put("average",algorithm.calAverage(array));
+        resultMap.put("median",algorithm.calMedian(array));
+        resultMap.put("variance",algorithm.calVariance(array));
+        resultMap.put("standardVar",algorithm.calStandardVar(array));
+        resultMap.put("quantile3",algorithm.calQuantile3(array));
+        resultMap.put("quantile1",algorithm.calQuantile1(array));
+        resultMap.put("iqr",algorithm.calIQR(array));
+        resultMap.put("niqr",algorithm.calNIQR(array));
+        resultMap.put("made",algorithm.calMADe(array));
+        resultMap.put("status",200);
+        return resultMap;
     }
 
-    private double sum(double[] array){
-        double result = 0.0;
-        for(double num:array){
-            result = Arith.add(result,num);
-        }
-        return result;
-    }
+
 }
