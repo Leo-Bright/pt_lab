@@ -74,7 +74,7 @@
 									<div >
 
 									<ul class="feature-icons">
-										<li class="fa-code">均值：</li>
+										<li class="fa-code">均值：<div id="div_average"></div></li>
 										<li class="fa-cubes">中位数（med(x))：</li>
 										<li class="fa-book">方差：</li>
 										<li class="fa-coffee">标准差：</li>
@@ -128,36 +128,14 @@
 
 										</div>
 										<div style="margin-left:20%;margin-bottom:4px">
-												<button id="btn_save" class="btn btn-primary shiny">保存</button>
+												<button id="btn_save" onclick="getdata()" class="btn btn-primary shiny">保存</button>
 
 										</div>
 		            </div><!-- /.modal-content -->
 		        </div><!-- /.modal-dialog -->
 		    </div>
 		<!-- Scripts -->
-
-			<script>
-
-
-				data = [
-					['',''],
-
-				];
-
-				$('#my').jexcel({
-					data:data,
-					colHeaders: [ '结果1'],
-					colWidths: [ 50, 50 ],
-					minDimensions:[16,1],
-					columns: [
-						{ type: 'text' },
-						{ type: 'text'},
-					]
-				});
-
-			</script>
 			<!--Basic Scripts-->
-		     <script src="assets_pt/assets/js/jquery-2.0.3.min.js"></script>
 		     <script src="assets_pt/assets/js/bootstrap.min.js"></script>
 
 		     <!--Beyond Scripts-->
@@ -171,24 +149,37 @@
 
 			<script src="assets_pt/js/main.js"></script>
 			<script>
-			$("#bootbox-options").on('click', function () {
-									bootbox.dialog({
-											message: $("#myModal").html(),
-											title: "New E-Mail",
-											className: "modal-darkorange",
-											buttons: {
-													success: {
-															label: "Send",
-															className: "btn-blue",
-															callback: function () { }
-													},
-													"Save as Draft": {
-															className: "btn-danger",
-															callback: function () { }
-													}
-											}
-									});
-							});
+
+
+                data = [
+                    ['1.4','1.5'],
+
+                ];
+
+                $('#my').jexcel({
+                    data:data,
+                    colHeaders: [ '结果0'],
+                    colWidths: [ 50, 50 ],
+                    minDimensions:[16,1],
+                    columns: [
+                        { type: 'text' },
+                        { type: 'text'},
+                    ]
+                });
+
+
+                function getdata(){
+                    var input = $('#my').jexcel('getData');
+                    $.post("statistical/calStatistics.jhtml", {
+                            "input":JSON.stringify(input)}, function(data){
+                            if(data.status!=200){
+                                console.log("没有正确返回")
+                            }else{
+                                console.log(data.average)
+                                $('#div_average').html(data.average)
+                            }
+                        }, "json");
+                };
 			</script>
 	</body>
 </html>
