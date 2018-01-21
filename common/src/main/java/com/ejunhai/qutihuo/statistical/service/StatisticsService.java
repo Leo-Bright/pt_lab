@@ -10,4 +10,6 @@ public interface StatisticsService {
      * @return array的平均值
      */
     Map<String,Object> calStatistics(double[] array);
+
+    Map<String,Object> calMethod(double[] array,String method);
 }

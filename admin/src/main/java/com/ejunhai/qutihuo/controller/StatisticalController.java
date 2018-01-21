@@ -41,4 +41,26 @@ public class StatisticalController extends BaseController {
 		return gson.toJson(result);
 	}
 
+	@ResponseBody
+	@RequestMapping("/calMethod")
+	public String calMethod(String input,String method,HttpServletRequest request, ModelMap modelMap) {
+		System.out.println("=======");
+		JSONArray jsonMatrix = JSONArray.fromObject(input);
+		JSONArray jsonArray = (JSONArray) jsonMatrix.get(0);
+		int size = jsonArray.size();
+		List<Double> array = new ArrayList<>();
+		for(int i=0;i<size;i++){
+			String j = (String)jsonArray.get(i);
+			if (!"".equals(j)){
+				array.add(new Double(j));
+			}
+		}
+		double[] inputArray = new double[array.size()];
+		for(int j=0;j<array.size();j++){
+			inputArray[j]=array.get(j);
+		}
+		Map<String,Object> result = statisticsService.calMethod(inputArray,method);
+		return gson.toJson(result);
+	}
+
 }

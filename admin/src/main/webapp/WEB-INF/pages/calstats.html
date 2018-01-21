@@ -166,15 +166,15 @@
                         { type: 'text'},
                     ]
                 });
-				var data
+				var input;
 
                 function getdata(){
-					data = $('#my').jexcel('getData');
+                    input = $('#my').jexcel('getData');
 				};
 				function calculate() {
-				    if(data!=null) {
+				    if(input!=null) {
                         $.post("statistical/calStatistics.jhtml", {
-                            "input": JSON.stringify(data)
+                            "input": JSON.stringify(input)
                         }, function (result) {
                             if (result.status != 200) {
                                 console.log(result.message)
