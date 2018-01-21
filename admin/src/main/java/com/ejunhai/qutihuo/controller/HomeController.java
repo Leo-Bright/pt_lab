@@ -23,12 +23,42 @@ public class HomeController {
 
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
-		return "calstats";
+		return "index";
 	}
 
 	@RequestMapping("/stab")
 	public String stab(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
 		return "stab";
+	}
+
+	@RequestMapping("/calstats")
+	public String calstats(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "calstats";
+	}
+
+	@RequestMapping("/hs")
+	public String hs(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "hs";
+	}
+
+	@RequestMapping("/confirm")
+	public String confirm(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "confirm";
+	}
+
+	@RequestMapping("/stddev")
+	public String stddev(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "stddev";
+	}
+
+	@RequestMapping("/ce")
+	public String ce(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "ce";
+	}
+
+	@RequestMapping("/graphic")
+	public String graphic(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "graphic";
 	}
 
 	@RequestMapping("getUptoken")
