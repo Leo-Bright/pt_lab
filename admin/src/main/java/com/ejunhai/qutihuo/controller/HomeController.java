@@ -23,7 +23,12 @@ public class HomeController {
 
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
-		return "pt";
+		return "calstats";
+	}
+
+	@RequestMapping("/stab")
+	public String stab(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "stab";
 	}
 
 	@RequestMapping("getUptoken")

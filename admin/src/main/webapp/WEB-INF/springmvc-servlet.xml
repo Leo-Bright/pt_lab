@@ -21,11 +21,11 @@
 	
 	<bean id="exceptionHandler" class="com.ejunhai.qutihuo.interceptor.DefaultExceptionResolver"/>  
 	
-	<mvc:interceptors>  
-    	<bean class="com.ejunhai.qutihuo.interceptor.AuthenticationInterceptor" />  
-    	<!--<bean class="com.ejunhai.qutihuo.interceptor.PrivilageInterceptor" />  -->
-    	<!--<bean class="com.ejunhai.qutihuo.interceptor.MenuBulidInterceptor" />  -->
-    </mvc:interceptors>
+<!--	<mvc:interceptors>
+    	<bean class="com.ejunhai.qutihuo.interceptor.AuthenticationInterceptor" />
+    	&lt;!&ndash;<bean class="com.ejunhai.qutihuo.interceptor.PrivilageInterceptor" />  &ndash;&gt;
+    	&lt;!&ndash;<bean class="com.ejunhai.qutihuo.interceptor.MenuBulidInterceptor" />  &ndash;&gt;
+    </mvc:interceptors>-->
     
     <!-- 设置编码  -->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
