@@ -4,9 +4,7 @@
 		<title>稳健方法-实验室能力验证计算分析系统</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets_pt/css/main.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
 		<script src="dist/js/jquery.min.js"></script>
 		<script src="dist/js/jquery.jexcel.js"></script>
@@ -92,13 +90,13 @@
 
                     </select></div></div>
                     <div class="2u 6u(xsmall)" style="margin-top:-10px">
-                      <button id="btn_cal" type="button" class="btn btn-primary shiny">计算</button>
+						<a href="javascript:calculate();" class="btn btn-primary shiny">计算</a>
                     </div>
                 </div>
 
                 <br />
                 <div style="height:400px">
-                  <div class="2u 64u(xsmall)">计算结果:</div>
+					<div class="2u 64u(xsmall)" >计算结果:<div id="calculate_result"></div></div>
                   <div class="12u" style="margin-top:-10px">
                   </div>
                 </div>
@@ -122,7 +120,7 @@
 
 										</div>
 										<div style="margin-left:20%;margin-bottom:4px">
-												<button id="btn_save" class="btn btn-primary shiny">保存</button>
+												<button id="btn_save" onclick="getdata()" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
 
 										</div>
 		            </div><!-- /.modal-content -->
@@ -130,28 +128,7 @@
 		    </div>
 		<!-- Scripts -->
 
-			<script>
-
-
-				data = [
-					['',''],
-
-				];
-
-				$('#my').jexcel({
-					data:data,
-					colHeaders: [ '结果1'],
-					colWidths: [ 50, 50 ],
-					minDimensions:[16,1],
-					columns: [
-						{ type: 'text' },
-						{ type: 'text'},
-					]
-				});
-
-			</script>
 			<!--Basic Scripts-->
-		     <script src="assets_pt/assets/js/jquery-2.0.3.min.js"></script>
 		     <script src="assets_pt/assets/js/bootstrap.min.js"></script>
 
 		     <!--Beyond Scripts-->
@@ -162,27 +139,51 @@
 			<script src="assets_pt/js/jquery.scrolly.min.js"></script>
 			<script src="assets_pt/js/skel.min.js"></script>
 			<script src="assets_pt/js/util.js"></script>
-			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets_pt/js/main.js"></script>
-			<script>
-			$("#bootbox-options").on('click', function () {
-									bootbox.dialog({
-											message: $("#myModal").html(),
-											title: "New E-Mail",
-											className: "modal-darkorange",
-											buttons: {
-													success: {
-															label: "Send",
-															className: "btn-blue",
-															callback: function () { }
-													},
-													"Save as Draft": {
-															className: "btn-danger",
-															callback: function () { }
-													}
-											}
-									});
-							});
-			</script>
+		<script>
+
+
+            data = [
+                ['1.4','1.5','1.643','1.235','1.555','1.185','1.955','1.725','1.295','1.365','1.425'],
+            ];
+
+            $('#my').jexcel({
+                data:data,
+                colHeaders: [ '结果0'],
+                colWidths: [ 50, 50 ],
+                minDimensions:[11,1],
+                columns: [
+                    { type: 'text' },
+                    { type: 'text'},
+                ]
+            });
+            var input;
+
+            function getdata(){
+                input = $('#my').jexcel('getData');
+            };
+            function calculate() {
+                if(input!=null) {
+                    var method = $('#stability').val();
+                    $.post("statistical/calMethod.jhtml", {
+                        "input": JSON.stringify(input),method:method
+                    }, function (result) {
+                        if (result.status != 200) {
+                            console.log(result.message)
+                        } else {
+                            if("algorithmA"==method){
+                                str = result.result;
+                                $('#calculate_result').html(str.key+","+str.value)
+							}else {
+                                $('#calculate_result').html(result.result)
+							}
+                        }
+                    }, "json");
+                }else{
+                    console.log("输入数据没有值")
+                }
+            }
+
+		</script>
 	</body>
 </html>

@@ -1,11 +1,13 @@
 package com.ejunhai.qutihuo.statistical.utils;
 
 import javafx.util.Pair;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Service("algorithm")
 public class Algorithm {
 
     public double calAverage(double[] array){
