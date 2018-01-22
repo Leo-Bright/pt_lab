@@ -46,4 +46,14 @@ public class StatisticalController extends BaseController {
 		return gson.toJson(result);
 	}
 
+	@ResponseBody
+	@RequestMapping("/checkUniformity")
+	public String checkUniformity(String input,String method,String stddeviation,String allowError,HttpServletRequest request, ModelMap modelMap) {
+		double[][] matrix1 = JsonUtils.fromJsonString(input);
+		double[][] matrix2 = JsonUtils.fromJsonString(input);
+		double std = "".equals(stddeviation)?0.0:Double.valueOf(stddeviation);
+		Map<String,Object> result = statisticsService.checkStability(matrix1,matrix2,std,method);
+		return gson.toJson(result);
+	}
+
 }

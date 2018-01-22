@@ -4,9 +4,7 @@
 	<title>均匀性与稳定性检验-实验室能力验证计算分析系统</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 	<link rel="stylesheet" href="assets_pt/css/main.css" />
-	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
 	<script src="dist/js/jquery.min.js"></script>
 	<script src="dist/js/jquery.jexcel.js"></script>
@@ -83,10 +81,8 @@
                     showDataInputBtn('#div_btn_double');
                     showParameters("pt");
                 }
-            })
-        });
+            });
 
-        $(document).ready(function(){
             $("#checkmethod_h").change(function(){
                 if($("#checkmethod_h").val() == "danyinzi"){
                     showdivResult('#div_result_3_1_1');
@@ -103,10 +99,8 @@
                     showDataInputBtn('#div_btn_single');
                     showParameters("pt");
                 }
-            })
-        });
+            });
 
-        $(document).ready(function(){
             $("#checkmethod_s").change(function(){
                 if($("#checkmethod_s").val() == "lessthan"){
                     showdivResult('#div_result_3_2_1');
@@ -123,6 +117,7 @@
                     showdivResult('#div_result_3_2_3');
                 }
             })
+
         });
 	</script>
 </head>
@@ -233,7 +228,7 @@
 					<div class="6u">
 						<ul class="actions">
 							<li>
-								<a href="javascript:void(0);" class="btn btn-primary shiny">数值计算</a>
+								<a href="javascript:calculate();" class="btn btn-primary shiny">数值计算</a>
 							</li>
 
 						</ul>
@@ -339,12 +334,12 @@
 
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
+				<h4 class="modal-title" id="myLargeModalLabel1">导入实验室检测数据</h4>
 			</div>
 			<div class="modal-body" id="my">
 			</div>
 			<div style="margin-left:20%;margin-bottom:4px">
-				<button id="btn_save" class="btn btn-primary shiny">保存</button>
+				<button id="btn_save1" class="btn btn-primary shiny">保存</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -357,7 +352,7 @@
 
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
+				<h4 class="modal-title" id="myLargeModalLabel2">导入实验室检测数据</h4>
 			</div>
 			<div>均匀性检验数据</div>
 			<div class="modal-body" id="my_h">
@@ -376,21 +371,29 @@
 
 <script type="text/javascript">
     data = [
-        ['',''],
+        ['1.4','1.5','1.643','1.235','1.555','1.185','1.955','1.725','1.295','1.365','1.425'],
+        ['1.324','1.534','1.143','1.635','1.585','1.615','1.395','1.425','1.555','1.265','1.865']
     ];
 
     $('#my').jexcel({
         data:data,
 
         colWidths: [ 50, 50 ],
-        minDimensions:[10,2],
+        minDimensions:[11,2],
         columns: [
             { type: 'text' },
             { type: 'text'},
         ]
     });
-    $('#btn_save').on('click', function () {
-        var data = $('#my').jexcel('getData');
+    var input1;
+    var input2;
+    $('#btn_save1').on('click', function () {
+        input1 = $('#my').jexcel('getData');
+
+    });
+    $('#btn_save2').on('click', function () {
+        input2 = $('#my_h').jexcel('getData');
+        input2 = $('#my_s').jexcel('getData');
 
     })
 
@@ -398,7 +401,7 @@
         data:data,
 
         colWidths: [ 50, 50 ],
-        minDimensions:[10,2],
+        minDimensions:[11,2],
         columns: [
             { type: 'text' },
             { type: 'text'},
@@ -408,31 +411,72 @@
         data:data,
 
         colWidths: [ 50, 50 ],
-        minDimensions:[10,2],
+        minDimensions:[11,2],
         columns: [
             { type: 'text' },
             { type: 'text'},
         ]
     });
+    function calculate() {
+        if(input1!=null) {
+            if($("#checkmethod").val() == "uniformity"){
+                var method = $("#checkmethod_h").val();
+                var stdVariance = $("#txt_stab_ablity_std_variance").val();
+                var allowError = $("#txt_stab_max_allow_error").val();
+                $.post("statistical/checkUniformity.jhtml", {
+                    "input": JSON.stringify(input1),"method":method,"stdVariance":stdVariance,"allowError":allowError
+                }, function (result) {
+                    if (result.status != 200) {
+                        console.log(result.message)
+                    } else {
+                        $('#div_v_avg').html(result.average)
+                        $('#div_v_med').html(result.median)
+                        $('#div_v_var').html(result.variance)
+                        $('#div_v_stdvar').html(result.standardVar)
+                        $('#div_v_75qua').html(result.quantile3)
+                        $('#div_v_25qua').html(result.quantile1)
+                        $('#div_v_fourpos').html(result.iqr)
+                        $('#div_v_stdfourpos').html(result.niqr)
+                        $('#div_v_made').html(result.made)
+                    }
+                }, "json");
+            }else{
+                $.post("statistical/checkStability.jhtml", {
+                    "input": JSON.stringify(input)
+                }, function (result) {
+                    if (result.status != 200) {
+                        console.log(result.message)
+                    } else {
+                        $('#div_v_avg').html(result.average)
+                        $('#div_v_med').html(result.median)
+                        $('#div_v_var').html(result.variance)
+                        $('#div_v_stdvar').html(result.standardVar)
+                        $('#div_v_75qua').html(result.quantile3)
+                        $('#div_v_25qua').html(result.quantile1)
+                        $('#div_v_fourpos').html(result.iqr)
+                        $('#div_v_stdfourpos').html(result.niqr)
+                        $('#div_v_made').html(result.made)
+                    }
+                }, "json");
+			}
+
+        }else{
+            console.log("输入数据没有值")
+        }
+    }
 </script>
 
 <!--Basic Scripts-->
 
 <script src="assets_pt/assets/js/bootstrap.min.js"></script>
-
 <!--Beyond Scripts-->
 <script src="assets_pt/assets/js/beyond.min.js"></script>
 <script src="assets_pt/assets/js/bootbox/bootbox.js"></script>
-
 <script src="assets_pt/js/jquery.scrollzer.min.js"></script>
 <script src="assets_pt/js/jquery.scrolly.min.js"></script>
 <script src="assets_pt/js/skel.min.js"></script>
 <script src="assets_pt/js/util.js"></script>
-<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 <script src="assets_pt/js/main.js"></script>
-<script>
-
-</script>
 
 </body>
 </html>
