@@ -11,6 +11,7 @@
 		<script src="dist/js/jquery.min.js"></script>
 		<script src="dist/js/jquery.jexcel.js"></script>
 		<script src="dist/js/jquery.jcalendar.js"></script>
+		<script  src="assets_pt/js/layer/layer.js"></script>
 		<link rel="stylesheet" href="dist/css/jquery.jexcel.css" type="text/css" />
 		<link rel="stylesheet" href="dist/css/jquery.jcalendar.css" type="text/css" />
 
@@ -98,14 +99,14 @@
                   <div class="3u" style="margin-top:-10px">
                     <div class="select-wrapper" id="uniformity_calmethod" name="uniformity_calmethod">
                       <select name="checkmethod1" id="checkmethod1" >
-                        <option value="danyinzi">单因子方差分析法</option>
+                        <option value="danyinzi1">单因子方差分析法</option>
                         <option value="sszz">S<sub>s</sub><=0.3σ^准则</option>
                         <option value="extension">扩展方法</option>
                       </select>
                     </div>
                     <div class="select-wrapper" id="stability_calmethod" name="stability_calmethod" style="display:none">
-                      <select name="checkmethod" id="checkmethod" >
-                        <option value="danyinzi">|x-y|<=0.3σ</option>
+                      <select name="checkmethod" id="checkmethod2" >
+                        <option value="danyinzi2">|x-y|<=0.3σ</option>
                         <option value="t_check_ref">t检验法-与标准值/参考值比较</option>
                         <option value="t_check_avg">t检验法-两个均值的比较</option>
                       </select>
@@ -136,14 +137,14 @@
                         <div class="6u">
                           <ul class="actions">
                             <li>
-                                <a href="javascript:void(0);" class="btn btn-primary shiny">数值计算</a>
+                                <a href="javascript:calculate();" class="btn btn-primary shiny">数值计算</a>
                             </li>
                           </ul>
                         </div>
                       </div>
                 <br />
                 <div>
-                    <div class="2u 4u(xsmall)">计算结果：</div>
+					<div class="2u 4u(xsmall)">计算结果：<div id="result"></div></div>
                 </div>
                 <div style="height:400px ;">
 
@@ -165,34 +166,13 @@
 
 										</div>
 										<div style="margin-left:20%;margin-bottom:4px">
-												<button id="btn_save" class="btn btn-primary shiny">保存</button>
+												<button id="btn_save" onclick="getdata()" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
 
 										</div>
 		            </div><!-- /.modal-content -->
 		        </div><!-- /.modal-dialog -->
 		    </div>
 		<!-- Scripts -->
-
-			<script>
-
-
-				data = [
-					['',''],
-
-				];
-
-				$('#my').jexcel({
-					data:data,
-					colHeaders: [ '结果1'],
-					colWidths: [ 50, 50 ],
-					minDimensions:[10,5],
-					columns: [
-						{ type: 'text' },
-						{ type: 'text'},
-					]
-				});
-
-			</script>
 			<!--Basic Scripts-->
 		     <script src="assets_pt/assets/js/jquery-2.0.3.min.js"></script>
 		     <script src="assets_pt/assets/js/bootstrap.min.js"></script>
@@ -207,6 +187,46 @@
 			<script src="assets_pt/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets_pt/js/main.js"></script>
+		<script>
 
+
+            data = [
+                ['1.4','1.5','1.643','1.235','1.555','1.185','1.955','1.725','1.295','1.365','1.425'],
+                ['1.237','1.365','1.874','1.6335','1.195','1.255','1.785','1.395','1.275','1.845','1.535']
+            ];
+
+            $('#my').jexcel({
+                data:data,
+                colHeaders: [ '结果0'],
+                colWidths: [ 50, 50 ],
+                minDimensions:[11,2],
+                columns: [
+                    { type: 'text' },
+                    { type: 'text'},
+                ]
+            });
+            var input;
+
+            function getdata(){
+                input = $('#my').jexcel('getData');
+            };
+            function calculate() {
+                if(input!=null) {
+                    var load = layer.load();
+                    $.post("statistical/checkStability.jhtml", {
+                        "input": JSON.stringify(input)
+                    }, function (result) {
+                        layer.close(load);
+                        if (result.status != 200) {
+                            console.log(result.message)
+                        } else {
+                            $('#result').html(result.average)
+                        }
+                    }, "json");
+                }else{
+                    console.log("输入数据没有值")
+                }
+            }
+		</script>
 	</body>
 </html>

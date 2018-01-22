@@ -12,4 +12,6 @@ public interface StatisticsService {
     Map<String,Object> calStatistics(double[] array);
 
     Map<String,Object> calMethod(double[][] matrix,String method);
+
+    Map<String,Object> checkStability(double[][] matrix1,double[][] matrix2,double stddeviance,String method);
 }

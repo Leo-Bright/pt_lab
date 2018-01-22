@@ -87,18 +87,18 @@
 										<li class="fa-book"><div class="row uniform"><div>MADe, d<sub>i</sub>=|x<sub>i</sub>-med(x)|, MADe(x)=1.483*med(d):</div><div  id="div_v_made" style="font-weight:bold;"></div></li><li></li>
 
 									</ul>
-									<div class="row uniform">
+										<div class="row uniform">
 											<div class="2u">
 												<ul class="actions">
 													<li>
-															<button class="btn btn-success shiny" data-toggle="modal" data-target=".bs-example-modal-lg">输入数据</button>
+														<button class="btn btn-success shiny" data-toggle="modal" data-target=".bs-example-modal-lg">输入数据</button>
 													</li>
 												</ul>
 											</div>
 											<div class="6u">
 												<ul class="actions">
 													<li>
-															<a href="javascript:void(0);" class="btn btn-primary shiny">数值计算</a>
+														<a href="javascript:calculate();" class="btn btn-primary shiny">数值计算</a>
 													</li>
 
 												</ul>
@@ -117,71 +117,85 @@
 
 
 			</div>
-			<!--LArge Modal Templates-->
-		    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-		        <div class="modal-dialog modal-lg">
-		            <div class="modal-content">
+		<!--LArge Modal Templates-->
+		<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
 
-		                <div class="modal-header">
-		                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		                    <h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
-		                </div>
-		                <div class="modal-body" id="my">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
+					</div>
+					<div class="modal-body" id="my">
 
-										</div>
-										<div style="margin-left:20%;margin-bottom:4px">
-												<button id="btn_save" onclick="getdata()" class="btn btn-primary shiny">保存</button>
+					</div>
+					<div style="margin-left:20%;margin-bottom:4px">
+						<button id="btn_save" onclick="getdata()" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
 
-										</div>
-		            </div><!-- /.modal-content -->
-		        </div><!-- /.modal-dialog -->
-		    </div>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
 		<!-- Scripts -->
-			<!--Basic Scripts-->
-		     <script src="assets_pt/assets/js/bootstrap.min.js"></script>
+		<!--Basic Scripts-->
+		<script src="assets_pt/assets/js/bootstrap.min.js"></script>
 
-		     <!--Beyond Scripts-->
-		     <script src="assets_pt/assets/js/beyond.min.js"></script>
-				 <script src="assets_pt/assets/js/bootbox/bootbox.js"></script>
+        <!--Beyond Scripts-->
+        <script src="assets_pt/assets/js/beyond.min.js"></script>
+		<script src="assets_pt/assets/js/bootbox/bootbox.js"></script>
 
-			<script src="assets_pt/js/jquery.scrollzer.min.js"></script>
-			<script src="assets_pt/js/jquery.scrolly.min.js"></script>
-			<script src="assets_pt/js/skel.min.js"></script>
-			<script src="assets_pt/js/util.js"></script>
+		<script src="assets_pt/js/jquery.scrollzer.min.js"></script>
+		<script src="assets_pt/js/jquery.scrolly.min.js"></script>
+		<script src="assets_pt/js/skel.min.js"></script>
+		<script src="assets_pt/js/util.js"></script>
 
-			<script src="assets_pt/js/main.js"></script>
-			<script>
-
-
-                data = [
-                    ['1.4','1.5'],
-
-                ];
-
-                $('#my').jexcel({
-                    data:data,
-                    colHeaders: [ '结果0'],
-                    colWidths: [ 50, 50 ],
-                    minDimensions:[16,1],
-                    columns: [
-                        { type: 'text' },
-                        { type: 'text'},
-                    ]
-                });
+		<script src="assets_pt/js/main.js"></script>
+		<script>
 
 
-                function getdata(){
-                    var input = $('#my').jexcel('getData');
+            data = [
+                ['1.4','1.5','1.643','1.235','1.555','1.185','1.955','1.725','1.295','1.365','1.425'],
+
+            ];
+
+            $('#my').jexcel({
+                data:data,
+                colHeaders: [ '结果0'],
+                colWidths: [ 50, 50 ],
+                minDimensions:[11,1],
+                columns: [
+                    { type: 'text' },
+                    { type: 'text'},
+                ]
+            });
+            var input;
+
+            function getdata(){
+                input = $('#my').jexcel('getData');
+            };
+            function calculate() {
+                if(input!=null) {
                     $.post("statistical/calStatistics.jhtml", {
-                            "input":JSON.stringify(input)}, function(data){
-                            if(data.status!=200){
-                                console.log("没有正确返回")
-                            }else{
-                                console.log(data.average)
-                                $('#div_average').html(data.average)
-                            }
-                        }, "json");
-                };
-			</script>
+                        "input": JSON.stringify(input)
+                    }, function (result) {
+                        if (result.status != 200) {
+                            console.log(result.message)
+                        } else {
+                            $('#div_v_avg').html(result.average)
+                            $('#div_v_med').html(result.median)
+                            $('#div_v_var').html(result.variance)
+                            $('#div_v_stdvar').html(result.standardVar)
+                            $('#div_v_75qua').html(result.quantile3)
+                            $('#div_v_25qua').html(result.quantile1)
+                            $('#div_v_fourpos').html(result.iqr)
+                            $('#div_v_stdfourpos').html(result.niqr)
+                            $('#div_v_made').html(result.made)
+                        }
+                    }, "json");
+                }else{
+                    console.log("输入数据没有值")
+                }
+            }
+		</script>
 	</body>
 </html>
