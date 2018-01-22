@@ -1,212 +1,438 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>稳健方法-实验室能力验证计算分析系统</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets_pt/css/main.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+<head>
+	<title>均匀性与稳定性检验-实验室能力验证计算分析系统</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+	<link rel="stylesheet" href="assets_pt/css/main.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 
-		<script src="dist/js/jquery.min.js"></script>
-		<script src="dist/js/jquery.jexcel.js"></script>
-		<script src="dist/js/jquery.jcalendar.js"></script>
-		<link rel="stylesheet" href="dist/css/jquery.jexcel.css" type="text/css" />
-		<link rel="stylesheet" href="dist/css/jquery.jcalendar.css" type="text/css" />
+	<script src="dist/js/jquery.min.js"></script>
+	<script src="dist/js/jquery.jexcel.js"></script>
+	<script src="dist/js/jquery.jcalendar.js"></script>
+	<link rel="stylesheet" href="dist/css/jquery.jexcel.css" type="text/css" />
+	<link rel="stylesheet" href="dist/css/jquery.jcalendar.css" type="text/css" />
 
-		<!--Basic Styles-->
-	     <link href="assets_pt/assets/css/bootstrap.min.css" rel="stylesheet" />
-	     <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
-	     <link href="assets_pt/assets/css/font-awesome.min.css" rel="stylesheet" />
-	     <link href="assets_pt/assets/css/weather-icons.min.css" rel="stylesheet" />
-	     <!--Beyond styles-->
-	     <link id="beyond-link" href="assets_pt/assets/css/beyond.min.css" rel="stylesheet" />
-	     <link href="assets_pt/assets/css/demo.min.css" rel="stylesheet" />
-	     <link href="assets_pt/assets/css/typicons.min.css" rel="stylesheet" />
-	     <link href="assets_pt/assets/css/animate.min.css" rel="stylesheet" />
-	     <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+	<!--Basic Styles-->
+	<link href="assets_pt/assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+	<link href="assets_pt/assets/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="assets_pt/assets/css/weather-icons.min.css" rel="stylesheet" />
+	<!--Beyond styles-->
+	<link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+	<link href="assets_pt/assets/css/demo.min.css" rel="stylesheet" />
+	<link href="assets_pt/assets/css/typicons.min.css" rel="stylesheet" />
+	<link href="assets_pt/assets/css/animate.min.css" rel="stylesheet" />
+	<link id="skin-link" href="" rel="stylesheet" type="text/css" />
 
-	     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
-	     <script src="assets_pt/assets/js/skins.min.js"></script>
+	<!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+	<script src="assets_pt/assets/js/skins.min.js"></script>
+	<script type="text/javascript">
 
+        function showdivResult(divID){
+            $('#div_result_3_1_1').css("display","none");
+            $('#div_result_3_1_2').css("display","none");
+            $('#div_result_3_1_3').css("display","none");
+            $('#div_result_3_2_1').css("display","none");
+            $('#div_result_3_2_2').css("display","none");
+            $('#div_result_3_2_3').css("display","none");
+            $(divID).css("display","block");
+        }
 
-			<script type="text/javascript">
-	        $(document).ready(function(){
-	          $("#checkmethod").change(function(){
-	              if($("#checkmethod").val() == "uniformity"){
-	                $("#uniformity_calmethod").css("display","block");
-	                $("#stability_calmethod").css("display","none");
-	              }else {
-	                $("#uniformity_calmethod").css("display","none");
-	                $("#stability_calmethod").css("display","block");
-	              }
-	            })
-	      });
-			</script>
-	</head>
-	<body>
+        function showDataInputBtn(btnID){
+            $('#div_btn_single').css("display","none");
+            $('#div_btn_double').css("display","none");
+            $(btnID).css("display","block");
+        }
 
-		<!-- Header -->
-			<section id="header">
-				<header>
-					<span class="image avatar"></span>
-					<h1 id="logo" style="font-family:黑体"><a href="#">能力验证统计<br>分析系统</a></h1>
+        function showParameters(flag){
+            $("#div_param_refvalue").css("display","none");
+            if(flag == "all"){
+                $("#div_param_input1").css("display","block");
+                $("#div_param_input2").css("display","block");
+            }
+            else if( flag=="pt"){
+                $("#div_param_input1").css("display","block");
+                $("#div_param_input2").css("display","none");
+            }
+            else if( flag== "stdvar"){
+                $("#div_param_input1").css("display","none");
+                $("#div_param_input2").css("display","block");
+            }
+            else{
+                $("#div_param_input1").css("display","none");
+                $("#div_param_input2").css("display","none");
+            }
+        }
 
-				</header>
-				<nav id="nav">
-					<ul>
+        $(document).ready(function(){
+            $("#checkmethod").change(function(){
+                if($("#checkmethod").val() == "uniformity"){
+                    $("#uniformity_calmethod").css("display","block");
+                    $("#stability_calmethod").css("display","none");
+                    $("#checkmethod_h").val("danyinzi");
+                    showdivResult('#div_result_3_1_1');
+                    showDataInputBtn('#div_btn_single');
+                    showParameters("none");
+                }else {
+                    $("#uniformity_calmethod").css("display","none");
+                    $("#stability_calmethod").css("display","block");
+                    $("#checkmethod_s").val("lessthan");
+                    showdivResult('#div_result_3_2_1');
+                    showDataInputBtn('#div_btn_double');
+                    showParameters("pt");
+                }
+            })
+        });
 
-						<li><a href="calstats.jhtml" >计算汇总统计量</a></li>
-						<li><a href="stab.jhtml">稳健方法</a></li>
-						<li><a href="hs.jhtml" class="active">均匀性和稳定性检验</a></li>
-						<li><a href="confirm.jhtml">确定指定值及其不确定度</a></li>
-						<li><a href="stddev.jhtml">确定标准差</a></li>
-						<li><a href="ce.jhtml">能力评定</a></li>
-						<li><a href="graphic.jhtml">图示法</a></li>
-					</ul>
-				</nav>
-				<footer>
-					<ul class="icons">
-						<li>&copy; 中国标准化研究院</li>
-					</ul>
-				</footer>
-			</section>
+        $(document).ready(function(){
+            $("#checkmethod_h").change(function(){
+                if($("#checkmethod_h").val() == "danyinzi"){
+                    showdivResult('#div_result_3_1_1');
+                    showDataInputBtn('#div_btn_single');
+                    showParameters("none");
+                }
+                else if($("#checkmethod_h").val() == "sszz") {
+                    showdivResult('#div_result_3_1_2');
+                    showDataInputBtn('#div_btn_single');
+                    showParameters("all");
+                }
+                else{
+                    showdivResult('#div_result_3_1_3');
+                    showDataInputBtn('#div_btn_single');
+                    showParameters("pt");
+                }
+            })
+        });
 
-		<!-- Wrapper -->
-			<div id="wrapper">
-				<!-- Main -->
-        <!-- Four 均匀性和稳定性检验-->
-          <section id="four">
-            <div class="container"  style="margin-left:20px">
-              <br/>
-              <br/>
-              <br/>
-              <form method="post" action="#">
-                <div class="row uniform">
-                  <div style="width:120px">检验方法：</div>
-                  <div class="3u" style="margin-top:-10px">
-                    <div class="select-wrapper">
-                      <select id="checkmethod" >
-                        <option value="uniformity">均匀性检验</option>
-                        <option value="stability">稳定性检验</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row uniform">
-                  <div style="width:120px">计算方法：</div>
-                  <div class="3u" style="margin-top:-10px">
-                    <div class="select-wrapper" id="uniformity_calmethod" name="uniformity_calmethod">
-                      <select name="checkmethod1" id="checkmethod1" >
-                        <option value="danyinzi">单因子方差分析法</option>
-                        <option value="sszz">S<sub>s</sub><=0.3σ^准则</option>
-                        <option value="extension">扩展方法</option>
-                      </select>
-                    </div>
-                    <div class="select-wrapper" id="stability_calmethod" name="stability_calmethod" style="display:none">
-                      <select name="checkmethod" id="checkmethod" >
-                        <option value="danyinzi">|x-y|<=0.3σ</option>
-                        <option value="t_check_ref">t检验法-与标准值/参考值比较</option>
-                        <option value="t_check_avg">t检验法-两个均值的比较</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <br/>
-                <div class="row uniform" id="div_param_input">
-                    <div  style="width:152px">能力评定标准差：</div>
-                    <div class="2u"  style="margin-top:-10px;margin-left:-30px">
-                          <input type="text" id="txt_stab_ablity_std_variance" />
-                    </div>
-                    <div  style="width:140px" >最大允许误差：</div>
-                    <div class="2u" style="margin-top:-10px;margin-left:-30px">
-                      <input type="text" id="txt_stab_max_allow_error" />
-                    </div>
-                </div>
-                  <br />
-                    <br />
-                    <div class="row uniform">
-                        <div class="2u">
-                          <ul class="actions">
-                            <li>
-                                <button class="btn btn-success shiny" id="btn_hsdatainput" data-toggle="modal" data-target=".bs-example-modal-lg">输入数据</button>
-                            </li>
-                          </ul>
-                        </div>
-                        <div class="6u">
-                          <ul class="actions">
-                            <li>
-                                <a href="javascript:void(0);" class="btn btn-primary shiny">数值计算</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                <br />
-                <div>
-                    <div class="2u 4u(xsmall)">计算结果：</div>
-                </div>
-                <div style="height:400px ;">
+        $(document).ready(function(){
+            $("#checkmethod_s").change(function(){
+                if($("#checkmethod_s").val() == "lessthan"){
+                    showdivResult('#div_result_3_2_1');
+                    showDataInputBtn('#div_btn_double');
+                    showParameters("pt");
+                }
+                else if($("#checkmethod_s").val() == "t_check_ref") {
+                    showdivResult('#div_result_3_2_2');
+                    showDataInputBtn('#div_btn_double');
+                    showParameters("none");
+                    $("#div_param_refvalue").css("display","block");
+                }
+                else{
+                    showdivResult('#div_result_3_2_3');
+                }
+            })
+        });
+	</script>
+</head>
+<body>
 
-                </div>
-              </form>
-            </div>
-          </section>
+<!-- Header -->
+<section id="header">
+	<header>
+		<span class="image avatar"></span>
+		<h1 id="logo" style="font-family:黑体"><a href="#">能力验证统计<br>分析系统</a></h1>
+
+	</header>
+	<nav id="nav">
+		<ul>
+
+			<li><a href="calstats.html" >计算汇总统计量</a></li>
+			<li><a href="stab.html">稳健方法</a></li>
+			<li><a href="hs.html" class="active">均匀性和稳定性检验</a></li>
+			<li><a href="confirm.html">确定指定值及其不确定度</a></li>
+			<li><a href="stddev.html">确定标准差</a></li>
+			<li><a href="ce.html">能力评定</a></li>
+			<li><a href="graphic.html">图示法</a></li>
+		</ul>
+	</nav>
+	<footer>
+		<ul class="icons">
+			<li>&copy; 中国标准化研究院</li>
+		</ul>
+	</footer>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+	<!-- Main -->
+	<div id="main">
+		<!-- Two -->
+		<div class="container"  style="margin-left:20px">
+
+			<br/>
+			<div class="features">
+
+				<br />
+				<div class="row uniform">
+					<div style="width:120px">检验方法：</div>
+					<div class="3u" style="margin-top:-10px">
+						<div class="select-wrapper">
+							<select id="checkmethod" >
+								<option value="uniformity">均匀性检验</option>
+								<option value="stability">稳定性检验</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row uniform">
+					<div style="width:120px">计算方法：</div>
+					<div class="3u" style="margin-top:-10px">
+						<div class="select-wrapper" id="uniformity_calmethod" name="uniformity_calmethod">
+							<select name="checkmethod_h" id="checkmethod_h" >
+								<option value="danyinzi">单因子方差分析法</option>
+								<option value="sszz">S<sub>s</sub><=0.3σ^准则</option>
+								<option value="extension">扩展方法</option>
+							</select>
+						</div>
+						<div class="select-wrapper" id="stability_calmethod" name="stability_calmethod" style="display:none">
+							<select name="checkmethod_s" id="checkmethod_s" >
+								<option value="lessthan">|x-y|<=0.3σ</option>
+								<option value="t_check_ref">t检验法-与标准值/参考值比较</option>
+								<option value="t_check_avg">t检验法-两个均值的比较</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<br/>
+				<div class="row uniform" id="div_param_input1" style="display:none">
+					<div  style="width:130px">能力评定标准差</div><div  style="margin-left:-20px"><img src="images/pt.png" width="25" height="26" />：</div>
+					<div class="2u"  style="margin-top:-10px;margin-left:-30px">
+						<input type="text" id="txt_stab_ablity_std_variance" />
+					</div>
+				</div>
+				<div class="row uniform" id="div_param_input2" style="display:none">
+					<div  style="width:140px" >最大允许误差</div><div style="margin-left:-40px"><img src="images/allowerror.png" width="25" height="26" />：</div>
+					<div class="2u" style="margin-top:-10px;margin-left:-30px">
+						<input type="text" id="txt_stab_max_allow_error" />
+					</div>
+				</div>
+				<div class="row uniform" id="div_param_refvalue" style="display:none">
+					<div  style="width:140px" >标准值/参考值μ：</div>
+					<div class="2u" style="margin-top:-10px;margin-left:-30px">
+						<input type="text" id="txt_ref_value" />
+					</div>
+				</div>
+				<div class="row uniform">
+					<div class="2u" id="div_btn_single">
+						<ul class="actions">
+							<li>
+								<button class="btn btn-success shiny" data-toggle="modal" data-target="#div_hs_single">输入数据</button>
+							</li>
+						</ul>
+					</div>
+					<div class="2u" id="div_btn_double" style="display:none">
+						<ul class="actions">
+							<li>
+								<button class="btn btn-success shiny" data-toggle="modal" data-target="#div_hs_double">输入数据</button>
+							</li>
+						</ul>
+					</div>
+					<div class="6u">
+						<ul class="actions">
+							<li>
+								<a href="javascript:void(0);" class="btn btn-primary shiny">数值计算</a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+				<br />
+				<div style="height:400px">
+					<div class="2u 64u(xsmall)"><span style="font-weight:bold">计算结果:</span></div>
+					<br />
+					<div class="12u" style="margin-top:-10px">
+						<div id="div_result_3_1_1">
+							<div class="row uniform">
+								<div>样品内均值:</div><div id="div_v_311_inneravg" style="font-weight:bold"></div>
+								<div>样品内方差:</div><div id="div_v_311_innervar" style="font-weight:bold"></div>
+								<div>自由度f<sub>1</sub>:</div><div id="div_v_311_df1" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div>样品间均值:</div><div id="div_v_311_outeravg" style="font-weight:bold"></div>
+								<div>样品间方差:</div><div id="div_v_311_outervar" style="font-weight:bold"></div>
+								<div>自由度f<sub>2</sub>:</div><div id="div_v_311_df2" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div><img src="images/f_3111.png" width="100" height="25"/>:</div><div id="div_v_311_f" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div><img src="images/fa_311.png" width="100" height="25"/>:</div><div id="div_v_311_fa" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div><img src="images/fa_311.png" width="100" height="25"/></div><div id="div_v_311_faf" style="font-weight:bold"></div><div><img src="images/f_3111.png" width="100" height="25"/></div>
+							</div>
+						</div>
+						<div id="div_result_3_1_2" style="display:none">
+							<div class="row uniform">
+								<div style="width:100px">样本间方差</div><div style="margin-left:-20px"><img src="images/outervar.png" width="19" />:</div><div id="div_v_312_outervar" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div style="margin-left:-0px">样本间方差<img src="images/outervar.png" width="19" /></div><div id="div_v_312_comparept" style="font-weight:bold"></div><div>0.3<img src="images/pt.png" width="25" /></div>
+							</div>
+							<div class="row uniform">
+								<div style="margin-left:-0px">样本间方差<img src="images/outervar.png" width="19" /></div><div id="div_v_312_compareallowerror" style="font-weight:bold"></div><div>0.1<img src="images/allowerror.png" width="25" /></div>
+							</div>
+						</div>
+						<div id="div_result_3_1_3" style="display:none">
+							<div class="row uniform">
+								<div style="width:100px">样本间方差</div><div style="margin-left:-20px"><img src="images/outervar.png" width="19" />:</div><div id="div_v_313_outervar" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div style="margin-left:-0px"><img src="images/sqrtc.png" width="25" />:</div><div id="div_v_313_sqrtc" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div style="margin-left:-0px">样本间方差<img src="images/outervar.png" width="19" /></div><div id="div_v_313_comparesqrtc" style="font-weight:bold"></div><div><img src="images/sqrtc.png" width="25" /></div>
+							</div>
+						</div>
+						<div id="div_result_3_2_1" style="display:none">
+							<div class="row uniform">
+								<div style="width:170px">均匀性检验总体均值</div><div style="margin-left:-20px"><img src="images/avgx.png" width="19" />:</div><div id="div_v_321_avgx" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div style="width:170px">稳定性检验总体均值</div><div style="margin-left:-20px"><img src="images/avgy.png" width="19" />:</div><div id="div_v_321_avgy" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div style="margin-left:-0px"><img src="images/avgabsolute.png" width="44" />:</div><div id="div_v_321_avgabsolute" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div style="margin-left:-0px"><img src="images/avgabsolute.png" width="44" /></div><div id="div_v_321_comparept" style="font-weight:bold"></div><div>0.3<img src="images/pt.png" width="25" /></div>
+							</div>
+						</div>
+						<div id="div_result_3_2_2" style="display:none">
+							<div class="row uniform">
+								<div style="width:80px">t值：</div><div id="div_v_322_t" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div style="margin-left:-20px"><img src="images/ta.png" width="75" height="29" />：</div><div id="div_v_322_ta" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div style="margin-left:-0px;font-weight:bold;font-size:16px">t</div><div id="div_v_322_compareta" style="font-weight:bold"></div><div><img src="images/ta.png" width="75" height="29" /></div>
+							</div>
+						</div>
+						<div id="div_result_3_2_3" style="display:none">
+							<div class="row uniform">
+								<div style="width:80px">t值：</div><div id="div_v_323_t" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div style="margin-left:-20px"><img src="images/ta323.png" width="114" height="29" />：</div><div id="div_v_323_ta323" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+								<div style="margin-left:-0px;font-weight:bold;font-size:16px">t</div><div id="div_v_323_compareta323" style="font-weight:bold"></div><div><img src="images/ta323.png" width="114" height="29" /></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+				</div>
 			</div>
-			<!--LArge Modal Templates-->
-		    <div id="myModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display:none;">
-		        <div class="modal-dialog modal-lg">
-		            <div class="modal-content">
+		</div>
+	</div>
 
-		                <div class="modal-header">
-		                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		                    <h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
-		                </div>
-		                <div class="modal-body" id="my">
+</div>
+<!--LArge Modal Templates-->
+<div class="modal fade bs-example-modal-lg" id="div_hs_single" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
 
-										</div>
-										<div style="margin-left:20%;margin-bottom:4px">
-												<button id="btn_save" class="btn btn-primary shiny">保存</button>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
+			</div>
+			<div class="modal-body" id="my">
+			</div>
+			<div style="margin-left:20%;margin-bottom:4px">
+				<button id="btn_save" class="btn btn-primary shiny">保存</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
 
-										</div>
-		            </div><!-- /.modal-content -->
-		        </div><!-- /.modal-dialog -->
-		    </div>
-		<!-- Scripts -->
+<!--输入2组数据  开始-->
+<div class="modal fade bs-example-modal-lg" id="div_hs_double" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
 
-			<script>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
+			</div>
+			<div>均匀性检验数据</div>
+			<div class="modal-body" id="my_h">
+			</div>
+			<div>稳定性检验数据</div>
+			<div class="modal-body" id="my_s">
+			</div>
+			<div style="margin-left:20%;margin-bottom:4px">
+				<button id="btn_save2" class="btn btn-primary shiny">保存</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+<!--输入2组数据  结束-->
+<!-- Scripts -->
 
+<script type="text/javascript">
+    data = [
+        ['',''],
+    ];
 
-				data = [
-					['',''],
+    $('#my').jexcel({
+        data:data,
 
-				];
+        colWidths: [ 50, 50 ],
+        minDimensions:[10,2],
+        columns: [
+            { type: 'text' },
+            { type: 'text'},
+        ]
+    });
+    $('#btn_save').on('click', function () {
+        var data = $('#my').jexcel('getData');
 
-				$('#my').jexcel({
-					data:data,
-					colHeaders: [ '结果1'],
-					colWidths: [ 50, 50 ],
-					minDimensions:[10,5],
-					columns: [
-						{ type: 'text' },
-						{ type: 'text'},
-					]
-				});
+    })
 
-			</script>
-			<!--Basic Scripts-->
-		     <script src="assets_pt/assets/js/jquery-2.0.3.min.js"></script>
-		     <script src="assets_pt/assets/js/bootstrap.min.js"></script>
+    $('#my_h').jexcel({
+        data:data,
 
-		     <!--Beyond Scripts-->
-		     <script src="assets_pt/assets/js/beyond.min.js"></script>
-				 <script src="assets_pt/assets/js/bootbox/bootbox.js"></script>
+        colWidths: [ 50, 50 ],
+        minDimensions:[10,2],
+        columns: [
+            { type: 'text' },
+            { type: 'text'},
+        ]
+    });
+    $('#my_s').jexcel({
+        data:data,
 
-			<script src="assets_pt/js/jquery.scrollzer.min.js"></script>
-			<script src="assets_pt/js/jquery.scrolly.min.js"></script>
-			<script src="assets_pt/js/skel.min.js"></script>
-			<script src="assets_pt/js/util.js"></script>
-			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="assets_pt/js/main.js"></script>
+        colWidths: [ 50, 50 ],
+        minDimensions:[10,2],
+        columns: [
+            { type: 'text' },
+            { type: 'text'},
+        ]
+    });
+</script>
 
-	</body>
+<!--Basic Scripts-->
+
+<script src="assets_pt/assets/js/bootstrap.min.js"></script>
+
+<!--Beyond Scripts-->
+<script src="assets_pt/assets/js/beyond.min.js"></script>
+<script src="assets_pt/assets/js/bootbox/bootbox.js"></script>
+
+<script src="assets_pt/js/jquery.scrollzer.min.js"></script>
+<script src="assets_pt/js/jquery.scrolly.min.js"></script>
+<script src="assets_pt/js/skel.min.js"></script>
+<script src="assets_pt/js/util.js"></script>
+<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="assets_pt/js/main.js"></script>
+<script>
+
+</script>
+
+</body>
 </html>
