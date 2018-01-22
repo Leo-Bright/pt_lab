@@ -2,6 +2,7 @@ package com.ejunhai.qutihuo.controller;
 
 import com.ejunhai.qutihuo.common.base.BaseController;
 import com.ejunhai.qutihuo.statistical.service.StatisticsService;
+import com.ejunhai.qutihuo.statistical.utils.JsonUtils;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,44 +23,16 @@ public class StatisticalController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/calStatistics")
 	public String calStatistics(String input,HttpServletRequest request, ModelMap modelMap) {
-		System.out.println("=======");
-		JSONArray jsonMatrix = JSONArray.fromObject(input);
-		JSONArray jsonArray = (JSONArray) jsonMatrix.get(0);
-		int size = jsonArray.size();
-		List<Double> array = new ArrayList<>();
-		for(int i=0;i<size;i++){
-			String j = (String)jsonArray.get(i);
-			if (!"".equals(j)){
-				array.add(new Double(j));
-			}
-		}
-		double[] inputArray = new double[array.size()];
-		for(int j=0;j<array.size();j++){
-			inputArray[j]=array.get(j);
-		}
-		Map<String,Object> result = statisticsService.calStatistics(inputArray);
+		double[][] matrix = JsonUtils.fromJsonString(input);
+		Map<String,Object> result = statisticsService.calStatistics(matrix[0]);
 		return gson.toJson(result);
 	}
 
 	@ResponseBody
 	@RequestMapping("/calMethod")
 	public String calMethod(String input,String method,HttpServletRequest request, ModelMap modelMap) {
-		System.out.println("=======");
-		JSONArray jsonMatrix = JSONArray.fromObject(input);
-		JSONArray jsonArray = (JSONArray) jsonMatrix.get(0);
-		int size = jsonArray.size();
-		List<Double> array = new ArrayList<>();
-		for(int i=0;i<size;i++){
-			String j = (String)jsonArray.get(i);
-			if (!"".equals(j)){
-				array.add(new Double(j));
-			}
-		}
-		double[] inputArray = new double[array.size()];
-		for(int j=0;j<array.size();j++){
-			inputArray[j]=array.get(j);
-		}
-		Map<String,Object> result = statisticsService.calMethod(inputArray,method);
+		double[][] matrix = JsonUtils.fromJsonString(input);
+		Map<String,Object> result = statisticsService.calMethod(matrix,method);
 		return gson.toJson(result);
 	}
 

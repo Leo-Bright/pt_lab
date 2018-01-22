@@ -33,19 +33,29 @@ public class StatisticsServiceImpl implements StatisticsService{
     }
 
     @Override
-    public Map<String,Object> calMethod(double[] array,String method){
+    public Map<String,Object> calMethod(double[][] matrix,String method){
         Map<String,Object> resultMap = new HashMap<>();
         resultMap.put("message","计算发生错误，请查看后台报错！");
+        double[] array = matrix[0];
+        if(11<array.length){
+            resultMap.put("status",201);
+            resultMap.put("message","实验室测量次数应不大于11次。");
+            return resultMap;
+        }
         if("algorithmA".equals(method)){
             resultMap.put("result",algorithm.methodA(array));
         }else if("algorithmS".equals(method)){
-//            resultMap.put("result",algorithm.methodS(array));
+            resultMap.put("result",algorithm.methodS(matrix));
         }else if("QN".equals(method)){
-            resultMap.put("result",algorithm.methodA(array));
+            resultMap.put("result",algorithm.methodQn(array));
         }else{
-            resultMap.put("result",algorithm.methodA(array));
+            if(2>matrix.length){
+                resultMap.put("status",201);
+                resultMap.put("message","实验室个数应不小于2个。");
+                return resultMap;
+            }
+            resultMap.put("result",algorithm.hampel(matrix));
         }
-
         resultMap.put("status",200);
         return resultMap;
     }

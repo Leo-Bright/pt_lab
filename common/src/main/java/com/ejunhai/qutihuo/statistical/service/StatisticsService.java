@@ -11,5 +11,5 @@ public interface StatisticsService {
      */
     Map<String,Object> calStatistics(double[] array);
 
-    Map<String,Object> calMethod(double[] array,String method);
+    Map<String,Object> calMethod(double[][] matrix,String method);
 }

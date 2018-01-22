@@ -151,7 +151,7 @@
                 data:data,
                 colHeaders: [ '结果0'],
                 colWidths: [ 50, 50 ],
-                minDimensions:[16,1],
+                minDimensions:[11,1],
                 columns: [
                     { type: 'text' },
                     { type: 'text'},
@@ -164,14 +164,19 @@
             };
             function calculate() {
                 if(input!=null) {
+                    var method = $('#stability').val();
                     $.post("statistical/calMethod.jhtml", {
-                        "input": JSON.stringify(input),method:$('#stability').val()
+                        "input": JSON.stringify(input),method:method
                     }, function (result) {
                         if (result.status != 200) {
                             console.log(result.message)
                         } else {
-                            str = result.result;
-                            $('#calculate_result').html(str.key+","+str.value)
+                            if("algorithmA"==method){
+                                str = result.result;
+                                $('#calculate_result').html(str.key+","+str.value)
+							}else {
+                                $('#calculate_result').html(result.result)
+							}
                         }
                     }, "json");
                 }else{
