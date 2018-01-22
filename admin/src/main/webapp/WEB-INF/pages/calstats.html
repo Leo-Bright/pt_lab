@@ -74,16 +74,18 @@
 									<div >
 
 									<ul class="feature-icons">
-										<li class="fa-code">均值：<div id="div_average"></div></li>
-										<li class="fa-cubes">中位数（med(x))：</li>
-										<li class="fa-book">方差：</li>
-										<li class="fa-coffee">标准差：</li>
-										<li class="fa-bolt">75%分位数, Q<sub>3</sub>(x)：</li>
-										<li class="fa-users">25%分位数, Q<sub>1</sub>(x)：</li>
-										<li class="fa-users">四分位距, Q<sub>3</sub>(x)-Q<sub>1</sub>(x)：</li>
+										<li class="fa-code"><div class="row uniform"><div>均值：</div><div id="div_v_avg" style="font-weight:bold;"></div></li><li></li>
+										<li class="fa-cubes"><div class="row uniform"><div>中位数（med(x))：</div><div id="div_v_med" style="font-weight:bold;"></div></li><li></li>
+										<li class="fa-book"><div class="row uniform"><div>方差：</div><div  id="div_v_var" style="font-weight:bold;"></style></li><li></li>
+										<li class="fa-coffee"><div class="row uniform"><div>标准差：</div><div  id="div_v_stdvar" style="font-weight:bold;"></div></li><li></li>
+										<li class="fa-bolt"><div class="row uniform"><div>75%分位数, Q<sub>3</sub>(x)：</div><div  id="div_v_75qua" style="font-weight:bold;"></div></li><li></li>
+										<li class="fa-users"><div class="row uniform"><div>25%分位数, Q<sub>1</sub>(x)：</div><div  id="div_v_25qua" style="font-weight:bold;"></div></li><li></li>
+										<li class="fa-users"><div class="row uniform"><div>四分位距, Q<sub>3</sub>(x)-Q<sub>1</sub>(x)：</div><div  id="div_v_fourpos" style="font-weight:bold;"></div></li><li></li>
+
+										<li class="fa-users"><div class="row uniform"><div>标准化四分位距nlQR, nlQR=0.07413 * (Q<sub>3</sub>(x)-Q<sub>1</sub>(x))：</div><div id="div_v_stdfourpos"  style="font-weight:bold;"></div></li>
 										<li></li>
-										<li class="fa-users">标准化四分位距nlQR, nlQR=0.07413 * (Q<sub>3</sub>(x)-Q<sub>1</sub>(x))：</li><li></li>
-										<li class="fa-book">MADe, d<sub>i</sub>=|x<sub>i</sub>-med(x)|, MADe(x)=1.483*med(d):</li>
+										<li class="fa-book"><div class="row uniform"><div>MADe, d<sub>i</sub>=|x<sub>i</sub>-med(x)|, MADe(x)=1.483*med(d):</div><div  id="div_v_made" style="font-weight:bold;"></div></li><li></li>
+
 									</ul>
 									<div class="row uniform">
 											<div class="2u">
