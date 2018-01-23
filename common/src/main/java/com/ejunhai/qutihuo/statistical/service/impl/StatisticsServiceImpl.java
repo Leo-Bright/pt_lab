@@ -89,5 +89,21 @@ public class StatisticsServiceImpl implements StatisticsService{
         return resultMap;
     }
 
+    @Override
+    public Map<String,Object> checkUniformity(double[][] matrix,String method,double stdORerror){
+        Map<String,Object> resultMap = new HashMap<>();
+        HomogeneityandStabilityCheck stabilityCheck = new HomogeneityandStabilityCheck();
+        resultMap.put("message","计算发生错误，请查看后台报错！");
+        if("danyinzi".equals(method)){
+            resultMap.put("result",stabilityCheck.singleFactorVariableAnalysis(matrix));
+        }else if("sszz".equals(method)){
+            resultMap.put("result",stabilityCheck.ssLessLaw(matrix));
+        }else{
+            resultMap.put("result",stabilityCheck.extensionMethod(matrix,stdORerror));
+        }
+        resultMap.put("status",200);
+        return resultMap;
+    }
+
 
 }

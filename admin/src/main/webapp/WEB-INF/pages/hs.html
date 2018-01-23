@@ -26,6 +26,7 @@
 
 	<!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
 	<script src="assets_pt/assets/js/skins.min.js"></script>
+    <script src="assets_pt/js/layer/layer.js"></script>
 	<script type="text/javascript">
 
         function showdivResult(divID){
@@ -339,7 +340,7 @@
 			<div class="modal-body" id="my">
 			</div>
 			<div style="margin-left:20%;margin-bottom:4px">
-				<button id="btn_save1" class="btn btn-primary shiny">保存</button>
+				<button id="btn_save1" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -393,7 +394,7 @@
     });
     $('#btn_save2').on('click', function () {
         input2 = $('#my_h').jexcel('getData');
-        input2 = $('#my_s').jexcel('getData');
+        input3 = $('#my_s').jexcel('getData');
 
     })
 
@@ -423,21 +424,25 @@
                 var method = $("#checkmethod_h").val();
                 var stdVariance = $("#txt_stab_ablity_std_variance").val();
                 var allowError = $("#txt_stab_max_allow_error").val();
+                var para;
+                if("extension"==method) {
+                    para = stdVariance
+                }else if("sszz"==method){
+                    if(""!=stdVariance){
+                        para = stdVariance;
+                    } else{
+                        para = allowError;
+                    }
+                    if(""==para) return layer.msg("请输入参数！"),!1;
+                }
                 $.post("statistical/checkUniformity.jhtml", {
-                    "input": JSON.stringify(input1),"method":method,"stdVariance":stdVariance,"allowError":allowError
+                    "input": JSON.stringify(input1),"method":method,"para":para
                 }, function (result) {
                     if (result.status != 200) {
-                        console.log(result.message)
+                        return layer.msg(result.message),!1;
                     } else {
-                        $('#div_v_avg').html(result.average)
-                        $('#div_v_med').html(result.median)
-                        $('#div_v_var').html(result.variance)
-                        $('#div_v_stdvar').html(result.standardVar)
-                        $('#div_v_75qua').html(result.quantile3)
-                        $('#div_v_25qua').html(result.quantile1)
-                        $('#div_v_fourpos').html(result.iqr)
-                        $('#div_v_stdfourpos').html(result.niqr)
-                        $('#div_v_made').html(result.made)
+                        // $('#div_v_avg').html(result.average)
+                        console.log(result.result)
                     }
                 }, "json");
             }else{
@@ -448,14 +453,7 @@
                         console.log(result.message)
                     } else {
                         $('#div_v_avg').html(result.average)
-                        $('#div_v_med').html(result.median)
-                        $('#div_v_var').html(result.variance)
-                        $('#div_v_stdvar').html(result.standardVar)
-                        $('#div_v_75qua').html(result.quantile3)
-                        $('#div_v_25qua').html(result.quantile1)
-                        $('#div_v_fourpos').html(result.iqr)
-                        $('#div_v_stdfourpos').html(result.niqr)
-                        $('#div_v_made').html(result.made)
+
                     }
                 }, "json");
 			}
