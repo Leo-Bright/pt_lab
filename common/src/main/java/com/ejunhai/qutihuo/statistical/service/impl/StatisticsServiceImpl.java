@@ -69,7 +69,7 @@ public class StatisticsServiceImpl implements StatisticsService{
         if("lessthan".equals(method)){
             resultMap.put("result",stabilityCheck.absolutlyLessLaw(matrix1,matrix2));
         }else if("t_check_ref".equals(method)){
-            resultMap.put("result",stabilityCheck.tCheckMethod(matrix1[0],parameter,0));
+            resultMap.put("result",stabilityCheck.tCheckMethod(matrix1[0],parameter,0.95));
         }else{
             resultMap.put("result",stabilityCheck.tCheckComparison(matrix2[0],matrix2[1]));
         }

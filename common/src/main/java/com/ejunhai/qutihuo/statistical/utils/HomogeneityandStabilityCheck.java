@@ -116,7 +116,7 @@ public class HomogeneityandStabilityCheck {
 
 	//t检验法--与标准值/参考值比较
 	/*data:一个实验室多个数据，u标准值/参考值,n1自由度*/
-	public double[] tCheckMethod(double[] data, double u, int n1) {
+	public double[] tCheckMethod(double[] data, double u, double n1) {
 		double[] returnval = new double[2];
 		CommLib objcommlib = new CommLib();
 		double avg = objcommlib.getArrayAvg(data);
