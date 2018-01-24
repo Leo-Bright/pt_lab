@@ -111,8 +111,6 @@ public class HomogeneityandStabilityCheck {
 		CommLib objcommlib = new CommLib();
 		double avg_H = objcommlib.getTotalAvg(data_H);
 		double avg_S = objcommlib.getTotalAvg(data_S);
-
-
 		return Math.abs(avg_S-avg_H);
 	}
 

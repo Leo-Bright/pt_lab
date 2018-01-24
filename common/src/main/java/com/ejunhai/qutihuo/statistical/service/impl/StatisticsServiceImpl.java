@@ -62,28 +62,16 @@ public class StatisticsServiceImpl implements StatisticsService{
     }
 
     @Override
-    public Map<String,Object> checkStability(double[][] matrix1,double[][] matrix2,double stddeviance,String method){
+    public Map<String,Object> checkStability(double[][] matrix1,double[][] matrix2,String method,double parameter){
         Map<String,Object> resultMap = new HashMap<>();
         HomogeneityandStabilityCheck stabilityCheck = new HomogeneityandStabilityCheck();
         resultMap.put("message","计算发生错误，请查看后台报错！");
-        double[] array = matrix1[0];
-        if(11<array.length){
-            resultMap.put("status",201);
-            resultMap.put("message","实验室测量次数应不大于11次。");
-            return resultMap;
-        }
-        if("danyinzi1".equals(method)){
-            resultMap.put("result",stabilityCheck.singleFactorVariableAnalysis(matrix1));
-        }else if("sszz".equals(method)){
-            resultMap.put("result",stabilityCheck.ssLessLaw(matrix1));
-        }else if("extension".equals(method)){
-//            resultMap.put("result",stabilityCheck.extensionMethod(matrix1));
-        }else if("danyinzi2".equals(method)){
-//            resultMap.put("result",stabilityCheck.absolutlyLessLaw(matrix1));
+        if("lessthan".equals(method)){
+            resultMap.put("result",stabilityCheck.absolutlyLessLaw(matrix1,matrix2));
         }else if("t_check_ref".equals(method)){
-
+            resultMap.put("result",stabilityCheck.tCheckMethod(matrix1[0],parameter,0));
         }else{
-
+            resultMap.put("result",stabilityCheck.tCheckComparison(matrix2[0],matrix2[1]));
         }
         resultMap.put("status",200);
         return resultMap;

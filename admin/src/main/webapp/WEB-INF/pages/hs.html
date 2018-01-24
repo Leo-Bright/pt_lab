@@ -376,6 +376,11 @@
         ['1.324','1.534','1.143','1.635','1.585','1.615','1.395','1.425','1.555','1.265','1.865']
     ];
 
+    data2 = [
+        ['1.456','1.275','1.3243','1.735','1.555','1.185','1.955','1.625','1.3995','1.365','1.9525'],
+        ['1.324','1.534','1.143','1.7735','1.585','1.615','1.4295','1.425','1.555','1.5265','1.1165']
+    ];
+
     $('#my').jexcel({
         data:data,
 
@@ -409,7 +414,7 @@
         ]
     });
     $('#my_s').jexcel({
-        data:data,
+        data:data2,
 
         colWidths: [ 50, 50 ],
         minDimensions:[11,2],
@@ -420,11 +425,12 @@
     });
     function calculate() {
         if(input1!=null) {
+            var para;
             if($("#checkmethod").val() == "uniformity"){
                 var method = $("#checkmethod_h").val();
                 var stdVariance = $("#txt_stab_ablity_std_variance").val();
                 var allowError = $("#txt_stab_max_allow_error").val();
-                var para;
+
                 if("extension"==method) {
                     para = stdVariance
                 }else if("sszz"==method){
@@ -445,18 +451,27 @@
                         console.log(result.result)
                     }
                 }, "json");
-            }else{
+            }else {
+                var method = $("#checkmethod_s").val();
+                var stdVariance = $("#txt_stab_ablity_std_variance").val();
+                var refValue = $("#txt_ref_value").val();
+                if ("t_check_ref" == method) {
+                    para = refValue
+                } else{
+					para = stdVariance;
+                    if ("" == para) return layer.msg("请输入参数！"), !1;
+                }
                 $.post("statistical/checkStability.jhtml", {
-                    "input": JSON.stringify(input)
+                    "input1": JSON.stringify(input2),"input2": JSON.stringify(input3), "method": method, "para": para
                 }, function (result) {
                     if (result.status != 200) {
-                        console.log(result.message)
+                        return layer.msg(result.message), !1;
                     } else {
-                        $('#div_v_avg').html(result.average)
-
+                        // $('#div_v_avg').html(result.average)
+                        console.log(result.result)
                     }
                 }, "json");
-			}
+            }
 
         }else{
             console.log("输入数据没有值")
