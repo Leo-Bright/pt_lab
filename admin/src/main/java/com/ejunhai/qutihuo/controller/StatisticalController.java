@@ -77,4 +77,35 @@ public class StatisticalController extends BaseController {
 		return gson.toJson(result);
 	}
 
+	@ResponseBody
+	@RequestMapping("/ensureStdVar")
+	public String ensureStdVar(String input,String method,HttpServletRequest request, ModelMap modelMap) {
+		double[][] matrix = JsonUtils.fromJsonString(input);
+		Map<String,Object> result = statisticsService.ensureStdVar(matrix,method);
+		return gson.toJson(result);
+	}
+
+	@ResponseBody
+	@RequestMapping("/computStdVar")
+	public String computStdVar(String method,String c,String cfx,String zxx,String m,HttpServletRequest request, ModelMap modelMap) {
+		double para_c = 0.0;
+		double para_cfx = 0.0;
+		double para_zxx = 0.0;
+		double para_m = 0.0;
+		if(null!=c&&!"".equals(c)){
+			para_c = Double.valueOf(c);
+		}
+		if(null!=cfx&&!"".equals(cfx)){
+			para_cfx = Double.valueOf(cfx);
+		}
+		if(null!=zxx&&!"".equals(zxx)){
+			para_zxx = Double.valueOf(zxx);
+		}
+		if(null!=m&&!"".equals(m)){
+			para_m = Double.valueOf(m);
+		}
+		Map<String,Object> result = statisticsService.computStdVar(method,para_c,para_cfx,para_zxx,para_m);
+		return gson.toJson(result);
+	}
+
 }

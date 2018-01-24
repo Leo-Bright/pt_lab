@@ -18,4 +18,8 @@ public interface StatisticsService {
     Map<String,Object> checkUniformity(double[][] matrix,String method,double stdORerror);
 
     Map<String,Object> confirm(double[][] matrix,String method,double xcrm,double ucrm);
+
+    Map<String,Object> ensureStdVar(double[][] matrix,String method);
+
+    Map<String,Object> computStdVar(String method,double c,double cfx,double zxx,double m);
 }

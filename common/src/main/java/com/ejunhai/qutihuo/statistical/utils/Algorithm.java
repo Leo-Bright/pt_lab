@@ -259,9 +259,6 @@ public class Algorithm {
         }
         quickSort(data_y,0,data_y.length-1);
         int l = data_y.length;
-        for(double d :data_y){
-            System.out.println(d);
-        }
         double mid_y = calMedian(data_y);
         if(result.size()==0){
             return mid_y;

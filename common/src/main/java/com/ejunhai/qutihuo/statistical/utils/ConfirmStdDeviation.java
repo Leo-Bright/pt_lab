@@ -18,7 +18,7 @@ public class ConfirmStdDeviation {
 
 	//5.3 由测量方法重复性和再现性确定
 	//sd_repeatability 重复性标准差，sd_reproducibility 再现性标准差，m整数值
-	public double ConfirmedByMeasureMethod(double sd_repeatability, double sd_reproducibility, int m) {
+	public double ConfirmedByMeasureMethod(double sd_repeatability, double sd_reproducibility, double m) {
 
 		double val_pt= 0.0000;
 		val_pt = Math.sqrt(Math.pow(sd_reproducibility, 2) - Math.pow(sd_repeatability, 2) * (1-1/m));

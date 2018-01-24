@@ -3,6 +3,7 @@ package com.ejunhai.qutihuo.statistical.service.impl;
 import com.ejunhai.qutihuo.statistical.service.StatisticsService;
 import com.ejunhai.qutihuo.statistical.utils.Algorithm;
 import com.ejunhai.qutihuo.statistical.utils.Arith;
+import com.ejunhai.qutihuo.statistical.utils.ConfirmStdDeviation;
 import com.ejunhai.qutihuo.statistical.utils.HomogeneityandStabilityCheck;
 import org.springframework.stereotype.Service;
 
@@ -102,6 +103,36 @@ public class StatisticsServiceImpl implements StatisticsService{
             resultMap.put("result",algorithm.confirm(matrix[0],matrix[1],xcrm,ucrm));
         }else{
             resultMap.put("result",algorithm.confirm(matrix,method));
+        }
+        resultMap.put("status",200);
+        return resultMap;
+    }
+
+    @Override
+    public Map<String,Object> ensureStdVar(double[][] matrix,String method){
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("message","计算发生错误，请查看后台报错！");
+        double[] array = matrix[0];
+        if("algorithmA".equals(method)){
+            resultMap.put("result",algorithm.methodA(array));
+        }else if("Qn".equals(method)){
+            resultMap.put("result",algorithm.methodQn(array));
+        }else{
+            resultMap.put("result",algorithm.hampel(matrix));
+        }
+        resultMap.put("status",200);
+        return resultMap;
+    }
+
+    @Override
+    public Map<String,Object> computStdVar(String method,double c,double cfx,double zxx,double m){
+        Map<String,Object> resultMap = new HashMap<>();
+        ConfirmStdDeviation confirmStdDeviation = new ConfirmStdDeviation();
+        resultMap.put("message","计算发生错误，请查看后台报错！");
+        if("bymodel".equals(method)){
+            resultMap.put("result",confirmStdDeviation.confirmedByGeneralModel(c));
+        }else{
+            resultMap.put("result",confirmStdDeviation.ConfirmedByMeasureMethod(cfx,zxx,m));
         }
         resultMap.put("status",200);
         return resultMap;
