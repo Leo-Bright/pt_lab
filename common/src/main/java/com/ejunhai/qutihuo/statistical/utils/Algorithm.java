@@ -202,13 +202,22 @@ public class Algorithm {
         return new Pair<>(x_pt,u_char);
     }
 
-    public Pair<Double,Double> confirm(double[] array) {
-        Pair<Double,Double> pair = methodA(array);
-        int size = array.length;
-        double x_pt = pair.getKey();
-        double s_ = pair.getValue();
-        double uncertain =  Arith.mul(1.25,Arith.div(s_,Math.sqrt(size)));
-        return new Pair<>(x_pt,uncertain);
+    public Pair<Double,Double> confirm(double[][] matrix,String method) {
+        if("algorithmA".equals(method)){
+            double [] array = matrix[0];
+            Pair<Double,Double> pair = methodA(array);
+            int size = array.length;
+            double x_pt = pair.getKey();
+            double s_ = pair.getValue();
+            double uncertain =  Arith.mul(1.25,Arith.div(s_,Math.sqrt(size)));
+            return new Pair<>(x_pt,uncertain);
+        }else{
+            int size = matrix.length;
+            double x_pt = hampel(matrix);
+            double s_ = calculateS(matrix);
+            double uncertain =  Arith.mul(1.25,Arith.div(s_,Math.sqrt(size)));
+            return new Pair<>(x_pt,uncertain);
+        }
     }
 
     public double hampel(double[][] matrix) {

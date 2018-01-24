@@ -93,5 +93,19 @@ public class StatisticsServiceImpl implements StatisticsService{
         return resultMap;
     }
 
+    @Override
+    public Map<String,Object> confirm(double[][] matrix,String method,double xcrm,double ucrm){
+        Map<String,Object> resultMap = new HashMap<>();
+        Algorithm algorithm = new Algorithm();
+        resultMap.put("message","计算发生错误，请查看后台报错！");
+        if("refvalue".equals(method)){
+            resultMap.put("result",algorithm.confirm(matrix[0],matrix[1],xcrm,ucrm));
+        }else{
+            resultMap.put("result",algorithm.confirm(matrix,method));
+        }
+        resultMap.put("status",200);
+        return resultMap;
+    }
+
 
 }

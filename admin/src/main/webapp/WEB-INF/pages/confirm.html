@@ -182,7 +182,6 @@
 		    </div>
 		<!-- Scripts -->
 			<!--Basic Scripts-->
-		     <script src="assets_pt/assets/js/jquery-2.0.3.min.js"></script>
 		     <script src="assets_pt/assets/js/bootstrap.min.js"></script>
 
 		     <!--Beyond Scripts-->
@@ -217,60 +216,44 @@
 
                 });
                 function calculate() {
-                    if(input1!=null) {
-                        var para;
-                        if($("#checkmethod").val() == "uniformity"){
-                            var method = $("#checkmethod_h").val();
-                            var stdVariance = $("#txt_stab_ablity_std_variance").val();
-                            var allowError = $("#txt_stab_max_allow_error").val();
-
-                            if("extension"==method) {
-                                para = stdVariance
-                            }else if("sszz"==method){
-                                if(""!=stdVariance){
-                                    para = stdVariance;
-                                } else{
-                                    para = allowError;
-                                }
-                                if(""==para) return layer.msg("请输入参数！"),!1;
+                    var method =$("#cmb_confirmvalue").val()
+                    if("outervalue"==method){
+                        console.log($("#txt_specialval").val())
+                        console.log($("#txt_uncertainty1").val())
+					}else{
+                        if(input!=null) {
+                            var xcrm = $("#txt_stdsampleval").val();
+                            var ucrm = $("#txt_uncertainty2").val();
+                            if("refvalue"==method) {
+                                if ("" == xcrm || "" == ucrm) return layer.msg("请输入参数！"), !1;
+                                $.post("statistical/confirm.jhtml", {
+                                    "input": JSON.stringify(input),"method":method,"xcrm":xcrm,"ucrm":ucrm
+                                }, function (result) {
+                                    if (result.status != 200) {
+                                        return layer.msg(result.message),!1;
+                                    } else {
+                                        // $('#div_v_avg').html(result.average)
+                                        console.log(result.result)
+                                    }
+                                }, "json");
+                            }else {
+                                method = $("#stability").val();
+                                $.post("statistical/confirm.jhtml", {
+                                    "input": JSON.stringify(input),"method":method,"xcrm":xcrm,"ucrm":ucrm
+                                }, function (result) {
+                                    if (result.status != 200) {
+                                        return layer.msg(result.message),!1;
+                                    } else {
+                                        // $('#div_v_avg').html(result.average)
+                                        console.log(result.result)
+                                    }
+                                }, "json");
                             }
-                            $.post("statistical/checkUniformity.jhtml", {
-                                "input": JSON.stringify(input1),"method":method,"para":para
-                            }, function (result) {
-                                if (result.status != 200) {
-                                    return layer.msg(result.message),!1;
-                                } else {
-                                    // $('#div_v_avg').html(result.average)
-                                    console.log(result.result)
-                                }
-                            }, "json");
-                        }else {
-                            var method = $("#checkmethod_s").val();
-                            var stdVariance = $("#txt_stab_ablity_std_variance").val();
-                            var refValue = $("#txt_ref_value").val();
-                            if ("t_check_ref" == method) {
-                                para = refValue
-                            } else{
-                                para = stdVariance;
-                                if ("" == para) return layer.msg("请输入参数！"), !1;
-                            }
-                            $.post("statistical/checkStability.jhtml", {
-                                "input1": JSON.stringify(input2),"input2": JSON.stringify(input3), "method": method, "para": para
-                            }, function (result) {
-                                if (result.status != 200) {
-                                    return layer.msg(result.message), !1;
-                                } else {
-                                    // $('#div_v_avg').html(result.average)
-                                    console.log(result.result)
-                                }
-                            }, "json");
+                        }else{
+                            return layer.msg("输入数据没有值！"), !1;
                         }
-
-                    }else{
-                        console.log("输入数据没有值")
-                    }
+					}
                 }
-
 			</script>
 	</body>
 </html>

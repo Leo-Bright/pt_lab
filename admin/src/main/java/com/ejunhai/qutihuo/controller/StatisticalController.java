@@ -61,4 +61,20 @@ public class StatisticalController extends BaseController {
 		return gson.toJson(result);
 	}
 
+	@ResponseBody
+	@RequestMapping("/confirm")
+	public String confirm(String input,String method,String xcrm,String ucrm,HttpServletRequest request, ModelMap modelMap) {
+		double[][] matrix = JsonUtils.fromJsonString(input);
+		double para_xcrm = 0.0;
+		double para_ucrm = 0.0;
+		if(null!=xcrm&&!"".equals(xcrm)){
+			para_xcrm = Double.valueOf(xcrm);
+		}
+		if(null!=ucrm&&!"".equals(ucrm)){
+			para_ucrm = Double.valueOf(ucrm);
+		}
+		Map<String,Object> result = statisticsService.confirm(matrix,method,para_xcrm,para_ucrm);
+		return gson.toJson(result);
+	}
+
 }
