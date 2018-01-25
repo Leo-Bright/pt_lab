@@ -108,4 +108,28 @@ public class StatisticalController extends BaseController {
 		return gson.toJson(result);
 	}
 
+	@ResponseBody
+	@RequestMapping("/CapacityEvaluate")
+	public String CapacityEvaluate(String input,String method,String xpt,String delta,String sigma,String uncertain,HttpServletRequest request, ModelMap modelMap) {
+		double[][] matrix = JsonUtils.fromJsonString(input);
+		double _xpt = 0.0;
+		double _delta = 0.0;
+		double _sigma = 0.0;
+		double _uncertain = 0.0;
+		if(null!=xpt&&!"".equals(xpt)){
+			_xpt = Double.valueOf(xpt);
+		}
+		if(null!=delta&&!"".equals(delta)){
+			_delta = Double.valueOf(delta);
+		}
+		if(null!=sigma&&!"".equals(sigma)){
+			_sigma = Double.valueOf(sigma);
+		}
+		if(null!=uncertain&&!"".equals(uncertain)){
+			_uncertain = Double.valueOf(uncertain);
+		}
+		Map<String,Object> result = statisticsService.CapacityEvaluate(matrix,method,_xpt,_delta,_sigma,_uncertain);
+		return gson.toJson(result);
+	}
+
 }

@@ -261,9 +261,8 @@
 		     <script src="assets_pt/assets/js/bootstrap.min.js"></script>
 
 		     <!--Beyond Scripts-->
-		     <script src="assets_pt/assets/js/beyond.min.js"></script>
-				 <script src="assets_pt/assets/js/bootbox/bootbox.js"></script>
-
+		    <script src="assets_pt/assets/js/beyond.min.js"></script>
+			<script src="assets_pt/assets/js/bootbox/bootbox.js"></script>
 			<script src="assets_pt/js/jquery.scrollzer.min.js"></script>
 			<script src="assets_pt/js/jquery.scrolly.min.js"></script>
 			<script src="assets_pt/js/skel.min.js"></script>
@@ -276,7 +275,7 @@
 
                 var input;
                 $('#btn_save').on('click', function () {
-                    input1 = $('#my').jexcel('getData');
+                    input = $('#my').jexcel('getData');
 
                 });
 
@@ -292,13 +291,78 @@
                 });
                 function calculate() {
                     var method =$("#cmb_cemethod").val()
+                    if(input==null&&"checkuncertainty"!=method)  return layer.msg("请输入实验室数据！"), !1;
                     if("checkuncertainty"==method){
                         var uncertainty = $("#txt_uncertainty").val()
                         var std = $("#txt_stdsampleval").val()
                         if (uncertainty >= 0.3 * std) return layer.msg("该指定值的不确定度不可忽略，请使用z'值、Zeta值或En值"),!1;
                         if (uncertainty < 0.3 * std) return layer.msg("该指定值的不确定度可忽略"),!1;
+                    }else if("bais"==method){
+                        var xpt =$("#txt_spacialvalue").val()
+                        var delta =$("#txt_deltaE").val()
+                        $.post("statistical/CapacityEvaluate.jhtml", {
+                            "input": JSON.stringify(input), "method": method, "xpt": xpt,"delta":delta
+                        }, function (result) {
+                            if (result.status != 200) {
+                                return layer.msg(result.message), !1;
+                            } else {
+                                // $('#div_v_avg').html(result.average)
+                                console.log(result)
+                            }
+                        }, "json");
+                    }else if("zvalue"==method){
+                        var xpt =$("#txt_z_specialvlaue").val()
+                        var sigma = $("#txt_z_stdvariation").val()
+                        $.post("statistical/CapacityEvaluate.jhtml", {
+                            "input": JSON.stringify(input), "method": method, "xpt": xpt,"sigma":sigma
+                        }, function (result) {
+                            if (result.status != 200) {
+                                return layer.msg(result.message), !1;
+                            } else {
+                                // $('#div_v_avg').html(result.average)
+                                console.log(result)
+                            }
+                        }, "json");
+                    }else if("z_value"==method){
+                        var xpt =$("#txt_z_singlequote_specialvlaue1").val()
+                        var u_xpt =$("#txt_z_singlequote_specialvlaue2").val()
+                        var sigma =$("#txt_z_singlequote_stdvariation").val()
+                        $.post("statistical/CapacityEvaluate.jhtml", {
+                            "input": JSON.stringify(input), "method": method, "xpt": xpt,"sigma":sigma,"uncertain":u_xpt
+                        }, function (result) {
+                            if (result.status != 200) {
+                                return layer.msg(result.message), !1;
+                            } else {
+                                // $('#div_v_avg').html(result.average)
+                                console.log(result)
+                            }
+                        }, "json");
+                    }else if("zetavalue"==method){
+                        var xpt =$("#txt_zeta_specialvlaue").val()
+                        var u_xpt =$("#txt_zeta_uncertainty").val()
+                        $.post("statistical/CapacityEvaluate.jhtml", {
+                            "input": JSON.stringify(input), "method": method, "xpt": xpt,"uncertain":u_xpt
+                        }, function (result) {
+                            if (result.status != 200) {
+                                return layer.msg(result.message), !1;
+                            } else {
+                                // $('#div_v_avg').html(result.average)
+                                console.log(result)
+                            }
+                        }, "json");
                     }else{
-
+                        var xpt =$("#txt_en_specialvlaue").val()
+                        var u_xpt =$("#txt_en_uncertainty").val()
+                        $.post("statistical/CapacityEvaluate.jhtml", {
+                            "input": JSON.stringify(input), "method": method, "xpt": xpt,"uncertain":u_xpt
+                        }, function (result) {
+                            if (result.status != 200) {
+                                return layer.msg(result.message), !1;
+                            } else {
+                                // $('#div_v_avg').html(result.average)
+                                console.log(result)
+                            }
+                        }, "json");
                     }
                 };
             </script>

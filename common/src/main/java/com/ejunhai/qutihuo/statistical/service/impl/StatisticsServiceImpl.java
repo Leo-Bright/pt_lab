@@ -1,10 +1,7 @@
 package com.ejunhai.qutihuo.statistical.service.impl;
 
 import com.ejunhai.qutihuo.statistical.service.StatisticsService;
-import com.ejunhai.qutihuo.statistical.utils.Algorithm;
-import com.ejunhai.qutihuo.statistical.utils.Arith;
-import com.ejunhai.qutihuo.statistical.utils.ConfirmStdDeviation;
-import com.ejunhai.qutihuo.statistical.utils.HomogeneityandStabilityCheck;
+import com.ejunhai.qutihuo.statistical.utils.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -133,6 +130,27 @@ public class StatisticsServiceImpl implements StatisticsService{
             resultMap.put("result",confirmStdDeviation.confirmedByGeneralModel(c));
         }else{
             resultMap.put("result",confirmStdDeviation.ConfirmedByMeasureMethod(cfx,zxx,m));
+        }
+        resultMap.put("status",200);
+        return resultMap;
+    }
+
+    @Override
+    public Map<String,Object> CapacityEvaluate(double[][] matrix,String method,double xpt,double delta,double sigma,double uncertain){
+        Map<String,Object> resultMap = new HashMap<>();
+        CapacityEvaluation capacityEvaluation = new CapacityEvaluation();
+        resultMap.put("message","计算发生错误，请查看后台报错！");
+
+        if("bais".equals(method)){
+            resultMap.putAll(capacityEvaluation.bias(matrix[0],xpt,delta));
+        }else if("zvalue".equals(method)){
+
+        }else if("z_value".equals(method)){
+
+        }else if("zetavalue".equals(method)){
+
+        }else {
+
         }
         resultMap.put("status",200);
         return resultMap;

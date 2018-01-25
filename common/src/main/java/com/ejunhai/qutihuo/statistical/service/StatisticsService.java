@@ -22,4 +22,6 @@ public interface StatisticsService {
     Map<String,Object> ensureStdVar(double[][] matrix,String method);
 
     Map<String,Object> computStdVar(String method,double c,double cfx,double zxx,double m);
+
+    Map<String,Object> CapacityEvaluate(double[][] matrix,String method,double xpt,double delta,double sigma,double uncertain);
 }
