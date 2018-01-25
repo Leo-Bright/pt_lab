@@ -243,6 +243,9 @@
 						<div id="div_result_3_1_1">
 							<div class="row uniform">
 								<div>样品内均值:</div><div id="div_v_311_inneravg" style="font-weight:bold"></div>
+							</div>
+							<div class="row uniform">
+
 								<div>样品内方差:</div><div id="div_v_311_innervar" style="font-weight:bold"></div>
 								<div>自由度f<sub>1</sub>:</div><div id="div_v_311_df1" style="font-weight:bold"></div>
 							</div>
@@ -362,7 +365,7 @@
 			<div class="modal-body" id="my_s">
 			</div>
 			<div style="margin-left:20%;margin-bottom:4px">
-				<button id="btn_save2" class="btn btn-primary shiny">保存</button>
+				<button id="btn_save2" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -447,8 +450,11 @@
                     if (result.status != 200) {
                         return layer.msg(result.message),!1;
                     } else {
-                        // $('#div_v_avg').html(result.average)
-                        console.log(result.result)
+                        for(var i=0;i<result.result[0].length; i++)
+                         	$('#div_v_311_inneravg').html($('#div_v_311_inneravg').html() + result.result[0][i] + ", ");
+                        $('#div_v_311_inneravg').html($('#div_v_311_inneravg').html().substring(0,$('#div_v_311_inneravg').html().length-2));
+
+                        console.log(result.result);
                     }
                 }, "json");
             }else {

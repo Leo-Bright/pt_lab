@@ -1,0 +1,306 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>能力评定-实验室能力验证计算分析系统</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets_pt/css/main.css" />
+
+		<script src="dist/js/jquery.min.js"></script>
+		<script src="dist/js/jquery.jexcel.js"></script>
+		<script src="dist/js/jquery.jcalendar.js"></script>
+		<link rel="stylesheet" href="dist/css/jquery.jexcel.css" type="text/css" />
+		<link rel="stylesheet" href="dist/css/jquery.jcalendar.css" type="text/css" />
+
+		<!--Basic Styles-->
+	     <link href="assets_pt/assets/css/bootstrap.min.css" rel="stylesheet" />
+	     <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+	     <link href="assets_pt/assets/css/font-awesome.min.css" rel="stylesheet" />
+	     <link href="assets_pt/assets/css/weather-icons.min.css" rel="stylesheet" />
+	     <!--Beyond styles-->
+	     <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+	     <link href="assets_pt/assets/css/demo.min.css" rel="stylesheet" />
+	     <link href="assets_pt/assets/css/typicons.min.css" rel="stylesheet" />
+	     <link href="assets_pt/assets/css/animate.min.css" rel="stylesheet" />
+	     <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+
+	     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+	     <script src="assets_pt/assets/js/skins.min.js"></script>
+        <script src="assets_pt/js/layer/layer.js"></script>
+
+
+		<script type="text/javascript">
+        $(document).ready(function(){
+          $("#cmb_cemethod").change(function(){
+              if($("#cmb_cemethod").val() == "checkuncertainty"){
+                $("#div_uncertainty").css("display","block");
+                $("#div_bais").css("display","none");
+                $("#div_z").css("display","none");
+                $("#div_z_singlequote").css("display","none");
+                $("#div_zeta").css("display","none");
+                $("#div_en").css("display","none");
+              }
+              else if ($("#cmb_cemethod").val() == "bais"){
+                $("#div_uncertainty").css("display","none");
+                $("#div_bais").css("display","block");
+                $("#div_z").css("display","none");
+                $("#div_z_singlequote").css("display","none");
+                $("#div_zeta").css("display","none");
+                $("#div_en").css("display","none");
+              }
+              else if ($("#cmb_cemethod").val() == "zvalue"){
+                $("#div_uncertainty").css("display","none");
+                $("#div_bais").css("display","none");
+                $("#div_z").css("display","block");
+                $("#div_z_singlequote").css("display","none");
+                $("#div_zeta").css("display","none");
+                $("#div_en").css("display","none");
+              }
+              else if ($("#cmb_cemethod").val() == "z_value"){
+                $("#div_uncertainty").css("display","none");
+                $("#div_bais").css("display","none");
+                $("#div_z").css("display","none");
+                $("#div_z_singlequote").css("display","block");
+                $("#div_zeta").css("display","none");
+                $("#div_en").css("display","none");
+              }
+              else if ($("#cmb_cemethod").val() == "zeta"){
+                $("#div_uncertainty").css("display","none");
+                $("#div_bais").css("display","none");
+                $("#div_z").css("display","none");
+                $("#div_z_singlequote").css("display","none");
+                $("#div_zeta").css("display","block");
+                $("#div_en").css("display","none");
+              }
+              else {
+                $("#div_uncertainty").css("display","none");
+                $("#div_bais").css("display","none");
+                $("#div_z").css("display","none");
+                $("#div_z_singlequote").css("display","none");
+                $("#div_zeta").css("display","none");
+                $("#div_en").css("display","block");
+              }
+            })
+      });
+		</script>
+	</head>
+	<body>
+
+		<!-- Header -->
+			<section id="header">
+				<header>
+					<span class="image avatar"></span>
+					<h1 id="logo" style="font-family:黑体"><a href="#">能力验证统计<br>分析系统</a></h1>
+
+				</header>
+				<nav id="nav">
+					<ul>
+
+						<li><a href="calstats.jhtml" >计算汇总统计量</a></li>
+						<li><a href="stab.jhtml">稳健方法</a></li>
+						<li><a href="hs.jhtml">均匀性和稳定性检验</a></li>
+						<li><a href="confirm.jhtml">确定指定值及其不确定度</a></li>
+						<li><a href="stddev.jhtml">确定标准差</a></li>
+						<li><a href="ce.jhtml" class="active">能力评定</a></li>
+						<li><a href="graphic.jhtml">图示法</a></li>
+					</ul>
+				</nav>
+				<footer>
+					<ul class="icons">
+						<li>&copy; 中国标准化研究院</li>
+					</ul>
+				</footer>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<!-- Two -->
+            <div class="container"  style="margin-left:20px">
+
+              <br/>
+              <div class="features">
+
+                <br />
+                <div class="row uniform">
+                  <div style="width:160px">能力评定方法:</div>
+                  <div class="3u" style="margin-top:-10px">
+                    <div class="select-wrapper">
+                      <div class="select-wrapper" id="div_cemethod" name="div_cemethod">
+                        <select  id="cmb_cemethod" >
+                          <option value="checkuncertainty">检查指定值不确定度</option>
+                          <option value="bais">偏倚</option>
+                          <option value="zvalue">z值</option>
+                          <option value="z_value">z'值</option>
+                          <option value="zetavalue">zeta值</option>
+                          <option value="envalue">En值</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="div_parameter">
+                  <div class="row uniform" id="div_uncertainty"  style="display:block">
+                      <div  style="width:152px;align:right">不确定度<span style="font-name:vijaya;font-size:12pt">u(x<sub>pt</sub>)</span>：</div>
+                      <div class="2u"  style="margin-top:-10px;margin-left:-30px">
+                            <input type="text" id="txt_uncertainty" />
+                      </div>
+                      <div  style="width:120px">标准差<span style="font-name:vijaya;font-size:12pt">σ<sub>pt</sub></span>：</div>
+                      <div class="2u"  style="margin-top:-7px;margin-left:-20px">
+                            <input type="text" id="txt_stdsampleval" />
+                      </div>
+                  </div>
+                  <div class="row uniform" id="div_bais"  style="display:none">
+                    <div  style="width:152px;align:right">指定值<span style="font-name:vijaya;font-size:12pt">x<sub>pt</sub></span>：</div>
+                    <div class="2u"  style="margin-top:-10px;margin-left:-30px">
+                          <input type="text" id="txt_spacialvalue" />
+                    </div>
+                    <div  style="width:120px"><span style="font-name:vijaya;font-size:12pt">δ<sub>E</sub></span>：</div>
+                    <div class="2u"  style="margin-top:-7px;margin-left:-20px">
+                          <input type="text" id="txt_deltaE" />
+                    </div>
+                  </div>
+                  <div class="row uniform" id="div_z"  style="display:none">
+                    <div  style="width:152px;align:right">指定值<span style="font-name:vijaya;font-size:12pt">x<sub>pt</sub></span>：</div>
+                    <div class="2u"  style="margin-top:-10px;margin-left:-30px">
+                          <input type="text" id="txt_z_specialvlaue" />
+                    </div>
+                    <div  style="width:120px">标准差<span style="font-name:vijaya;font-size:12pt">σ<sub>pt</sub></span>：</div>
+                    <div class="2u"  style="margin-top:-7px;margin-left:-20px">
+                          <input type="text" id="txt_z_stdvariation" />
+                    </div>
+                  </div>
+                  <div class="row uniform" id="div_z_singlequote"  style="display:none">
+                    <div  style="width:152px;align:right">指定值<span style="font-name:vijaya;font-size:12pt">x<sub>pt</sub></span>：</div>
+                    <div class="2u"  style="margin-top:-10px;margin-left:-30px">
+                          <input type="text" id="txt_z_singlequote_specialvlaue1" />
+                    </div>
+                    <div  style="width:152px;align:right">指定值的不确定度<span style="font-name:vijaya;font-size:12pt">U(x<sub>pt</sub>)</span>：</div>
+                    <div class="2u"  style="margin-top:-10px;margin-left:-30px">
+                          <input type="text" id="txt_z_singlequote_specialvlaue2" />
+                    </div>
+                    <div  style="width:120px">标准差<span style="font-name:vijaya;font-size:12pt">σ<sub>pt</sub></span>：</div>
+                    <div class="2u"  style="margin-top:-7px;margin-left:-20px">
+                          <input type="text" id="txt_z_singlequote_stdvariation" />
+                    </div>
+                  </div>
+                  <div class="row uniform" id="div_zeta"  style="display:none">
+                    <div  style="width:152px;align:right">指定值<span style="font-name:vijaya;font-size:12pt">x<sub>pt</sub></span>：</div>
+                    <div class="2u"  style="margin-top:-10px;margin-left:-30px">
+                          <input type="text" id="txt_zeta_specialvlaue" />
+                    </div>
+                    <div  style="width:152px;align:right">指定值的不确定度<span style="font-name:vijaya;font-size:12pt">U(x<sub>pt</sub>)</span>：</div>
+                    <div class="2u"  style="margin-top:-10px;margin-left:-30px">
+                          <input type="text" id="txt_zeta_uncertainty" />
+                    </div>
+                  </div>
+                  <div class="row uniform" id="div_en"  style="display:none">
+                    <div  style="width:152px;align:right">指定值<span style="font-name:vijaya;font-size:12pt">x<sub>pt</sub></span>：</div>
+                    <div class="2u"  style="margin-top:-10px;margin-left:-30px">
+                          <input type="text" id="txt_en_specialvlaue" />
+                    </div>
+                    <div  style="width:152px;align:right">指定值的不确定度<span style="font-name:vijaya;font-size:12pt">U(x<sub>pt</sub>)</span>：</div>
+                    <div class="2u"  style="margin-top:-10px;margin-left:-30px">
+                          <input type="text" id="txt_en_uncertainty" />
+                    </div>
+                  </div>
+                  <div class="row uniform"  >
+
+                  </div>
+                </div>
+
+                <br />
+                <div class="row uniform">
+                  <div class="2u">
+                    <ul class="actions">
+                      <li>
+                          <button class="btn btn-success shiny" id="btn_datainput" data-toggle="modal" data-target=".bs-example-modal-lg">输入实验室数据</button>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="2u" style="">
+                      <a href="javascript:calculate();" class="btn btn-primary shiny">数值计算</a>
+                  </div>
+                </div>
+
+                <br />
+                <div style="height:400px">
+                  <div class="2u 64u(xsmall)">计算结果:</div>
+                  <div class="12u" style="margin-top:-10px">
+                  </div>
+                </div>
+                <div>
+                </div>
+              </div>
+            </div>
+					</div>
+
+			</div>
+			<!--LArge Modal Templates-->
+		    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		        <div class="modal-dialog modal-lg">
+		            <div class="modal-content">
+
+		                <div class="modal-header">
+		                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		                    <h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
+		                </div>
+		                <div class="modal-body" id="my">
+                        </div>
+                        <div style="margin-left:20%;margin-bottom:4px">
+                            <button id="btn_save" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
+                        </div>
+		            </div><!-- /.modal-content -->
+		        </div><!-- /.modal-dialog -->
+		    </div>
+		<!-- Scripts -->
+			<!--Basic Scripts-->
+		     <script src="assets_pt/assets/js/bootstrap.min.js"></script>
+
+		     <!--Beyond Scripts-->
+		     <script src="assets_pt/assets/js/beyond.min.js"></script>
+				 <script src="assets_pt/assets/js/bootbox/bootbox.js"></script>
+
+			<script src="assets_pt/js/jquery.scrollzer.min.js"></script>
+			<script src="assets_pt/js/jquery.scrolly.min.js"></script>
+			<script src="assets_pt/js/skel.min.js"></script>
+			<script src="assets_pt/js/util.js"></script>
+			<script src="assets_pt/js/main.js"></script>
+            <script>
+                data = [
+                    ['1.4','1.5','1.643','1.235','1.555','1.185','1.955','1.725','1.295','1.365','1.425'],
+                ];
+
+                var input;
+                $('#btn_save').on('click', function () {
+                    input1 = $('#my').jexcel('getData');
+
+                });
+
+                $('#my').jexcel({
+                    data:data,
+                    colHeaders: [ '结果1'],
+                    colWidths: [ 50, 50 ],
+                    minDimensions:[11,1],
+                    columns: [
+                        { type: 'text' },
+                        { type: 'text'},
+                    ]
+                });
+                function calculate() {
+                    var method =$("#cmb_cemethod").val()
+                    if("checkuncertainty"==method){
+                        var uncertainty = $("#txt_uncertainty").val()
+                        var std = $("#txt_stdsampleval").val()
+                        if (uncertainty >= 0.3 * std) return layer.msg("该指定值的不确定度不可忽略，请使用z'值、Zeta值或En值"),!1;
+                        if (uncertainty < 0.3 * std) return layer.msg("该指定值的不确定度可忽略"),!1;
+                    }else{
+
+                    }
+                };
+            </script>
+	</body>
+</html>
