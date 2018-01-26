@@ -343,7 +343,7 @@
                         $.post("statistical/CapacityEvaluate.jhtml", {
                             "input": JSON.stringify(input), "method": method, "xpt": xpt,"uncertain":u_xpt
                         }, function (result) {
-                            if (result.status != 200) {
+                            if (result&&result.status != 200) {
                                 return layer.msg(result.message), !1;
                             } else {
                                 // $('#div_v_avg').html(result.average)

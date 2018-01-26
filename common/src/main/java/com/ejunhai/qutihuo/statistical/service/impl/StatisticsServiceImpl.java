@@ -140,17 +140,16 @@ public class StatisticsServiceImpl implements StatisticsService{
         Map<String,Object> resultMap = new HashMap<>();
         CapacityEvaluation capacityEvaluation = new CapacityEvaluation();
         resultMap.put("message","计算发生错误，请查看后台报错！");
-
         if("bais".equals(method)){
             resultMap.putAll(capacityEvaluation.bias(matrix[0],xpt,delta));
         }else if("zvalue".equals(method)){
-
+            resultMap.putAll(capacityEvaluation.zvalue(matrix[0],xpt,sigma));
         }else if("z_value".equals(method)){
-
+            resultMap.putAll(capacityEvaluation.z_value(matrix[0],xpt,sigma,uncertain));
         }else if("zetavalue".equals(method)){
-
+            resultMap.putAll(capacityEvaluation.zetavalue(matrix[0],xpt,uncertain));
         }else {
-
+            resultMap.putAll(capacityEvaluation.envalue(matrix[0],xpt,uncertain));
         }
         resultMap.put("status",200);
         return resultMap;
