@@ -116,7 +116,7 @@ Purchase: http://wrapbootstrap.com
         <ul class="nav sidebar-menu">
           <!--Dashboard-->
           <li>
-            <a href="grid.html">
+            <a href="grid.jhtml">
               <i class="menu-icon glyphicon glyphicon-home"></i>
               <span class="menu-text"> 能力评定列表 </span>
             </a>
@@ -189,15 +189,17 @@ Purchase: http://wrapbootstrap.com
                         <th>#</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <list>
+                    <#list capabilityEvaluationList as item >
                       <tr>
-                        <td class=" sorting_1">sample10111</td>
-                        <td class=" sorting_1">婴幼儿奶粉中水溶性维生素</td>
-                        <td style="width:170px">PT00001</td>
-                        <td class=" ">维生素B<sub>6</sub>;维生素B<sub>2</sub></td>
-                        <td class="center ">mg/100g</td>
-                        <td class="center "><a href="pt.html">查看</a></td>
+                        <td class=" sorting_1">${item.sampleNo}</td>
+                        <td class=" sorting_1">${item.sampleName}</td>
+                        <td style="width:170px">${item.ptNo}</td>
+                        <td class=" ">${item.variable}</td>
+                        <td class="center ">${item.unit}</td>
+                        <td class="center "><a href="pt.jhtml">查看</a></td>
                       </tr>
+                    </#list>
                     </tbody>
                   </table>
                 </div>
@@ -253,8 +255,8 @@ Purchase: http://wrapbootstrap.com
             </div>
           </div>
           <div style="margin-left:20%;margin-bottom:24px">
-            <button id="btn_save" class="btn btn-primary shiny" style="margin-bottom:20px">保存</button>
-            <button id="btn_cancel" class="btn btn-primary shiny" style="margin-bottom:20px">取消</button>
+            <button id="btn_save" class="btn btn-primary shiny" onclick="saveData()" style="margin-bottom:20px" data-dismiss="modal" aria-hidden="true">保存</button>
+            <button id="btn_cancel" class="btn btn-primary shiny" style="margin-bottom:20px" data-dismiss="modal" aria-hidden="true">取消</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -267,7 +269,15 @@ Purchase: http://wrapbootstrap.com
 
   <!--Beyond Scripts-->
   <script src="assets/js/beyond.min.js"></script>
-
+  <script>
+      function saveData(){
+          txt_ptno = $('#txt_ptno').val();
+          txt_sampleno = $('#txt_sampleno').val();
+          txt_samplename = $('#txt_samplename').val();
+          txt_measured = $('#txt_measured').val();
+          txt_unit = $('#txt_unit').val();
+      };
+  </script>
 </body>
 <!--  /Body -->
 </html>

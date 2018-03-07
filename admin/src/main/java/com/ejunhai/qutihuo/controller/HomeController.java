@@ -2,10 +2,19 @@ package com.ejunhai.qutihuo.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ejunhai.qutihuo.statistical.dto.MeasurementDto;
+import com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation;
+import com.ejunhai.qutihuo.statistical.service.CapabilityEvaluationService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +30,23 @@ import com.qiniu.api.rs.PutPolicy;
 @RequestMapping("")
 public class HomeController {
 
+	@Resource
+	private CapabilityEvaluationService capabilityEvaluationService;
+
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
 		return "index";
 	}
 
+	@RequestMapping("/pt")
+	public String pt(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "pt";
+	}
+
 	@RequestMapping("/grid")
 	public String grid(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		List<CapabilityEvaluation> capabilityEvaluationList = capabilityEvaluationService.getAll();
+		modelMap.put("capabilityEvaluationList",capabilityEvaluationList);
 		return "grid";
 	}
 

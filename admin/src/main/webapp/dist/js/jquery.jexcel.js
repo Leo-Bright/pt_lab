@@ -369,7 +369,7 @@ var methods = {
 
                     // Table found
                     if ($(table).is('.jexcel')) {
-						
+
                         var o = $(e.target).prop('id');
                         if (o) {
                             o = o.split('-');
@@ -382,7 +382,7 @@ var methods = {
                                     contextMenuContent += "<a onclick=\"$('#" + $.fn.jexcel.current + "').jexcel('orderBy', " + o[1] + ", 0)\">Order ascending <span></span></a>";
                                     contextMenuContent += "<a onclick=\"$('#" + $.fn.jexcel.current + "').jexcel('orderBy', " + o[1] + ", 1)\">Order descending <span></span></a><hr>";
                                     if ($.fn.jexcel.defaults[$.fn.jexcel.current].allowInsertColumn == true) {
-										
+
                                         contextMenuContent += "<a onclick=\"$('#" + $.fn.jexcel.current + "').jexcel('insertColumn', 1, null, " + o[1] + ")\">Insert a new column<span></span></a>";
                                     }
                                     if ($.fn.jexcel.defaults[$.fn.jexcel.current].allowInsertRow == true) {
@@ -397,7 +397,7 @@ var methods = {
                                     }
                                 } else if ($(e.target).parent().parent().is('tbody')) {
                                     if ($.fn.jexcel.defaults[$.fn.jexcel.current].allowInsertColumn == true) {
-										
+
                                         contextMenuContent += "<a onclick=\"$('#" + $.fn.jexcel.current + "').jexcel('insertColumn', 1, null, " + o[1] + ")\">Insert a new column<span></span></a>";
                                     }
                                     if ($.fn.jexcel.defaults[$.fn.jexcel.current].allowInsertRow == true) {
@@ -2545,7 +2545,7 @@ var methods = {
                 // New line of data to be append in the table
                 tr = document.createElement('tr');
                 // Index column
-                $(tr).append('<td id="row-' + j + '" class="jexcel_label">' + '实验室'+parseInt(j + 1) + '</td>');
+                $(tr).append('<td id="row-' + j + '" class="jexcel_label">'+parseInt(j + 1) + '</td>');
                 // New data
                 $.fn.jexcel.defaults[id].data[j] = [];
 
@@ -3296,7 +3296,7 @@ var methods = {
      * Get header letter when no name is specified
      */
     getColumnName : function(i) {
-        var letter = '结果';
+        var letter = '';
         //commented by wugang begin
         // if (i > 701) {
         //     letter += String.fromCharCode(64 + parseInt(i / 676));

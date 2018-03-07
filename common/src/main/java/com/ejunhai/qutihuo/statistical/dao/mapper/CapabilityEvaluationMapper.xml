@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ejunhai.qutihuo.statistical.dao.CapabilityEvaluationMapper" >
+    <resultMap id="CapabilityMap" type="com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="sample_no" property="sampleNo" jdbcType="VARCHAR" />
+        <result column="sample_name" property="sampleName" jdbcType="VARCHAR" />
+        <result column="pt_no" property="ptNo" jdbcType="VARCHAR" />
+        <result column="variable" property="variable" jdbcType="VARCHAR" />
+        <result column="unit" property="unit" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        id,
+        sample_no,
+        sample_name,
+        pt_no,
+        variable,
+        unit
+    </sql>
+
+    <select id="getAll" resultMap="CapabilityMap" resultType="com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation">
+        SELECT <include refid="Base_Column_List" />
+        FROM capability_evaluation
+    </select>
+
+</mapper>

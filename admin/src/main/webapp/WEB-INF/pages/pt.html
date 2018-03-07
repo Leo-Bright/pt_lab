@@ -1,412 +1,376 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Read Only by HTML5</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
 
-		<script src="dist/js/jquery.min.js"></script>
-		<script src="dist/js/jquery.jexcel.js"></script>
-		<script src="dist/js/jquery.jcalendar.js"></script>
-		<link rel="stylesheet" href="dist/css/jquery.jexcel.css" type="text/css" />
-		<link rel="stylesheet" href="dist/css/jquery.jcalendar.css" type="text/css" />
-		<script type="text/javascript">
-		$(document).ready(function(){
-			$("#checkmethod").change(function(){
-					if($("#checkmethod").val() == "uniformity"){
-						$("#uniformity_calmethod").css("display","block");
-						$("#stability_calmethod").css("display","none");
-					}else {
-						$("#uniformity_calmethod").css("display","none");
-						$("#stability_calmethod").css("display","block");
-					}
-				})
-});
-		</script>
-	</head>
-	<body>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+  <meta charset="utf-8" />
+  <title>能力验证评定统计分析系统</title>
 
-		<!-- Header -->
-			<section id="header">
-				<header>
-					<span class="image avatar"></span>
-					<h1 id="logo" style="font-family:黑体"><a href="#">能力验证统计<br>分析系统</a></h1>
+  <meta name="description" content="Bootstrap Grid System" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+  <!--JEXCEL JS AND CSS-->
+  <script src="dist/js/jquery.min.js"></script>
+  <script src="dist/js/jquery.jexcel.js"></script>
+  <script src="dist/js/jquery.jcalendar.js"></script>
+  <link rel="stylesheet" href="dist/css/jquery.jexcel.css" type="text/css" />
+  <link rel="stylesheet" href="dist/css/jquery.jcalendar.css" type="text/css" />
+  <!--Basic Styles-->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+  <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+  <!--Fonts-->
+  <!--Beyond styles-->
+  <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+  <link href="assets/css/demo.min.css" rel="stylesheet" />
+  <link href="assets/css/typicons.min.css" rel="stylesheet" />
+  <link href="assets/css/animate.min.css" rel="stylesheet" />
+  <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+  <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+  <script src="assets/js/skins.min.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function(){
+        $("#stderrmethod").change(function(){
+            if($("#stderrmethod").val() == "stderr_extensional"){
+              $("#div_stderr_extensional").css("display","block");
+              $("#div_stderr_model").css("display","none");
+              $("#div_stderr_measurementmethod").css("display","none");
 
-				</header>
-				<nav id="nav">
-					<ul>
-						<li><a href="#one" class="active">数据导入</a></li>
-						<li><a href="#two">计算汇总统计量</a></li>
-						<li><a href="#three">稳健方法</a></li>
-						<li><a href="#four">均匀性和稳定性检验</a></li>
-						<li><a href="#five">确定指定值及其不确定度</a></li>
-						<li><a href="#six">确定标准差</a></li>
-						<li><a href="#seven">能力评定</a></li>
-						<li><a href="#eight">图示法</a></li>
-					</ul>
-				</nav>
-				<footer>
-					<ul class="icons">
-					</ul>
-				</footer>
-			</section>
+            }
+            else if ($("#stderrmethod").val() == "stderr_model"){
+              $("#div_stderr_extensional").css("display","none");
+              $("#div_stderr_model").css("display","block");
+              $("#div_stderr_measurementmethod").css("display","none");
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+            }
+            else if ($("#stderrmethod").val() == "stderr_measurementmethod"){
+              $("#div_stderr_extensional").css("display","none");
+              $("#div_stderr_model").css("display","none");
+              $("#div_stderr_measurementmethod").css("display","block");
 
-				<!-- Main -->
-					<div id="main">
+            }
+            else {
+              $("#div_stderr_extensional").css("display","none");
+              $("#div_stderr_model").css("display","none");
+              $("#div_stderr_measurementmethod").css("display","none");
 
-						<!-- One -->
-							<section id="one">
-							  <span style="margin-top:20px;margin-left:20px">在以下表格中输入实验室的数据（一个实验室有多个数据）：</span>
-								<div id="my" style="margin-left:20px;width:98%;height:500px;overflow-y:scroll; overflow-x:scroll;" ></div>
-								在以下表格输入实验室的数据（一个实验室只有一个数据）：
-								<div id="my1" style="margin-left:20px;width:98%;height:25%;overflow:auto" ></div>
-							</section>
+            }
+          })
+    });
 
-						<!-- Two -->
-							<section id="two">
-								<br/>
-								<div style="margin-top:20px;margin-left:20px">
-									<div >
-										<h3 >1、计算汇总统计量</h3>
+    $(document).ready(function(){
+      $("#spemethod").change(function(){
+          if($("#spemethod").val() == "spe_extensional"){
+            $("#div_spe_extensional").css("display","block");
+            $("#div_spe_ref_sample").css("display","none");
+          }
+          else if ($("#spemethod").val() == "spe_ref_sample"){
+            $("#div_spe_extensional").css("display","none");
+            $("#div_spe_ref_sample").css("display","block");
+          }
+          else {
+            $("#div_spe_extensional").css("display","none");
+            $("#div_spe_ref_sample").css("display","none");
+          }
+        })
+  });
+  </script>
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+  <!-- Loading Container -->
 
-										<br/>
-									<ul class="feature-icons">
-										<li class="fa-code">均值：</li>
-										<li class="fa-cubes">中位数（med(x))：</li>
-										<li class="fa-book">方差：</li>
-										<li class="fa-coffee">标准差：</li>
-										<li class="fa-bolt">75%分位数, Q<sub>3</sub>(x)：</li>
-										<li class="fa-users">25%分位数, Q<sub>1</sub>(x)：</li>
-										<li class="fa-users">四分位距, Q<sub>3</sub>(x)-Q<sub>1</sub>(x)：</li>
-										<li></li>
-										<li class="fa-users">标准化四分位距nlQR, nlQR=0.07413 * (Q<sub>3</sub>(x)-Q<sub>1</sub>(x))：</li><li></li>
-										<li class="fa-book">MADe, d<sub>i</sub>=|x<sub>i</sub>-med(x)|, MADe(x)=1.483*med(d):</li>
-									</ul>
-									<div class="row uniform">
-											<div class="12u">
-												<ul class="actions">
-													<li><input type="submit" class="special" value="计算数值" /></li>
+  <!--  /Loading Container -->
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-container">
+        <!-- Navbar Barnd -->
+        <div class="navbar-header pull-left">
+          <a href="#" class="navbar-brand">
+            <small>
+              <img src="assets/img/logo.png" alt="" />
+            </small>
+          </a>
+        </div>
+        <!-- /Navbar Barnd -->
+        <!-- Sidebar Collapse -->
+        <div class="sidebar-collapse" id="sidebar-collapse">
+          <i class="collapse-icon fa fa-bars"></i>
+        </div>
+        <!-- /Sidebar Collapse -->
+        <!-- Account Area and Settings --->
+        <div class="navbar-header pull-right">
+          <div class="navbar-account">
+            <ul class="account-area">
 
-												</ul>
-											</div>
-										</div>
-									</div>
-									<br/>
-								</div>
-								<br/><br/>
-							</section>
 
-						<!-- Three -->
-							<section id="three">
-								<div class="container"  style="margin-left:20px;margin-top:-50px">
-									<h3>2、稳健方法</h3>
-									<br/>
-									<div class="features">
+              <!-- /Account Area -->
+              <!--Note: notice that setting div must start right after account area list.
+              no space must be between these elements-->
+              <!-- Settings -->
+            </ul>
+            <!-- Settings -->
+          </div>
+        </div>
+        <!-- /Account Area and Settings -->
+      </div>
+    </div>
+  </div>
+  <!-- /Navbar -->
+  <!-- Main Container -->
+  <div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+      <!-- Page Sidebar -->
+      <div class="page-sidebar" id="sidebar">
+        <!-- Page Sidebar Header-->
 
-										<div class="row uniform">
-											<div class="2u 4u(xsmall)">选择算法:</div>
-											<div class="6u" style="margin-top:-10px">
-												<div class="select-wrapper">
-												<select id="stability" name="stability">
-												  <option value ="algorithmA">算法A</option>
-												  <option value ="algorithmS">算法S</option>
-												  <option value="QN">Qn方法</option>
-												  <option value="QHampel">Q/Hampel方法</option>
+        <!-- /Page Sidebar Header -->
+        <!-- Sidebar Menu -->
+        <ul class="nav sidebar-menu">
+          <!--Dashboard-->
+          <li>
+            <a href="grid.jhtml">
+              <i class="menu-icon glyphicon glyphicon-home"></i>
+              <span class="menu-text"> 能力评定列表 </span>
+            </a>
+          </li>
+          <!--Databoxes-->
+          <li>
+            <a href="databoxes.html">
+              <i class="menu-icon glyphicon glyphicon-tasks"></i>
+              <span class="menu-text"> 均匀性与稳定性检验 </span>
+            </a>
+          </li>
+          <!--Widgets-->
 
-												</select></div></div>
-											<div class="2u 6u(xsmall)" style="margin-top:-10px"><input type="button" class="special" value="计算" id="btn_stability" /></div>
-										</div>
+        </ul>
+        <!-- /Sidebar Menu -->
+      </div>
+      <!-- /Page Sidebar -->
+      <!-- Page Content -->
+      <div class="page-content">
+        <!-- Page Breadcrumb -->
+        <div class="page-breadcrumbs">
+          <ul class="breadcrumb">
+            <li>
+              <i class="fa fa-home"></i>
+              <a href="#">首页</a>
+            </li>
+            <li><a href="grid.html">能力评定列表 </a></li>
+            <li class="active">能力评定</li>
+          </ul>
+        </div>
+        <!-- /Page Breadcrumb -->
+        <!-- Page Header -->
+        <div class="page-header position-relative">
+          <div class="header-title">
+            <h1>
+              能力评定
+            </h1>
+          </div>
+          <!--Header Buttons-->
+          <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+              <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="">
+              <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+              <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+          </div>
+          <!--Header Buttons End-->
+        </div>
+        <!-- /Page Header -->
+        <!-- Page Body -->
+        <div class="page-body">
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+              <div class="widget">
+                <button class="btn btn-success shiny" id="btn_datainput" data-toggle="modal" data-target=".bs-example-modal-lg">导入数据</button>
+                <br />
 
-										<br />
-										<div style="height:400px">
-											<div class="2u 64u(xsmall)">计算结果:</div>
-											<div class="12u" style="margin-top:-10px">
-											</div>
-										</div>
-										<div>
-										</div>
-									</div>
-								</div>
-							</section>
+                <br />
+                <br />
 
-						<!-- Four 均匀性和稳定性检验-->
-							<section id="four">
-								<div class="container"  style="margin-left:20px;margin-top:-50px">
-									<h3>3、均匀性与稳定检验</h3>
-									<br/>
-									<form method="post" action="#">
-										<div class="row uniform">
-											<div class="2u 4u(xsmall)">检验方法：</div>
-											<div class="6u" style="margin-top:-10px">
-												<div class="select-wrapper">
-													<select id="checkmethod" >
-														<option value="uniformity">均匀性检验</option>
-														<option value="stability">稳定性检验</option>
-													</select>
-												</div>
-											</div>
-										</div>
-										<div class="row uniform">
-											<div class="2u 4u(xsmall)">计算方法：</div>
-											<div class="6u" style="margin-top:-10px">
-												<div class="select-wrapper" id="uniformity_calmethod" name="uniformity_calmethod">
-													<select name="checkmethod1" id="checkmethod1" >
-														<option value="danyinzi">单因子方差分析法</option>
-														<option value="sszz">S<sub>s</sub><=0.3σ^准则</option>
-														<option value="extension">扩展方法</option>
-													</select>
-												</div>
-												<div class="select-wrapper" id="stability_calmethod" name="stability_calmethod" style="display:none">
-													<select name="checkmethod" id="checkmethod" >
-														<option value="danyinzi">|x-y|<=0.3σ</option>
-														<option value="t_check_ref">t检验法-与标准值/参考值比较</option>
-														<option value="t_check_avg">t检验法-两个均值的比较</option>
-													</select>
-												</div>
-											</div>
+                <div class="widget-body">
 
-										</div>
-										<br/>
-										<div class="row uniform" id="div_param_input">
-											<div class="2u">输入参数:</div>
-												<div class="3u">能力评定标准差</div>
-												<div class="3u"  style="margin-top:-10px;margin-left:-30px">
-															<input type="text" id="txt_stab_ablity_std_variance" />
-												</div>
-												<div class="3u" >最大允许误差</div>
-												<div class="3u" style="margin-top:-10px;margin-left:-30px">
-													<input type="text" id="txt_stab_max_allow_error" />
-												</div>
-										</div>
-										<div class="2u" style="margin-top:-10px">
-												<input type="button" class="special" value="计算" id="btn_homogeneity" />
-										</div>
-										<br />
-										<div>
-												<div class="2u 4u(xsmall)">输出结果：</div>
-										</div>
-										<div style="height:400px ;">
+                  <div id="horizontal-form">
+                    <form class="form-horizontal" role="form">
+                      <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">x<sub>pt</sub>计算方法：</label>
+                        <div class="col-sm-10">
+                          <select id="spemethod" >
+                            <option value="spe_extensional">由外部值确定</option>
+                            <option value="spe_ref_sample">参照有证标准样品确定</option>
+                            <option value="spe_alg_a">由稳健方法确定-算法A</option>
+                            <option value="spe_qhampel">由稳健方法确定-Q/Hampel方法</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group" id="div_spe_extensional" style="display:block">
+                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">指定值：</label>
+                        <div class="col-sm-1">
+                              <input type="text" id="txt_specialval" />
+                        </div>
+                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">不确定度：</label>
+                        <div class="col-sm-5">
+                          <input type="text" id="txt_uncertainty" />
+                        </div>
+                      </div>
+                      <div class="form-group" id="div_spe_ref_sample" style="display:none">
+                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">有证标准样品的标称值<span style="font-name:vijaya;font-size:12pt">x</span><sub>CRM</sub>： </label>
+                        <div class="col-sm-1">
+                            <input type="text" id="txt_stdsampleval" />
+                        </div>
+                        <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">有证标准样品的标准不确定度<span style="font-name:vijaya;font-size:12pt">u</span><sub>CRM</sub>： </label>
+                        <div class="col-sm-1">
+                            <input type="text" id="txt_uncertainty" />
+                        </div>
+                      </div>
 
-										</div>
-									</form>
-								</div>
-							</section>
+                      <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">σ<sub>pt</sub>计算方法：</label>
+                        <div class="col-sm-10">
+                          <select id="stderrmethod" >
+                            <option value="stderr_extensional">由外部值确定</option>
+                            <option value="stderr_model">由一般模型确定</option>
+                            <option value="stderr_measurementmethod">由测量方法重复性和再现性确定</option>
+                            <option value="stderr_alg_a">由稳健方法确定-算法A</option>
+                            <option value="stderr_qn">由稳健方法确定-Qn方法</option>
+                            <option value="stderr_qhampel">由稳健方法确定-Q/Hampel方法</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group" id="div_stderr_extensional" style="display:block">
+                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">指定值： </label>
+                        <div class="col-sm-1">
+                            <input type="text" id="txt_specialval" />
+                        </div>
+                      </div>
+                      <div class="form-group" id="div_stderr_model" style="display:none">
+                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">待测化学成分的浓度<span style="font-name:vijaya;font-size:12pt">c</span>： </label>
+                        <div class="col-sm-1">
+                            <input type="text" id="txt_stdsampleval" />
+                        </div>
+                      </div>
+                      <div class="form-group" id="div_stderr_measurementmethod" style="display:none">
+                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">重复性标准差<span style="font-name:vijaya;font-size:12pt">σ</span><sub>r</sub>：</label>
+                        <div class="col-sm-1">
+                              <input type="text" id="txt_cfxstdval" />
+                        </div>
+                        <label  for="inputEmail3" class="col-sm-2 control-label no-padding-right">再现性标准差<span style="font-name:vijaya;font-size:12pt">σ</span><sub>R</sub>：</label>
+                        <div class="col-sm-1">
+                          <input type="text" id="txt_zsxstdval" />
+                        </div>
+  											<label  for="inputEmail3" class="col-sm-2 control-label no-padding-right">M值：</label>
+  											<div class="col-sm-1">
+  												<input type="text" id="txt_mval" />
+  											</div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                          <button type="submit" class="btn btn-default">计算</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div>
+                  <div class="widget-body no-padding" >
+                    <table class="table table-bordered table-hover table-striped" id="searchable" style="margin-top:5px">
+                      <thead class="bordered-darkorange">
+                        <tr role="row">
+                          <th>样品编号</th>
+                          <th>样品名称</th>
+                          <th>被测量</th>
+                          <th>单位</th>
+                          <th>计算指定值方法</th>
+                          <th>计算计算能力评定<br />标准差方法</th>
 
-						<!-- five 确定指定值及其不确定度 -->
-							<section id="five">
-								<div style="margin-top:20px;margin-left:20px">
-									<h3>4、确定指定值及其不确定度</h3>
-									<section>
+                          <th>X<sub>pt</sub></th>
+                          <th>σ<sub>pt</sub></th>
+                          <th>U(<sub>σ<sub>pt</sub></sub>)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class=" sorting_1">sample--1--1</td>
+                          <td style="width:170px">PT00001</td>
+                          <td class=" ">维生素B<sub>6</sub>;维生素B<sub>2</sub></td>
+                          <td class="center ">mg/100g</td>
+                          <td class="center "><a href="">查看</a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-										<div class="row uniform">
-											<div class="2u 4u(xsmall)" style="margin-top:10px;">
-													确定方法：
-											</div>
-											<div class="4u" style="margin-left:-70px;">
-												<div class="select-wrapper" id="div_confirmval" name="div_confirmval">
-													<select name="cmb_confirmvalue" id="cmb_confirmvalue" >
-														<option value="outervalue">由外部值指定</option>
-														<option value="refvalue">参照有证标准样品</option>
-														<option value="publicdiscussvalue">由稳健方法确定公议值</option>
-													</select>
-												</div>
-											</div>
-											<div class="2u" style="margin-top:0px">
-													<input type="button" class="special" value="计算" id="btn_confirmvalue" />
-											</div>
-										</div>
-										<br />
-										<div id="div_confirmval_params">
-											<div class="2u 4u(xsmall)" style="margin-top:10px;">
-													输入参数：
-											</div>
-											<div class="6u">
-													<div id="div_outervalue">
+          <!-- /Page Body -->
+        </div>
 
-													</div>
-													<div id="div_refvalue">
+        <!-- /Page Content -->
+      </div>
+      <!-- /Page Container -->
+      <!-- Main Container -->
+      <!--LArge Modal Templates-->
+      <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
 
-													</div>
-													<div id="div_publicdiscussvalue">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
+            </div>
+            <div class="modal-body" id="my">
 
-													</div>
-											</div>
-										</div>
-										<br />
-										<div>
-												<div class="2u 4u(xsmall)">输出结果：</div>
-										</div>
-										<div style="height:600px ;">
+            </div>
+            <div style="margin-left:20%;margin-bottom:4px">
+              <button id="btn_save" class="btn btn-primary shiny">保存</button>
 
-										</div>
-									</section>
-								</div>
-							</section>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div>
+    </div>
 
-						<!-- six 确定标准差 -->
-							<section id="six">
-								<div style="margin-top:20px;margin-left:20px">
-									<h3>5、确定标准差</h3>
-									<section>
-										<div class="row">
-											<div class="2u 4u(xsmall)" style="margin-top:10px;">
-													确定方法：
-											</div>
-											<div class="4u"  style="margin-left:-70px;">
-												<div class="select-wrapper" id="div_confirmval" name="div_confirmval">
-													<select name="cmb_confirmvalue" id="cmb_confirmvalue" >
-														<option value="outervalue">由外部值确定</option>
-														<option value="refvalue">由一般模型确定</option>
-														<option value="publicdiscussvalue">由测量方法重复性和再现性确定</option>
-														<option value="publicdiscussvalue">由稳健方法确定</option>
-													</select>
-												</div>
-											</div>
-											<div class="2u" style="margin-top:0px">
-													<input type="button" class="special" value="计算" id="btn_confirmvalue" />
-											</div>
-										</div>
-										<br />
-										<div id="div_confirmval_params">
-											<div class="2u 4u(xsmall)" style="margin-top:10px;">
-													输入参数：
-											</div>
-											<div class="6u">
-													<div id="div_outervalue">
+    <!--Basic Scripts-->
 
-													</div>
-													<div id="div_refvalue">
+    <script src="assets/js/bootstrap.min.js"></script>
 
-													</div>
-													<div id="div_publicdiscussvalue">
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script>
+    <script>
+    data = [
+      ['','','','','','','','','',''],
 
-													</div>
-											</div>
-										</div>
-										<br />
-										<div>
-												<div class="2u 4u(xsmall)">输出结果：</div>
-										</div>
-										<div style="height:600px ;">
+    ];
+    $('#my').jexcel({
+      data:data,
+      colHeaders: [ 'pt轮次','样品名称','被测量','单位','实验室编号','测量值1','测量值2','测量值3','测量值4','测量值5'],
+      colWidths: [ 70, 70,70,70,100,70,70,70,70,70 ],
+      minDimensions:[10,10],
+      columns: [
+        { type: 'text' },
+        { type: 'text'},
+      ]
+    });
 
-										</div>
-									</section>
-								</div>
-							</section>
-
-							<!--seven 能力评定-->
-							<section id="seven">
-								<div style="margin-top:20px;margin-left:20px">
-									<h3>6、能力评定</h3>
-									<section>
-										<div class="row">
-											<div class="2u 4u(xsmall)" style="margin-top:10px;">
-													评定方法：
-											</div>
-											<div class="4u" style="margin-left:-70px;">
-												<div class="select-wrapper" id="div_confirmval" name="div_confirmval">
-													<select name="cmb_confirmvalue" id="cmb_confirmvalue" >
-														<option value="op_checkvaluncertainty">检查指定值不确定度</option>
-														<option value="op_baisval">偏倚</option>
-														<option value="op_zval">z值</option>
-														<option value="op_zquoteval">z'值</option>
-														<option value="op_zetaval">zeta值</option>
-														<option value="op_enval">En值</option>
-													</select>
-												</div>
-											</div>
-											<div class="2u" style="margin-top:0px">
-													<input type="button" class="special" value="计算" id="btn_confirmvalue" />
-											</div>
-										</div>
-										<br />
-										<div id="div_confirmval_params">
-											<div class="2u 4u(xsmall)" style="margin-top:10px;">
-													输入参数：
-											</div>
-											<div class="6u">
-													<div id="div_outervalue">
-
-													</div>
-													<div id="div_refvalue">
-
-													</div>
-													<div id="div_publicdiscussvalue">
-
-													</div>
-											</div>
-										</div>
-										<br />
-										<div>
-												<div class="2u 4u(xsmall)">输出结果：</div>
-										</div>
-										<div style="height:600px ;">
-
-										</div>
-									</section>
-								</div>
-							</section>
-					</div>
-
-				<!-- Footer -->
-					<section id="footer">
-						<div class="container">
-							<ul class="copyright">
-								<li>&copy; 中国标准化研究院基础标准化所</li></li>
-							</ul>
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Scripts -->
-
-			<script>
-				data = [
-					['',''],
-
-				];
-
-				$('#my').jexcel({
-					data:data,
-					colHeaders: [ 'A','B'],
-					colWidths: [ 50, 50 ],
-					minDimensions:[26,15],
-					columns: [
-						{ type: 'text' },
-						{ type: 'text'},
-					]
-				});
-
-				data1 = [
-					['',''],
-
-				];
-
-				$('#my1').jexcel({
-					data:data1,
-					colHeaders: [ 'A','B'],
-					colWidths: [ 50, 50 ],
-					minDimensions:[26,1],
-					columns: [
-						{ type: 'text' },
-						{ type: 'text'},
-					]
-				});
-				</script>
-
-			<script src="assets/js/jquery.scrollzer.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="assets/js/main.js"></script>
-
-	</body>
-</html>
+    </script>
+  </body>
+  <!--  /Body -->
+  </html>
