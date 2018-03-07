@@ -26,6 +26,11 @@ public class HomeController {
 		return "index";
 	}
 
+	@RequestMapping("/grid")
+	public String grid(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "grid";
+	}
+
 	@RequestMapping("/stab")
 	public String stab(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
 		return "stab";

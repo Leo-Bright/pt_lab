@@ -78,7 +78,7 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>calstats.jhtml</welcome-file>
+		<welcome-file>grid.jhtml</welcome-file>
 	</welcome-file-list>
 
 	<error-page>
