@@ -19,4 +19,11 @@ public class CapabilityEvaluationServiceIml implements CapabilityEvaluationServi
     public List<CapabilityEvaluation> getAll(){
         return capabilityEvaluationMapper.getAll();
     }
+
+    @Override
+    public int insert(CapabilityEvaluation capabilityEvaluation){
+        return capabilityEvaluationMapper.insert(capabilityEvaluation);
+    }
+
+
 }

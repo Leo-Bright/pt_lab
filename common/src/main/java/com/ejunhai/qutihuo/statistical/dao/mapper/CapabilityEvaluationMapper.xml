@@ -24,4 +24,19 @@
         FROM capability_evaluation
     </select>
 
+    <insert id="insert" parameterType="com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation">
+        insert into capability_evaluation (
+        sample_no,
+        sample_name,
+        pt_no,
+        variable,
+        unit)
+        values (
+        #{sampleNo,jdbcType=VARCHAR},
+        #{sampleName,jdbcType=VARCHAR},
+        #{ptNo,jdbcType=VARCHAR},
+        #{variable,jdbcType=VARCHAR},
+        #{unit,jdbcType=VARCHAR}
+        )
+    </insert>
 </mapper>

@@ -1,10 +1,19 @@
 package com.ejunhai.qutihuo.statistical.dao;
 
+import com.ejunhai.qutihuo.order.model.OrderLog;
 import com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation;
 
 import java.util.List;
 
 public interface CapabilityEvaluationMapper {
+
+    /**
+     * 新增CE记录
+     *
+     * @param capabilityEvaluation
+     * @return
+     */
+    int insert(CapabilityEvaluation capabilityEvaluation);
     /**
      * 获取所有能力验证信息
      *
