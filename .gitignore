@@ -1,7 +1,5 @@
 .idea
-target
 .DS_Store
-pt_lab.iml
+ptlab.iml
 admin.iml
 common.iml
-wap.iml
