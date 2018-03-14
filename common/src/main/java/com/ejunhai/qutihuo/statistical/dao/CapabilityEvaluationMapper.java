@@ -2,6 +2,7 @@ package com.ejunhai.qutihuo.statistical.dao;
 
 import com.ejunhai.qutihuo.order.model.OrderLog;
 import com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation;
+import com.ejunhai.qutihuo.statistical.model.CapabilityValue;
 
 import java.util.List;
 
@@ -20,4 +21,5 @@ public interface CapabilityEvaluationMapper {
      * @return 能力验证列表
      */
     List<CapabilityEvaluation> getAll();
+
 }

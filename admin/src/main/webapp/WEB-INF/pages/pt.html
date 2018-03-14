@@ -298,20 +298,25 @@ Purchase: http://wrapbootstrap.com
                           <th>单位</th>
                           <th>计算指定值方法</th>
                           <th>计算计算能力评定<br />标准差方法</th>
-
                           <th>X<sub>pt</sub></th>
                           <th>σ<sub>pt</sub></th>
                           <th>U(<sub>σ<sub>pt</sub></sub>)</th>
                         </tr>
                       </thead>
                       <tbody>
+                      <#list capabilityValueList as item >
                         <tr>
-                          <td class=" sorting_1">sample--1--1</td>
-                          <td style="width:170px">PT00001</td>
-                          <td class=" ">维生素B<sub>6</sub>;维生素B<sub>2</sub></td>
-                          <td class="center ">mg/100g</td>
-                          <td class="center "><a href="">查看</a></td>
+                          <td class=" sorting_1"><#if item.sampleNo??>${item.sampleNo}</#if></td>
+                          <td style="width:170px"><#if item.sampleName??>${item.sampleName}</#if></td>
+                          <td class="center "><#if item.variable??>${item.variable}</#if></td>
+                          <td class="center "><#if item.unit??>${item.unit}</#if></td>
+                          <td class="center "><#if item.computeMethod??>${item.computeMethod}</#if></td>
+                          <td class="center "><#if item.standardMethod??>${item.standardMethod}</#if></td>
+                          <td class="center "><#if item.xPt??>${item.xPt}</#if></td>
+                          <td class="center "><#if item.stdPt??>${item.stdPt}</#if></td>
+                          <td class="center "><#if item.uncertainPt??>${item.uncertainPt}</#if></td>
                         </tr>
+                      </#list>
                       </tbody>
                     </table>
                   </div>

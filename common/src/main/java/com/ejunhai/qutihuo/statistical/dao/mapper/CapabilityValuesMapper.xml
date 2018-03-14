@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ejunhai.qutihuo.statistical.dao.CapabilityValuesMapper" >
+    <resultMap id="BaseMap" type="com.ejunhai.qutihuo.statistical.model.CapabilityValue" >
+        <id column="ce_id" property="ceId" jdbcType="INTEGER" />
+        <result column="sample_no" property="sampleNo" jdbcType="VARCHAR" />
+        <result column="sample_name" property="sampleName" jdbcType="VARCHAR" />
+        <result column="variable" property="variable" jdbcType="VARCHAR" />
+        <result column="unit" property="unit" jdbcType="VARCHAR" />
+        <result column="compute_method" property="computeMethod" jdbcType="VARCHAR" />
+        <result column="standard_method" property="standardMethod" jdbcType="VARCHAR" />
+        <result column="x_pt" property="xPt" jdbcType="VARCHAR" />
+        <result column="std_pt" property="stdPt" jdbcType="VARCHAR" />
+        <result column="uncertain_pt" property="uncertainPt" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        ce_id,
+        sample_no,
+        sample_name,
+        variable,
+        unit,
+        compute_method,
+        standard_method,
+        x_pt,
+        std_pt,
+        uncertain_pt
+    </sql>
+
+    <select id="getCapabilityValuesById" parameterType="Integer" resultMap="BaseMap" resultType="com.ejunhai.qutihuo.statistical.model.CapabilityValue">
+        SELECT <include refid="Base_Column_List" />
+        FROM capability_values
+        WHERE ce_id=#{year}
+    </select>
+
+    <insert id="insert" parameterType="com.ejunhai.qutihuo.statistical.model.CapabilityValue">
+        insert into capability_evaluation (
+        sample_no,
+        sample_name,
+        pt_no,
+        variable,
+        unit)
+        values (
+        #{sampleNo,jdbcType=VARCHAR},
+        #{sampleName,jdbcType=VARCHAR},
+        #{ptNo,jdbcType=VARCHAR},
+        #{variable,jdbcType=VARCHAR},
+        #{unit,jdbcType=VARCHAR}
+        )
+    </insert>
+</mapper>

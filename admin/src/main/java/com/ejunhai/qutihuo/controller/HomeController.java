@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ejunhai.qutihuo.statistical.dto.MeasurementDto;
 import com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation;
+import com.ejunhai.qutihuo.statistical.model.CapabilityValue;
 import com.ejunhai.qutihuo.statistical.service.CapabilityEvaluationService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -39,7 +40,10 @@ public class HomeController {
 	}
 
 	@RequestMapping("/pt")
-	public String pt(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+	public String pt(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String id) throws IOException {
+		Integer ceId = Integer.valueOf(id);
+		List<CapabilityValue> capabilityValueList = capabilityEvaluationService.getCapabilityValuesById(ceId);
+		modelMap.put("capabilityValueList",capabilityValueList);
 		return "pt";
 	}
 
