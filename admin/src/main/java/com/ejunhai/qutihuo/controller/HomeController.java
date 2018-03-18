@@ -41,9 +41,13 @@ public class HomeController {
 
 	@RequestMapping("/pt")
 	public String pt(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String id) throws IOException {
+//		if(null==id||"".equals(id)){
+//			return "pt";
+//		}
 		Integer ceId = Integer.valueOf(id);
 		List<CapabilityValue> capabilityValueList = capabilityEvaluationService.getCapabilityValuesById(ceId);
 		modelMap.put("capabilityValueList",capabilityValueList);
+		modelMap.put("id",id);
 		return "pt";
 	}
 

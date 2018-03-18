@@ -236,7 +236,7 @@ Purchase: http://wrapbootstrap.com
                         </div>
                         <label for="inputEmail3" class="col-sm-3 control-label no-padding-right">有证标准样品的标准不确定度<span style="font-name:vijaya;font-size:12pt">u</span><sub>CRM</sub>： </label>
                         <div class="col-sm-1">
-                            <input type="text" id="txt_uncertainty" />
+                            <input type="text" id="txt_uncertainty2" />
                         </div>
                       </div>
 
@@ -262,7 +262,7 @@ Purchase: http://wrapbootstrap.com
                       <div class="form-group" id="div_stderr_model" style="display:none">
                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">待测化学成分的浓度<span style="font-name:vijaya;font-size:12pt">c</span>： </label>
                         <div class="col-sm-1">
-                            <input type="text" id="txt_stdsampleval" />
+                            <input type="text" id="txt_stdsampleval2" />
                         </div>
                       </div>
                       <div class="form-group" id="div_stderr_measurementmethod" style="display:none">
@@ -279,9 +279,10 @@ Purchase: http://wrapbootstrap.com
   												<input type="text" id="txt_mval" />
   											</div>
                       </div>
+                      <input type="hidden" id="id" name="id" value="${id}"/>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn btn-default">计算</button>
+                          <button type="button" onclick="calculate()" class="btn btn-default">计算</button>
                         </div>
                       </div>
                     </form>
@@ -304,19 +305,21 @@ Purchase: http://wrapbootstrap.com
                         </tr>
                       </thead>
                       <tbody>
-                      <#list capabilityValueList as item >
-                        <tr>
-                          <td class=" sorting_1"><#if item.sampleNo??>${item.sampleNo}</#if></td>
-                          <td style="width:170px"><#if item.sampleName??>${item.sampleName}</#if></td>
-                          <td class="center "><#if item.variable??>${item.variable}</#if></td>
-                          <td class="center "><#if item.unit??>${item.unit}</#if></td>
-                          <td class="center "><#if item.computeMethod??>${item.computeMethod}</#if></td>
-                          <td class="center "><#if item.standardMethod??>${item.standardMethod}</#if></td>
-                          <td class="center "><#if item.xPt??>${item.xPt}</#if></td>
-                          <td class="center "><#if item.stdPt??>${item.stdPt}</#if></td>
-                          <td class="center "><#if item.uncertainPt??>${item.uncertainPt}</#if></td>
-                        </tr>
-                      </#list>
+                      <#if capabilityValueList??>
+                        <#list capabilityValueList as item>
+                          <tr>
+                            <td class=" sorting_1"><#if item.sampleNo??>${item.sampleNo}</#if></td>
+                            <td style="width:170px"><#if item.sampleName??>${item.sampleName}</#if></td>
+                            <td class="center "><#if item.variable??>${item.variable}</#if></td>
+                            <td class="center "><#if item.unit??>${item.unit}</#if></td>
+                            <td class="center "><#if item.computeMethod??>${item.computeMethod}</#if></td>
+                            <td class="center "><#if item.standardMethod??>${item.standardMethod}</#if></td>
+                            <td class="center "><#if item.xPt??>${item.xPt}</#if></td>
+                            <td class="center "><#if item.stdPt??>${item.stdPt}</#if></td>
+                            <td class="center "><#if item.uncertainPt??>${item.uncertainPt}</#if></td>
+                          </tr>
+                        </#list>
+                      </#if>
                       </tbody>
                     </table>
                   </div>
@@ -345,7 +348,7 @@ Purchase: http://wrapbootstrap.com
 
             </div>
             <div style="margin-left:20%;margin-bottom:4px">
-              <button id="btn_save" class="btn btn-primary shiny">保存</button>
+              <button id="btn_save" onclick="getdata()" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
 
             </div>
           </div><!-- /.modal-content -->
@@ -359,9 +362,10 @@ Purchase: http://wrapbootstrap.com
 
     <!--Beyond Scripts-->
     <script src="assets/js/beyond.min.js"></script>
+    <script src="assets_pt/js/layer/layer.js"></script>
     <script>
     data = [
-      ['','','','','','','','','',''],
+      ['1','婴幼儿奶粉中水溶性维生素','维生素B6','mg/100g','lab1','1.453','3.251','0.245','3.111','1.111'],
 
     ];
     $('#my').jexcel({
@@ -374,8 +378,171 @@ Purchase: http://wrapbootstrap.com
         { type: 'text'},
       ]
     });
+    var input;
+
+    function getdata(){
+        input = $('#my').jexcel('getData');
+    };
+    function calculate() {
+        var load = layer.load()
+        var x_pt = 0;
+        var u_pt = 0;
+        var values = calculateX(x_pt,u_pt)
+        alert("aaaa");
+        alert("bbb");
+        console.log(values)
+        console.log(values)
+
+        var std_pt = calculateStd()
+        layer.close(load)
+    }
+
+    function calculateX(x_pt,u_pt){
+        var x;
+        var u;
+        var x_method =$("#spemethod").val();
+        if("spe_extensional"==x_method){
+            x=$("#txt_specialval").val()
+            u=$("#txt_uncertainty").val()
+            return new Array(x,u);
+        }else{
+            if(input!=null) {
+                input = dealArray(input)
+                var xcrm = $("#txt_stdsampleval").val();
+                var ucrm = $("#txt_uncertainty2").val();
+                if("spe_ref_sample"==x_method) {
+                    if ("" == xcrm || "" == ucrm) return layer.msg("请输入参数！"), !1;
+                    $.post("statistical/confirm.jhtml", {
+                        "input": JSON.stringify(input),"method":"refvalue","xcrm":xcrm,"ucrm":ucrm
+                    }, function (result) {
+                        if (result.status != 200) {
+                            return layer.msg(result.message),!1;
+                        } else {
+                            // $('#div_v_avg').html(result.average)
+                            return result.result
+                        }
+                    }, "json");
+                }else if("spe_alg_a"==x_method){
+                    $.post("statistical/confirm.jhtml", {
+                        "input": JSON.stringify(input),"method":"algorithmA","xcrm":xcrm,"ucrm":ucrm
+                    }, function (result) {
+                        if (result.status != 200) {
+                            return layer.msg(result.message),!1;
+                        } else {
+                            // $('#div_v_avg').html(result.average)
+
+                            x_pt = result.result.key;
+                            u_pt = result.result.value;
+                            alert(x_pt.toString()+"dsfdfd");
+                            console.log(11111)
+                            console.log(x_pt)
+                            console.log(u_pt)
+                            return new Array(x_pt,x_pt)
+                            console.log(2222)
+                            return new Array(x_pt,u_pt)
+                        }
+                    }, "json");
+                }else {
+                    $.post("statistical/confirm.jhtml", {
+                        "input": JSON.stringify(input),"method":"QHampel","xcrm":xcrm,"ucrm":ucrm
+                    }, function (result) {
+                        if (result.status != 200) {
+                            return layer.msg(result.message),!1;
+                        } else {
+                            // $('#div_v_avg').html(result.average)
+                            return result.result
+                        }
+                    }, "json");
+                }
+            }else{
+                return layer.msg("输入数据没有值！"), !1;
+            }
+        }
+    }
+    function calculateStd() {
+        var std_method =$("#stderrmethod").val()
+        var c = $("#txt_stdsampleval2").val()
+        var cfx =$("#txt_cfxstdval").val()
+        var zxx =$("#txt_zsxstdval").val()
+        var m =$("#txt_mval").val()
+        if("stderr_extensional"==std_method){
+            return $("#txt_specialval").val()
+        }else if("stderr_model"==std_method){
+            if("" == c) return layer.msg("请输入参数！"), !1;
+            $.post("statistical/computStdVar.jhtml", {
+                "method":"stderr_model","c":c,"cfx":cfx,"zxx":zxx,"m":m
+            }, function (result) {
+                if (result.status != 200) {
+                    return layer.msg(result.message),!1;
+                } else {
+                    // $('#div_v_avg').html(result.average)
+                    return result.result;
+                }
+            }, "json");
+        }else if("stderr_measurementmethod"==std_method) {
+            if("" == cfx&&"" == zxx&&"" == m) return layer.msg("请输入参数！"), !1;
+            $.post("statistical/computStdVar.jhtml", {
+                "method":"stderr_measurementmethod","c":c,"cfx":cfx,"zxx":zxx,"m":m
+            }, function (result) {
+                if (result.status != 200) {
+                    return layer.msg(result.message),!1;
+                } else {
+                    // $('#div_v_avg').html(result.average)
+                    return result.result
+                }
+            }, "json");
+        }else if("stderr_alg_a"==std_method){
+            if(input==null) return layer.msg("请输入数据！"),!1;
+            method = $("#stability").val();
+            $.post("statistical/ensureStdVar.jhtml", {
+                "input": JSON.stringify(input),"method":"stderr_alg_a"
+            }, function (result) {
+                if (result.status != 200) {
+                    return layer.msg(result.message),!1;
+                } else {
+                    // $('#div_v_avg').html(result.average)
+                    return result.result
+                }
+            }, "json");
+        }else if("stderr_qn"==std_method) {
+            if (input == null) return layer.msg("请输入数据！"), !1;
+            method = $("#stability").val();
+            $.post("statistical/ensureStdVar.jhtml", {
+                "input": JSON.stringify(input), "method": "stderr_qn"
+            }, function (result) {
+                if (result.status != 200) {
+                    return layer.msg(result.message), !1;
+                } else {
+                    // $('#div_v_avg').html(result.average)
+                    return result.result
+                }
+            }, "json");
+        } else{
+            if (input == null) return layer.msg("请输入数据！"), !1;
+            method = $("#stability").val();
+            $.post("statistical/ensureStdVar.jhtml", {
+                "input": JSON.stringify(input), "method": "stderr_qhampel"
+            }, function (result) {
+                if (result.status != 200) {
+                    return layer.msg(result.message), !1;
+                } else {
+                    // $('#div_v_avg').html(result.average)
+                    return result.result
+                }
+            }, "json");
+        }
+    }
+
+    function dealArray(input){
+        len = input.length
+        for(var i=0;i<len;i++){
+            input[i] = input[i].slice(5,10)
+        }
+        return input;
+    }
 
     </script>
+  </div>
   </body>
   <!--  /Body -->
   </html>
