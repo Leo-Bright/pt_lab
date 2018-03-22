@@ -63,6 +63,16 @@ public class HomeController {
 		return "stab";
 	}
 
+	@RequestMapping("/stability")
+	public String stability(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "stability";
+	}
+
+	@RequestMapping("/homogeneity")
+	public String homogeneity(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "homogeneity";
+	}
+
 	@RequestMapping("/calstats")
 	public String calstats(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
 		return "calstats";
