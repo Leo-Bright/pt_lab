@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+  <meta charset="utf-8" />
+  <title>能力验证评定统计分析系统</title>
+
+  <meta name="description" content="Bootstrap Grid System" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+  <!--JEXCEL JS AND CSS-->
+  <script src="dist/js/jquery.min.js"></script>
+  <script src="dist/js/jquery.jexcel.js"></script>
+  <script src="dist/js/jquery.jcalendar.js"></script>
+  <link rel="stylesheet" href="dist/css/jquery.jexcel.css" type="text/css" />
+  <link rel="stylesheet" href="dist/css/jquery.jcalendar.css" type="text/css" />
+  <!--Basic Styles-->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+  <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+  <!--Fonts-->
+  <!--Beyond styles-->
+  <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+  <link href="assets/css/demo.min.css" rel="stylesheet" />
+  <link href="assets/css/typicons.min.css" rel="stylesheet" />
+  <link href="assets/css/animate.min.css" rel="stylesheet" />
+  <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+  <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+  <script src="assets/js/skins.min.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function(){
+        $("#stderrmethod").change(function(){
+            if($("#stderrmethod").val() == "stderr_extensional"){
+              $("#div_stderr_extensional").css("display","block");
+              $("#div_stderr_model").css("display","none");
+              $("#div_stderr_measurementmethod").css("display","none");
+
+            }
+            else if ($("#stderrmethod").val() == "stderr_model"){
+              $("#div_stderr_extensional").css("display","none");
+              $("#div_stderr_model").css("display","block");
+              $("#div_stderr_measurementmethod").css("display","none");
+
+            }
+            else if ($("#stderrmethod").val() == "stderr_measurementmethod"){
+              $("#div_stderr_extensional").css("display","none");
+              $("#div_stderr_model").css("display","none");
+              $("#div_stderr_measurementmethod").css("display","block");
+
+            }
+            else {
+              $("#div_stderr_extensional").css("display","none");
+              $("#div_stderr_model").css("display","none");
+              $("#div_stderr_measurementmethod").css("display","none");
+
+            }
+          })
+    });
+
+    $(document).ready(function(){
+      $("#spemethod").change(function(){
+          if($("#spemethod").val() == "spe_extensional"){
+            $("#div_spe_extensional").css("display","block");
+            $("#div_spe_ref_sample").css("display","none");
+          }
+          else if ($("#spemethod").val() == "spe_ref_sample"){
+            $("#div_spe_extensional").css("display","none");
+            $("#div_spe_ref_sample").css("display","block");
+          }
+          else {
+            $("#div_spe_extensional").css("display","none");
+            $("#div_spe_ref_sample").css("display","none");
+          }
+        })
+  });
+  </script>
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+  <!-- Loading Container -->
+
+  <!--  /Loading Container -->
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-container">
+        <!-- Navbar Barnd -->
+        <div class="navbar-header pull-left">
+          <a href="#" class="navbar-brand">
+            <small>
+              <img src="assets/img/logo.png" alt="" />
+            </small>
+          </a>
+        </div>
+        <!-- /Navbar Barnd -->
+        <!-- Sidebar Collapse -->
+        <div class="sidebar-collapse" id="sidebar-collapse">
+          <i class="collapse-icon fa fa-bars"></i>
+        </div>
+        <!-- /Sidebar Collapse -->
+        <!-- Account Area and Settings --->
+        <div class="navbar-header pull-right">
+          <div class="navbar-account">
+            <ul class="account-area">
+
+
+              <!-- /Account Area -->
+              <!--Note: notice that setting div must start right after account area list.
+              no space must be between these elements-->
+              <!-- Settings -->
+            </ul>
+            <!-- Settings -->
+          </div>
+        </div>
+        <!-- /Account Area and Settings -->
+      </div>
+    </div>
+  </div>
+  <!-- /Navbar -->
+  <!-- Main Container -->
+  <div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+      <!-- Page Sidebar -->
+      <div class="page-sidebar" id="sidebar">
+        <!-- Page Sidebar Header-->
+
+        <!-- /Page Sidebar Header -->
+        <!-- Sidebar Menu -->
+        <ul class="nav sidebar-menu">
+          <!--Dashboard-->
+          <li>
+            <a href="grid.html">
+              <i class="menu-icon glyphicon glyphicon-home"></i>
+              <span class="menu-text"> 能力评定列表 </span>
+            </a>
+          </li>
+          <!--Databoxes-->
+          <li class="active open">
+            <a href="#" class="menu-dropdown">
+              <i class="menu-icon glyphicon glyphicon-tasks"></i>
+              <span class="menu-text"> 均匀性与稳定性检验 </span>
+              <i class="menu-expand"></i>
+            </a>
+            <ul class="submenu">
+                <li class="active"><a href="homogeneity.jhtml" class="active">均匀性检验</a></li>
+                <li><a href="stability.jhtml">稳定性检验</a></li>
+            </ul>
+          </li>
+          <!--Widgets-->
+
+        </ul>
+        <!-- /Sidebar Menu -->
+      </div>
+      <!-- /Page Sidebar -->
+      <!-- Page Content -->
+      <div class="page-content">
+        <!-- Page Breadcrumb -->
+        <div class="page-breadcrumbs">
+          <ul class="breadcrumb">
+            <li>
+              <i class="fa fa-home"></i>
+              <a href="#">首页</a>
+            </li>
+            <li><a href="#">均匀性与稳定性检验 </a></li>
+            <li><a href="#">均匀性检验列表 </a></li>
+          </ul>
+        </div>
+        <!-- /Page Breadcrumb -->
+        <!-- Page Header -->
+        <div class="page-header position-relative">
+          <div class="header-title">
+            <h1>
+              均匀性检验列表
+            </h1>
+          </div>
+          <!--Header Buttons-->
+          <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+              <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="">
+              <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+              <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+          </div>
+          <!--Header Buttons End-->
+        </div>
+        <!-- /Page Header -->
+        <!-- Page Body -->
+        <div class="page-body">
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+              <div class="widget">
+
+                <a href="homogeneity_add.html" class="btn btn-success shiny"><i class="fa fa-plus"></i>新增</a>
+                <br />
+                <div>
+                  <div class="widget-body no-padding" >
+                    <table class="table table-bordered table-hover table-striped" id="searchable" style="margin-top:5px">
+                      <thead class="bordered-darkorange">
+                        <tr role="row">
+                          <th>样品编号</th>
+                          <th>样品名称</th>
+                          <th>被测量</th>
+                          <th>单位</th>
+                          <th>中值</th>
+                          <th>标准差</th>
+                          <th>σ<sub>pt</sub></th>
+                          <th>δ<sub>E</sub></th>
+                          <th>单因子分析法</th>
+                          <th>S<sub>s</sub>≤0.3σ ̂准则</th>
+                          <th>扩展方法</th>
+                          <th>#</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+
+                          <td class=" sorting_1">sample--1--1</td>
+                          <td style="width:170px">PT00001</td>
+                          <td class=" ">维生素B<sub>6</sub></td>
+                          <td class="center ">mg/100g</td>
+                          <td class="center ">11.1</td>
+                          <td class="center ">2</td>
+                          <td class="center ">11.1</td>
+                          <td class="center ">11.1</td>
+                          <td class="center ">OK</td>
+                          <td class="center ">OK</td>
+                          <td class="center ">NOT OK</td>
+                          <td class="center "><a href="">查看</a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- /Page Body -->
+        </div>
+
+        <!-- /Page Content -->
+      </div>
+      <!-- /Page Container -->
+      <!-- Main Container -->
+      <!--LArge Modal Templates-->
+      <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
+            </div>
+            <div class="modal-body" id="my">
+
+            </div>
+            <div style="margin-left:20%;margin-bottom:4px">
+              <button id="btn_save" class="btn btn-primary shiny">保存</button>
+
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div>
+    </div>
+
+    <!--Basic Scripts-->
+
+   <script src="assets/js/jquery-2.0.3.min.js"></script>
+   <script src="assets/js/bootstrap.min.js"></script>
+
+     <!--Beyond Scripts-->
+   <script src="assets/js/beyond.min.js"></script>
+    <script>
+    data = [
+      ['','','','','','','','','',''],
+
+    ];
+    $('#my').jexcel({
+      data:data,
+      colHeaders: [ 'pt轮次','样品名称','被测量','单位','实验室编号','测量值1','测量值2','测量值3','测量值4','测量值5'],
+      colWidths: [ 70, 70,70,70,100,70,70,70,70,70 ],
+      minDimensions:[10,10],
+      columns: [
+        { type: 'text' },
+        { type: 'text'},
+      ]
+    });
+
+    </script>
+  </body>
+  <!--  /Body -->
+  </html>
