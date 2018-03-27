@@ -33,7 +33,7 @@ public class HomogeneityandStabilityCheck {
 		double F = outer_variance /inner_variance;
 
 		CallPyforStats objpy = new CallPyforStats();
-		double fa = objpy.getFAlphaQuantile("D:/cnis/CalFAlphaQuantile", 0.05, f1, f2);
+		double fa = objpy.getFAlphaQuantile("D:/Config/cnis/CalFAlphaQuantile", 0.05, f1, f2);
 		//比较F与Fa的结果
 		returnval[0] = inner_avg;
 		returnval[1][0] = outer_avg;
@@ -92,8 +92,8 @@ public class HomogeneityandStabilityCheck {
 		double allow_stddev = Math.pow(0.3 * stddeviation,2);
 		double f1,f2;
 		CallPyforStats  objCallPy = new CallPyforStats();
-		f1 = objCallPy.getChi2AlphaQuantile("D:/cnis/CalChi2AlphaQuantile", 0.95, g-1);
-		f2 = (objCallPy.getFAlphaQuantile("D:/cnis/CalFAlphaQuantile", 0.95, g-1, g) -1) /2;
+		f1 = objCallPy.getChi2AlphaQuantile("D:/Config/cnis/CalChi2AlphaQuantile", 0.95, g-1);
+		f2 = (objCallPy.getFAlphaQuantile("D:/Config/cnis/CalFAlphaQuantile", 0.95, g-1, g) -1) /2;
 		if(data[0].length>2) {
 			f2 = objCallPy.getFAlphaQuantile("", 0.95, g-1, g*(data[0].length));
 		}
@@ -129,7 +129,7 @@ public class HomogeneityandStabilityCheck {
 		double t = Math.abs(avg-u)*Math.sqrt(n)/stdvariation;
 		CallPyforStats objCallpy = new CallPyforStats();
 		returnval[0] = stdvariation;
-		returnval[1] = objCallpy.getTAlphaQuantile("D:/cnis/CalTAlphaQuantile", 0.95, n1-1);
+		returnval[1] = objCallpy.getTAlphaQuantile("D:/Config/cnis/CalTAlphaQuantile", 0.95, n1-1);
 
 		return returnval;
 	}
@@ -149,7 +149,7 @@ public class HomogeneityandStabilityCheck {
 		double t = Math.abs(avg2-avg1) / Math.sqrt(temp1*temp2);
 		CallPyforStats objCallpy = new CallPyforStats();
 		returnval[0] = t;
-		returnval[1] = objCallpy.getTAlphaQuantile("D:/cnis/CalTAlphaQuantile", 0.95, n1+n2-1);
+		returnval[1] = objCallpy.getTAlphaQuantile("D:/Config/cnis/CalTAlphaQuantile", 0.95, n1+n2-1);
 		return  returnval;
 	}
 

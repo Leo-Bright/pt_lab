@@ -23,7 +23,7 @@ public class StatisticalController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/calStatistics")
 	public String calStatistics(String input,HttpServletRequest request, ModelMap modelMap) {
-		double[][] matrix = JsonUtils.fromJsonString(input);
+		double[][] matrix = JsonUtils.jsonString2double(input);
 		Map<String,Object> result = statisticsService.calStatistics(matrix[0]);
 		return gson.toJson(result);
 	}
@@ -31,7 +31,7 @@ public class StatisticalController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/calMethod")
 	public String calMethod(String input,String method,HttpServletRequest request, ModelMap modelMap) {
-		double[][] matrix = JsonUtils.fromJsonString(input);
+		double[][] matrix = JsonUtils.jsonString2double(input);
 		Map<String,Object> result = statisticsService.calMethod(matrix,method);
 		return gson.toJson(result);
 	}
@@ -39,8 +39,8 @@ public class StatisticalController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/checkStability")
 	public String checkStability(String input1,String input2,String method,String para,HttpServletRequest request, ModelMap modelMap) {
-		double[][] matrix1 = JsonUtils.fromJsonString(input1);
-		double[][] matrix2 = JsonUtils.fromJsonString(input2);
+		double[][] matrix1 = JsonUtils.jsonString2double(input1);
+		double[][] matrix2 = JsonUtils.jsonString2double(input2);
         double parameter = 0.0;
         if(null!=para&&!"".equals(para)){
             parameter = Double.valueOf(para);
@@ -52,7 +52,7 @@ public class StatisticalController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/checkUniformity")
 	public String checkUniformity(String input,String method,String para,HttpServletRequest request, ModelMap modelMap) {
-		double[][] matrix = JsonUtils.fromJsonString(input);
+		double[][] matrix = JsonUtils.jsonString2double(input);
         double stdORerror = 0.0;
 		if(null!=para&&!"".equals(para)){
             stdORerror = Double.valueOf(para);
@@ -64,7 +64,7 @@ public class StatisticalController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/confirm")
 	public String confirm(String input,String method,String xcrm,String ucrm,HttpServletRequest request, ModelMap modelMap) {
-		double[][] matrix = JsonUtils.fromJsonString(input);
+		double[][] matrix = JsonUtils.jsonString2double(input);
 		double para_xcrm = 0.0;
 		double para_ucrm = 0.0;
 		if(null!=xcrm&&!"".equals(xcrm)){
@@ -80,7 +80,7 @@ public class StatisticalController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/ensureStdVar")
 	public String ensureStdVar(String input,String method,HttpServletRequest request, ModelMap modelMap) {
-		double[][] matrix = JsonUtils.fromJsonString(input);
+		double[][] matrix = JsonUtils.jsonString2double(input);
 		Map<String,Object> result = statisticsService.ensureStdVar(matrix,method);
 		return gson.toJson(result);
 	}
@@ -111,7 +111,7 @@ public class StatisticalController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/CapacityEvaluate")
 	public String CapacityEvaluate(String input,String method,String xpt,String delta,String sigma,String uncertain,HttpServletRequest request, ModelMap modelMap) {
-		double[][] matrix = JsonUtils.fromJsonString(input);
+		double[][] matrix = JsonUtils.jsonString2double(input);
 		double _xpt = 0.0;
 		double _delta = 0.0;
 		double _sigma = 0.0;

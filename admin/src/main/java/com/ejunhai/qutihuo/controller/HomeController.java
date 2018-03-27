@@ -14,6 +14,7 @@ import com.ejunhai.qutihuo.statistical.dto.MeasurementDto;
 import com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation;
 import com.ejunhai.qutihuo.statistical.model.CapabilityValue;
 import com.ejunhai.qutihuo.statistical.service.CapabilityEvaluationService;
+import com.ejunhai.qutihuo.statistical.service.CapabilityValueService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -34,20 +35,24 @@ public class HomeController {
 	@Resource
 	private CapabilityEvaluationService capabilityEvaluationService;
 
+	@Resource
+	private CapabilityValueService capabilityValueService;
+
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
 		return "index";
 	}
 
 	@RequestMapping("/pt")
-	public String pt(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String id) throws IOException {
+	public String pt(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String id,String sampleNo) throws IOException {
 //		if(null==id||"".equals(id)){
 //			return "pt";
 //		}
 		Integer ceId = Integer.valueOf(id);
-		List<CapabilityValue> capabilityValueList = capabilityEvaluationService.getCapabilityValuesById(ceId);
+		List<CapabilityValue> capabilityValueList = capabilityValueService.getCapabilityValuesById(ceId);
 		modelMap.put("capabilityValueList",capabilityValueList);
 		modelMap.put("id",id);
+		modelMap.put("sampleNo",sampleNo);
 		return "pt";
 	}
 

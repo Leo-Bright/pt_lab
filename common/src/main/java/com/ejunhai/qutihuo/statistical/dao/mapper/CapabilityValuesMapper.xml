@@ -34,18 +34,28 @@
     </select>
 
     <insert id="insert" parameterType="com.ejunhai.qutihuo.statistical.model.CapabilityValue">
-        insert into capability_evaluation (
+        insert into capability_values (
+        ce_id,
         sample_no,
         sample_name,
-        pt_no,
         variable,
-        unit)
+        unit,
+        compute_method,
+        standard_method,
+        x_pt,
+        std_pt,
+        uncertain_pt)
         values (
+        #{cdId,jdbcType=INTEGER},
         #{sampleNo,jdbcType=VARCHAR},
         #{sampleName,jdbcType=VARCHAR},
-        #{ptNo,jdbcType=VARCHAR},
         #{variable,jdbcType=VARCHAR},
-        #{unit,jdbcType=VARCHAR}
+        #{unit,jdbcType=VARCHAR},
+        #{computeMethod,jdbcType=VARCHAR},
+        #{standardMethod,jdbcType=VARCHAR},
+        #{xPt,jdbcType=VARCHAR},
+        #{stdPt,jdbcType=VARCHAR},
+        #{uncertainPt,jdbcType=VARCHAR}
         )
     </insert>
 </mapper>

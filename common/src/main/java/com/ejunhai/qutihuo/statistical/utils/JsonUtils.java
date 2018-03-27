@@ -58,23 +58,23 @@ public class JsonUtils {
         return sb.toString();
     }
 
-    public static double[][] fromJsonString(String input){
+    public static double[][] jsonString2double(String input){
         JSONArray jsonMatrix = JSONArray.fromObject(input);
         int matrixSize = jsonMatrix.size();
         JSONArray jsonArray = (JSONArray) jsonMatrix.get(0);
         int arraySize = jsonArray.size();
         double[][] result = new double[matrixSize][arraySize];
         if(1==matrixSize){
-            result[0]=fromJsonArray(jsonArray);
+            result[0]=jsonArray2double(jsonArray);
         }else{
             for(int i=0;i<matrixSize;i++){
-                result[i]=fromJsonArray((JSONArray) jsonMatrix.get(i));
+                result[i]=jsonArray2double((JSONArray) jsonMatrix.get(i));
             }
         }
         return result;
     }
 
-    private static double[] fromJsonArray(JSONArray jsonArray){
+    private static double[] jsonArray2double(JSONArray jsonArray){
         int arraySize = jsonArray.size();
         double[] result = new double[arraySize];
         for(int index=0;index<arraySize;index++){
@@ -84,6 +84,32 @@ public class JsonUtils {
             }else {
                 result[index]=Double.valueOf(str);
             }
+        }
+        return result;
+    }
+
+    public static String[][] jsonString2string(String input){
+        JSONArray jsonMatrix = JSONArray.fromObject(input);
+        int matrixSize = jsonMatrix.size();
+        JSONArray jsonArray = (JSONArray) jsonMatrix.get(0);
+        int arraySize = jsonArray.size();
+        String[][] result = new String[matrixSize][arraySize];
+        if(1==matrixSize){
+            result[0]=jsonArray2string(jsonArray);
+        }else{
+            for(int i=0;i<matrixSize;i++){
+                result[i]=jsonArray2string((JSONArray) jsonMatrix.get(i));
+            }
+        }
+        return result;
+    }
+
+    private static String[] jsonArray2string(JSONArray jsonArray){
+        int arraySize = jsonArray.size();
+        String[] result = new String[arraySize];
+        for(int index=0;index<arraySize;index++){
+            String str = (String)jsonArray.get(index);
+            result[index]=str;
         }
         return result;
     }
