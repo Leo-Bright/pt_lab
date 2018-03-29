@@ -71,6 +71,9 @@ Purchase: http://wrapbootstrap.com
 
     $(document).ready(function(){
       $("#spemethod").change(function(){
+ 		$("#my_ref").css("display","none");
+      	$("#my_ref_title").css("display","none");
+      	//计算标准差
           if($("#spemethod").val() == "spe_extensional"){
             $("#div_spe_extensional").css("display","block");
             $("#div_spe_ref_sample").css("display","none");
@@ -78,6 +81,8 @@ Purchase: http://wrapbootstrap.com
           else if ($("#spemethod").val() == "spe_ref_sample"){
             $("#div_spe_extensional").css("display","none");
             $("#div_spe_ref_sample").css("display","block");
+			$("#my_ref_title").css("display","block");
+        	$("#my_ref").css("display","block"); //参照有证样品确定方法求指定值时显示。
           }
           else {
             $("#div_spe_extensional").css("display","none");
@@ -138,7 +143,13 @@ Purchase: http://wrapbootstrap.com
       <!-- Page Sidebar -->
       <div class="page-sidebar" id="sidebar">
         <!-- Page Sidebar Header-->
+		<div class="sidebar-header-wrapper">
+        
+		
+		
 
+		<div class="searchhelper"></div>
+        </div>
         <!-- /Page Sidebar Header -->
         <!-- Sidebar Menu -->
         <ul class="nav sidebar-menu">
@@ -151,10 +162,15 @@ Purchase: http://wrapbootstrap.com
           </li>
           <!--Databoxes-->
           <li>
-            <a href="databoxes.html">
+            <a href="databoxes.html" class="menu-dropdown">
               <i class="menu-icon glyphicon glyphicon-tasks"></i>
               <span class="menu-text"> 均匀性与稳定性检验 </span>
+			<i class="menu-expand"></i>
             </a>
+				<ul class="submenu">
+              <li ><a href="homogeneity.jhtml">均匀性检验</a></li>
+              <li ><a href="stability.jhtml">稳定性检验</a></li>
+            </ul>
           </li>
           <!--Widgets-->
 
@@ -166,7 +182,7 @@ Purchase: http://wrapbootstrap.com
       <div class="page-content">
         <!-- Page Breadcrumb -->
         <div class="page-breadcrumbs">
-          <ul class="breadcrumb">
+          <ul class="breadcrumb" style="margin-left:-180px">
             <li>
               <i class="fa fa-home"></i>
               <a href="#">首页</a>
@@ -285,12 +301,20 @@ Purchase: http://wrapbootstrap.com
   											</div>
                       </div>
                       <input type="hidden" id="id" name="id" value="${id}"/>
+					</form>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <button type="button" onclick="calculate()" class="btn btn-default">计算</button>
+						<button class="btn btn-success shiny" id="btn_datainput" data-toggle="modal" data-target=".bs-example-modal-lg" >导入数据</button>
+                      </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-10">
+                          <button type="button" onclick="calculate()" class="btn btn-maroon">计算</button>
                         </div>
                       </div>
-                    </form>
+                    <br />
                   </div>
                 </div>
                 <div>
@@ -352,6 +376,13 @@ Purchase: http://wrapbootstrap.com
             <div class="modal-body" id="my">
 
             </div>
+			<div id="my_ref_title" style="display:none">
+              <hr />
+              <h4 style="margin-left:20px">输入有证标准样品测量结果</h4>
+            </div>
+            <div class="modal-body" id="my_ref" style="display:none">
+
+            </div>
             <div style="margin-left:20%;margin-bottom:4px">
               <button id="btn_save" onclick="getdata()" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
 
@@ -363,6 +394,7 @@ Purchase: http://wrapbootstrap.com
 
     <!--Basic Scripts-->
 
+	<script src="assets/js/jquery-2.0.3.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 
     <!--Beyond Scripts-->
@@ -383,6 +415,18 @@ Purchase: http://wrapbootstrap.com
         { type: 'text'},
       ]
     });
+	
+	 $('#my_ref').jexcel({
+      data:data,
+      colHeaders: [ 'pt轮次','样品名称','被测量','单位','实验室编号','测量值1','测量值2','测量值3','测量值4','测量值5'],
+      colWidths: [ 70, 70,70,70,100,70,70,70,70,70 ],
+      minDimensions:[10,10],
+      columns: [
+        { type: 'text' },
+        { type: 'text'},
+      ]
+    });
+	
     var data;
     var input1;
     var input2;
