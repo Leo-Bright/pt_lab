@@ -35,16 +35,19 @@
                 $("#div_outer").css("display","block");
                 $("#div_sample").css("display","none");
                 $("#div_stab").css("display","none");
+                $("#btn_datainput").css("display","none");
               }
               else if ($("#cmb_confirmvalue").val() == "refvalue"){
                 $("#div_outer").css("display","none");
                 $("#div_sample").css("display","block");
                 $("#div_stab").css("display","none");
+                $("#btn_datainput").css("display","block");
               }
               else {
                 $("#div_outer").css("display","none");
                 $("#div_sample").css("display","none");
                 $("#div_stab").css("display","block");
+                $("#btn_datainput").css("display","block");
               }
             })
       });
@@ -139,7 +142,7 @@
                   <div class="2u">
                     <ul class="actions">
                       <li>
-                          <button class="btn btn-success shiny" id="btn_datainput" data-toggle="modal" data-target="#div_confirm_input">输入实验室数据</button>
+                          <button class="btn btn-success shiny" style="display:none" id="btn_datainput" data-toggle="modal" data-target="#div_confirm_input">输入实验室数据</button>
                       </li>
                     </ul>
                   </div>
@@ -150,7 +153,14 @@
                 <br />
                 <div style="height:400px">
                   <div class="2u 64u(xsmall)">计算结果:</div>
+					<br />
                   <div class="12u" style="margin-top:-10px">
+					  <div class="row uniform">
+						  <div>指定值x<sub>pt</sub>:</div><div id="div_4_pt" style="font-weight:bold"></div>
+					  </div>
+					  <div class="row uniform">
+						  <div>不确定度U:</div><div id="div_4_u" style="font-weight:bold"></div>
+					  </div>
                   </div>
                 </div>
                 <div>
@@ -213,6 +223,8 @@
                     if("outervalue"==method){
                         console.log($("#txt_specialval").val())
                         console.log($("#txt_uncertainty1").val())
+                        $('#div_4_pt').html(result.result[0]);
+                        $('#div_4_u').html(result.result[1]);
 					}else{
                         if(input!=null) {
                             var xcrm = $("#txt_stdsampleval").val();
@@ -226,6 +238,8 @@
                                         return layer.msg(result.message),!1;
                                     } else {
                                         // $('#div_v_avg').html(result.average)
+                                        $('#div_4_pt').html(result.result[0]);
+                                        $('#div_4_u').html(result.result[1]);
                                         console.log(result.result)
                                     }
                                 }, "json");
@@ -238,6 +252,8 @@
                                         return layer.msg(result.message),!1;
                                     } else {
                                         // $('#div_v_avg').html(result.average)
+                                        $('#div_4_pt').html(result.result[0]);
+                                        $('#div_4_u').html(result.result[1]);
                                         console.log(result.result)
                                     }
                                 }, "json");

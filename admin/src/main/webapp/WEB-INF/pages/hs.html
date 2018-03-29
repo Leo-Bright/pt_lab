@@ -452,7 +452,50 @@
                     } else {
                         for(var i=0;i<result.result[0].length; i++)
                          	$('#div_v_311_inneravg').html($('#div_v_311_inneravg').html() + result.result[0][i] + ", ");
+                        //样本内均值
                         $('#div_v_311_inneravg').html($('#div_v_311_inneravg').html().substring(0,$('#div_v_311_inneravg').html().length-2));
+                        $('#div_v_311_innervar').html(result.result[1][1]); //样本内方差
+                        $('#div_v_311_outervar').html(result.result[1][2]); //样本间方差
+                        $('#div_v_311_outeravg').html(result.result[1][0]); //样本间均值
+                        $('#div_v_311_df1').html(result.result[1][3]); //自由度f1
+                        $('#div_v_311_df2').html(result.result[1][4]); //自由度f2
+                        var F = result.result[1][2]/result.result[1][1];
+						$('#div_v_311_f').html(F);
+                        $('#div_v_311_fa').html(result.result[1][5]);
+						if(result.result[1][5] > F)
+                            $('#div_v_311_faf').html(">");
+						else if(result.result[1][5] < F)
+                            $('#div_v_311_faf').html("<");
+						else
+                            $('#div_v_311_faf').html("=");
+						// 3.1.2
+						var pt = $('txt_stab_ablity_std_variance').html();
+						var allowerr =  $('txt_stab_max_allow_error').html();
+                        var ss_var = result.result[0];
+						$('#div_v_312_outervar').html(ss_var);
+						if(ss_var > 0.3 * pt)
+                            $('#div_v_312_comparept').html(">");
+						else if(ss_var < 0.3 * pt)
+                            $('#div_v_312_comparept').html("<");
+						else if(ss_var == 0.3 * pt)
+                            $('#div_v_312_comparept').html("=");
+
+                        if(ss_var > 0.1 * allowerr)
+                            $('#div_v_312_compareallowerror').html(">");
+                        else if(ss_var < 0.1 * allowerr)
+                            $('#div_v_312_compareallowerror').html("<");
+                        else
+                            $('#div_v_312_compareallowerror').html("=");
+                        //3.1.3 扩展方法
+						$('#div_v_313_outervar').html(result.result[0]);
+						$('#div_v_313_sqrtc').html(result.result[1]);
+						if(result.result[0] >result.result[1])
+							$('#div_v_313_comparesqrtc').html('>');
+						else if(result.result[0] < result.result[1])
+                            $('#div_v_313_comparesqrtc').html('<');
+						else
+                            $('#div_v_313_comparesqrtc').html('=');
+
 
                         console.log(result.result);
                     }
@@ -474,13 +517,45 @@
                         return layer.msg(result.message), !1;
                     } else {
                         // $('#div_v_avg').html(result.average)
+
+
                         console.log(result.result)
                     }
                 }, "json");
             }
 
         }else{
-            return layer.msg("输入数据没有值！"), !1;
+            //3.2.1
+            var pt_321 = $('#txt_stab_ablity_std_variance').html();
+            $('#div_v_321_avgx').html(result.result[0]);
+            $('#div_v_321_avgy').html(result.result[1]);
+            $('#div_v_321_avgabsolute').html(result.result[2]);
+            if(pt_321 > result.result[2])
+                $('#div_v_321_comparept').html('>');
+            else if(pt_321 < result.result[2])
+                $('#div_v_321_comparept').html('<');
+            else
+                $('#div_v_321_comparept').html('=');
+
+            //3.2.2
+            $('#div_v_322_t').html(result.result[0]);
+            $('#div_v_322_ta').html(result.result[1]);
+            if(result.result[0] > result.result[1])
+                $('#div_v_322_compareta').html('>');
+            else if(result.result[0] < result.result[1])
+                $('#div_v_322_compareta').html('<');
+            else
+                $('#div_v_322_compareta').html('=');
+            //3.2.3
+            $('#div_v_323_t').html(result.result[0]);
+            $('#div_v_323_ta323').html(result.result[1]);
+            if(result.result[0] > result.result[1])
+                $('#div_v_323_compareta323').html('>');
+            else if(result.result[0] < result.result[1])
+                $('#div_v_323_compareta323').html('<');
+            else
+                $('#div_v_323_compareta323').html('=');
+            //return layer.msg("输入数据没有值！"), !1;
         }
     }
 </script>
