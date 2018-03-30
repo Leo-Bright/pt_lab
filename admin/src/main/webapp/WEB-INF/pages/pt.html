@@ -112,17 +112,10 @@ Purchase: http://wrapbootstrap.com
           </a>
         </div>
         <!-- /Navbar Barnd -->
-        <!-- Sidebar Collapse -->
-        <div class="sidebar-collapse" id="sidebar-collapse">
-          <i class="collapse-icon fa fa-bars"></i>
-        </div>
-        <!-- /Sidebar Collapse -->
         <!-- Account Area and Settings --->
         <div class="navbar-header pull-right">
           <div class="navbar-account">
             <ul class="account-area">
-
-
               <!-- /Account Area -->
               <!--Note: notice that setting div must start right after account area list.
               no space must be between these elements-->
@@ -162,7 +155,7 @@ Purchase: http://wrapbootstrap.com
           </li>
           <!--Databoxes-->
           <li>
-            <a href="databoxes.html" class="menu-dropdown">
+            <a href="databoxes.jhtml" class="menu-dropdown">
               <i class="menu-icon glyphicon glyphicon-tasks"></i>
               <span class="menu-text"> 均匀性与稳定性检验 </span>
 			<i class="menu-expand"></i>
@@ -219,11 +212,6 @@ Purchase: http://wrapbootstrap.com
           <div class="row">
             <div class="col-xs-12 col-md-12">
               <div class="widget">
-                <button class="btn btn-success shiny" id="btn_datainput" data-toggle="modal" data-target=".bs-example-modal-lg">导入数据</button>
-                <br />
-
-                <br />
-                <br />
 
                 <div class="widget-body">
 
@@ -394,7 +382,6 @@ Purchase: http://wrapbootstrap.com
 
     <!--Basic Scripts-->
 
-	<script src="assets/js/jquery-2.0.3.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 
     <!--Beyond Scripts-->
@@ -403,7 +390,6 @@ Purchase: http://wrapbootstrap.com
     <script>
     data = [
       ['1','婴幼儿奶粉中水溶性维生素','维生素B6','mg/100g','lab1','1.453','3.251','0.245','3.111','1.111'],
-
     ];
     $('#my').jexcel({
       data:data,
