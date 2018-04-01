@@ -13,6 +13,12 @@ public interface CapabilityValueService {
     int insert(CapabilityValue capabilityValue);
 
     /**
+     * 根据id删除CE记录
+     *
+     */
+    int deleteById(Integer id);
+
+    /**
      * 获取指定CEid下的能力验证记录
      */
     List<com.ejunhai.qutihuo.statistical.model.CapabilityValue> getCapabilityValuesById(Integer ceId);

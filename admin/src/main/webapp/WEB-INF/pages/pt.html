@@ -413,17 +413,19 @@ Purchase: http://wrapbootstrap.com
       ]
     });
 	
-    var data;
+    var data1;
+    var data2;
     var input1;
     var input2;
 
     function getdata(){
-        data = $('#my').jexcel('getData');
-        input1 = dealArray(data,5,10);
-        input2 = dealArray(data,0,5);
+        data1 = $('#my').jexcel('getData');
+        data2 = $('#my_ref').jexcel('getData');
+        input1 = dealArray(data1,5,10);
+        input2 = dealArray(data2,5,10);
     };
 
-    function calculate_(x_pt,u_pt){
+    function calculate(){
         var load = layer.load();
         var x_method =$("#spemethod").val();
         var std_method =$("#stderrmethod").val();
@@ -453,20 +455,25 @@ Purchase: http://wrapbootstrap.com
         }
         $.post("/saveCapacityValues.jhtml", {
             "input1": JSON.stringify(input1),"input2": JSON.stringify(input2),"xmethod":x_method,"smethod":std_method,"id":id,"c":c,"cfx":cfx,"zxx":zxx,
-            "m":m,"std_spe":std_spe,"xcrm":xcrm,"ucrm":ucrm,"x_spe":x_spe,"u_spe":u_spe
+            "m":m,"std_spe":std_spe,"xcrm":xcrm,"ucrm":ucrm,"x_spe":x_spe,"u_spe":u_spe,
         }, function (result) {
             if (result.status != 200) {
                 return layer.msg(result.message),!1;
             } else {
-                x=result.result.key
-                u=result.result.value
-                calculateStd(x,u,load)
+                layer.close(load)
+                return layer.msg("计算完成"),!1;
+                setTimeout(function(){
+                    $('#computeForm').submit();
+                },1000);
+                // x=result.result.key
+                // u=result.result.value
+                // calculateStd(x,u,load)
             }
         }, "json");
     }
 
 
-    function calculate(){
+    function calculate_(){
         var load = layer.load()
         var x;
         var u;
@@ -543,7 +550,7 @@ Purchase: http://wrapbootstrap.com
         }else if("stderr_model"==std_method){
             if("" == c) return layer.msg("请输入参数！"), !1;
             $.post("statistical/computStdVar.jhtml", {
-                "method":"stderr_model","c":c,"cfx":cfx,"zxx":zxx,"m":m
+                "method":"bymodel","c":c,"cfx":cfx,"zxx":zxx,"m":m
             }, function (result) {
                 if (result.status != 200) {
                     return layer.msg(result.message),!1;

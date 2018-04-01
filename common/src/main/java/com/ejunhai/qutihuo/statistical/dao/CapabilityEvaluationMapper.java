@@ -22,4 +22,11 @@ public interface CapabilityEvaluationMapper {
      */
     List<CapabilityEvaluation> getAll();
 
+    /**
+     * 根据id获取能力验证信息
+     *
+     * @return 能力验证记录
+     */
+    CapabilityEvaluation getCapabilityEvaluationById(Integer id);
+
 }

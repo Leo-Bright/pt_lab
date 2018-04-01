@@ -10,10 +10,18 @@ public interface CapabilityValuesMapper {
     /**
      * 新增CE记录
      *
-     * @param capabilityEvaluation
+     * @param capabilityValue
      * @return
      */
     int insert(CapabilityValue capabilityValue);
+
+    /**
+     * 新增CE记录
+     *
+     * @param id
+     * @return
+     */
+    int deleteById(Integer id);
 
     /**
      * 获取指定CEid下的能力验证记录

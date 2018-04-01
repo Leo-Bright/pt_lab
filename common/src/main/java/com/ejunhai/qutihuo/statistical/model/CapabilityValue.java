@@ -56,6 +56,22 @@ public class CapabilityValue {
      */
     private String uncertainPt;
 
+    public CapabilityValue(){
+
+    }
+    public  CapabilityValue(Integer ceId,String sampleNo,String sampleName,String variable,String unit,String computeMethod,String standardMethod,String xPt,String stdPt,String uncertainPt){
+        this.ceId=ceId;
+        this.sampleNo=sampleNo;
+        this.sampleName=sampleName;
+        this.variable=variable;
+        this.unit=unit;
+        this.computeMethod=computeMethod;
+        this.standardMethod=standardMethod;
+        this.xPt=xPt;
+        this.uncertainPt=uncertainPt;
+        this.stdPt=stdPt;
+    }
+
     public Integer getCeId() {
         return ceId;
     }

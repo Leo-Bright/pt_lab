@@ -24,6 +24,12 @@
         FROM capability_evaluation
     </select>
 
+    <select id="getCapabilityEvaluationById" resultMap="CapabilityMap" resultType="com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation">
+        SELECT <include refid="Base_Column_List" />
+        FROM capability_evaluation
+        where id =  #{id,jdbcType=INTEGER}
+    </select>
+
     <insert id="insert" parameterType="com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation">
         insert into capability_evaluation (
         sample_no,

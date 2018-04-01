@@ -73,9 +73,19 @@ public class HomeController {
 		return "stability";
 	}
 
+	@RequestMapping("/stability_add")
+	public String stability_add(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "stability_add";
+	}
+
 	@RequestMapping("/homogeneity")
 	public String homogeneity(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
 		return "homogeneity";
+	}
+
+	@RequestMapping("/homogeneity_add")
+	public String homogeneity_add(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		return "homogeneity_add";
 	}
 
 	@RequestMapping("/calstats")

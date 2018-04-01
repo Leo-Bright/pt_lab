@@ -17,8 +17,6 @@ public class CapabilityEvaluationServiceIml implements CapabilityEvaluationServi
     @Resource
     private CapabilityEvaluationMapper capabilityEvaluationMapper;
 
-    @Resource
-    private CapabilityValuesMapper capabilityValuesMapper;
 
     @Override
     public List<CapabilityEvaluation> getAll(){
@@ -26,8 +24,8 @@ public class CapabilityEvaluationServiceIml implements CapabilityEvaluationServi
     }
 
     @Override
-    public List<CapabilityValue> getCapabilityValuesById(Integer ceId){
-        return capabilityValuesMapper.getCapabilityValuesById(ceId);
+    public CapabilityEvaluation getCapabilityEvaluationById(Integer id){
+        return capabilityEvaluationMapper.getCapabilityEvaluationById(id);
     }
 
     @Override

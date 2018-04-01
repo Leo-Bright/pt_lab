@@ -29,6 +29,14 @@ public class StatisticalController extends BaseController {
 	}
 
 	@ResponseBody
+	@RequestMapping("/calStatistics2")
+	public String calStatistics2(String input,HttpServletRequest request, ModelMap modelMap) {
+		double[][] matrix = JsonUtils.jsonString2double(input);
+		Map<String,Object> result = statisticsService.calStatistics(matrix[0]);
+		return gson.toJson(result);
+	}
+
+	@ResponseBody
 	@RequestMapping("/calMethod")
 	public String calMethod(String input,String method,HttpServletRequest request, ModelMap modelMap) {
 		double[][] matrix = JsonUtils.jsonString2double(input);

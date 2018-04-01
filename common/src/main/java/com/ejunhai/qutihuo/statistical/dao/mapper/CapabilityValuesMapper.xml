@@ -30,8 +30,14 @@
     <select id="getCapabilityValuesById" parameterType="Integer" resultMap="BaseMap" resultType="com.ejunhai.qutihuo.statistical.model.CapabilityValue">
         SELECT <include refid="Base_Column_List" />
         FROM capability_values
-        WHERE ce_id=#{year}
+        WHERE ce_id=#{id}
     </select>
+
+    <delete id="deleteById" parameterType="Integer">
+        DELETE
+        FROM capability_values
+        WHERE ce_id=#{id}
+    </delete>
 
     <insert id="insert" parameterType="com.ejunhai.qutihuo.statistical.model.CapabilityValue">
         insert into capability_values (

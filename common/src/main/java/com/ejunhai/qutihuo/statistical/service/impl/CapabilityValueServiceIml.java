@@ -27,4 +27,9 @@ public class CapabilityValueServiceIml implements CapabilityValueService {
         return capabilityValuesMapper.insert(capabilityValue);
     }
 
+    @Override
+    public int deleteById(Integer id){
+        return capabilityValuesMapper.deleteById(id);
+    }
+
 }

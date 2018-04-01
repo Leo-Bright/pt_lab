@@ -20,5 +20,5 @@ public interface CapabilityEvaluationService {
     /**
      * 获取指定CEid下的能力验证记录
      */
-    List<CapabilityValue> getCapabilityValuesById(Integer ceId);
+    CapabilityEvaluation getCapabilityEvaluationById(Integer id);
 }

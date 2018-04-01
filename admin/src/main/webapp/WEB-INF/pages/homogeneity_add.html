@@ -79,7 +79,7 @@ Purchase: http://wrapbootstrap.com
         <ul class="nav sidebar-menu">
           <!--Dashboard-->
           <li>
-            <a href="grid.html">
+            <a href="grid.jhtml">
               <i class="menu-icon glyphicon glyphicon-home"></i>
               <span class="menu-text"> 能力评定列表 </span>
             </a>
@@ -92,8 +92,8 @@ Purchase: http://wrapbootstrap.com
               <i class="menu-expand"></i>
             </a>
             <ul class="submenu">
-                <li ><a href="homogeneity.html">均匀性检验</a></li>
-                <li class="active"><a href="stability.html">稳定性检验</a></li>
+                <li ><a href="homogeneity.jhtml">均匀性检验</a></li>
+                <li class="active"><a href="stability.jhtml">稳定性检验</a></li>
             </ul>
           </li>
           <!--Widgets-->
@@ -150,39 +150,38 @@ Purchase: http://wrapbootstrap.com
                   <table class="table table-bordered table-hover table-striped" id="homogeneitytable">
                     <thead class="bordered-darkorange">
                       <tr role="row">
-                        <th>样品编号</th>
-                        <th>被测量</th>
-                        <th style="width:90px">单位</th>
-                        <th>中位数</th>
-                        <th>标准差</th>
-                        <th>δ<sub>E</sub></th>
-                        <th>σ<sub>pt</sub></th>
-                        <th>单因子分析法</th>
-                        <th>S<sub>s</sub>≤0.3σ ̂准则</th>
-                        <th>扩展方法</th>
-                        <th>操作</th>
+                        <th style="width:170px">样品编号</th>
+                        <th style="width:170px">被测量</th>
+                        <th style="width:120px">单位</th>
+                        <th style="width:120px">中位数</th>
+                        <th style="width:120px">标准差</th>
+                        <th style="width:100px">δ<sub>E</sub></th>
+                        <th style="width:100px">σ<sub>pt</sub></th>
+                        <th style="width:100px">单因子分析法</th>
+                        <th style="width:100px">S<sub>s</sub>≤0.3σ ̂准则</th>
+                        <th style="width:100px">扩展方法</th>
+                        <th style="width:120px">操作</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td style="width:170px">sample--1--1</td>
-                        <td style="width:170px">PT00001</td>
-                        <td style="width:120px">MG/kg</td>
-                        <td style="width:120px">0.0001</td>
-                        <td style="width:120px">0.111</td>
-                        <td style="width:100px"><input style="width:100px" type="text" id="e_1"/></td>
-                        <td style="width:100px"><input style="width:100px" type="text" id="pt_1"/></td>
-                        <td style="width:100px">OK</td>
-                        <td style="width:100px">OK</td>
-                        <td style="width:100px">NOT OK</td>
-                        <td style="width:120px">
-                          <a href="#" class="btn btn-info btn-xs save"><i class="fa fa-save"></i> 计算</a>
+                        <td>sample--1--1</td>
+                        <td>PT00001</td>
+                        <td>MG/kg</td>
+                        <td>0.0001</td>
+                        <td>0.111</td>
+                        <td><input  type="text" id="e_1"/></td>
+                        <td><input  type="text" id="pt_1"/></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                          <a href="javascript:calculate();" class="btn btn-info btn-xs save"><i class="fa fa-save"></i> 计算</a>
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-
               </div>
             </div>
           </div>
@@ -207,7 +206,7 @@ Purchase: http://wrapbootstrap.com
 
             </div>
             <div style="margin-left:20%;margin-bottom:4px">
-              <button id="btn_save" class="btn btn-primary shiny">保存</button>
+              <button id="btn_save" onclick="getdata()" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
 
             </div>
           </div><!-- /.modal-content -->
@@ -223,8 +222,7 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/beyond.min.js"></script>
     <script>
     data = [
-      ['','','','','','',''],
-
+      ['1','10111','2018-1-12','\t维生素B6;维生素B2','mg/100g','2.2345',''],
     ];
     $('#my').jexcel({
       data:data,
@@ -236,6 +234,31 @@ Purchase: http://wrapbootstrap.com
         { type: 'text'},
       ]
     });
+
+    var data;
+    var input;
+
+    function getdata(){
+        data = $('#my').jexcel('getData');
+        input = dealArray(input,5,7);
+        $.post("statistical/calStatistics2.jhtml", {
+            "input": JSON.stringify(input)
+        }, function (result) {
+            if (result.status != 200) {
+                return layer.msg(result.message),!1;
+            } else {
+                return layer.msg("计算完成"),!1;
+            }
+        }, "json");
+    };
+
+    function dealArray(input,start,end){
+        len = input.length
+        for(var i=0;i<len;i++){
+            input[i] = input[i].slice(start,end)
+        }
+        return input;
+    }
 
     </script>
   </body>
