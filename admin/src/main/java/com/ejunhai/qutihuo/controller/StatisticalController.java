@@ -32,7 +32,12 @@ public class StatisticalController extends BaseController {
 	@RequestMapping("/calStatistics2")
 	public String calStatistics2(String input,HttpServletRequest request, ModelMap modelMap) {
 		double[][] matrix = JsonUtils.jsonString2double(input);
-		Map<String,Object> result = statisticsService.calStatistics(matrix[0]);
+		int len = matrix.length;
+		double[] array = new double[len];
+		for(int i=0;i<len;i++){
+			array[i] = matrix[i][0];
+		}
+		Map<String,Object> result = statisticsService.calStatistics(array);
 		return gson.toJson(result);
 	}
 
@@ -67,6 +72,37 @@ public class StatisticalController extends BaseController {
         }
 		Map<String,Object> result = statisticsService.checkUniformity(matrix,method,stdORerror);
 		return gson.toJson(result);
+	}
+
+	@ResponseBody
+	@RequestMapping("/checkUniformity2")
+	public String checkUniformity2(String input,String para,HttpServletRequest request, ModelMap modelMap) {
+		Map<String,Object> resultMap = new HashMap<>();
+		double[][] matrix = JsonUtils.jsonString2double(input);
+        double stdORerror = 0.0;
+		if(null!=para&&!"".equals(para)){
+            stdORerror = Double.valueOf(para);
+        }
+		Map<String,Object> singleFactory = statisticsService.checkUniformity(matrix,"danyinzi",stdORerror);
+		double[][] singleFactoryMatrix = (double[][])singleFactory.get("result");
+		double F = singleFactoryMatrix[1][5];
+		double fa = singleFactoryMatrix[1][6];
+		if(F<=fa){
+			resultMap.put("singleFactory","OK");
+		}else{
+			resultMap.put("singleFactory","NOT OK");
+		}
+		Map<String,Object> extension = statisticsService.checkUniformity(matrix,"extension",stdORerror);
+		double[] extensionMatrix = (double[])extension.get("result");
+		double outer_variance = extensionMatrix[0];
+		double sqrt_c = extensionMatrix[1];
+		if(outer_variance<=sqrt_c){
+			resultMap.put("extension","OK");
+		}else{
+			resultMap.put("extension","NOT OK");
+		}
+		resultMap.put("status",200);
+		return gson.toJson(resultMap);
 	}
 
 	@ResponseBody

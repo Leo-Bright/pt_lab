@@ -42,6 +42,7 @@ public class HomogeneityandStabilityCheck {
 		returnval[1][3] = f1;
 		returnval[1][4] = f2;
 		returnval[1][5] = F;
+		returnval[1][6] = fa;
 		return returnval;
 
 	}
