@@ -164,21 +164,21 @@ Purchase: http://wrapbootstrap.com
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td style="width:170px">sample--1--1</td>
-                        <td style="width:170px">PT00001</td>
-                        <td style="width:120px">MG/kg</td>
-                        <td style="width:120px">0.0001</td>
-                        <td style="width:120px">0.111</td>
-                        <td style="width:100px"><input style="width:100px" type="text" id="e_1"/></td>
-                        <td style="width:100px"><input style="width:100px" type="text" id="pt_1"/></td>
-                        <td style="width:100px">OK</td>
-                        <td style="width:100px">OK</td>
-                        <td style="width:100px">NOT OK</td>
-                        <td style="width:120px">
-                          <a href="#" class="btn btn-info btn-xs save"><i class="fa fa-save"></i> 计算</a>
-                        </td>
-                      </tr>
+                    <tr>
+                      <td id="sampleNo"></td>
+                      <td id="variable"></td>
+                      <td id="unit"></td>
+                      <td id="median"></td>
+                      <td id="stderr"></td>
+                      <td><input  type="text" id="e_1"/></td>
+                      <td><input  type="text" id="pt_1"/></td>
+                      <td id="singleFactory"></td>
+                      <td id="sscc"></td>
+                      <td id="extension"></td>
+                      <td>
+                        <a href="javascript:calculate();" class="btn btn-info btn-xs save"><i class="fa fa-save"></i> 计算</a>
+                      </td>
+                    </tr>
                     </tbody>
                   </table>
                 </div>
@@ -207,7 +207,7 @@ Purchase: http://wrapbootstrap.com
 
             </div>
             <div style="margin-left:20%;margin-bottom:4px">
-              <button id="btn_save" class="btn btn-primary shiny">保存</button>
+              <button id="btn_save" onclick="getdata()" class="btn btn-primary shiny" data-dismiss="modal" aria-hidden="true">保存</button>
 
             </div>
           </div><!-- /.modal-content -->
@@ -223,9 +223,8 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/beyond.min.js"></script>
     <script>
     data = [
-      ['','','','','','',''],
-
-    ];
+            ['1','10111','2018-1-12','\t维生素B6;维生素B2','mg/100g','2.2345',''],
+        ];
     $('#my').jexcel({
       data:data,
       colHeaders: [ '测量份样','样品编号','测量日期','被测量','单位','测量值1','测量值2'],
@@ -236,6 +235,53 @@ Purchase: http://wrapbootstrap.com
         { type: 'text'},
       ]
     });
+
+    var data;
+    var input;
+
+    function getdata(){
+        data = $('#my').jexcel('getData');
+        input = dealArray(input,5,7);
+        $.post("statistical/calStatistics2.jhtml", {
+            "input": JSON.stringify(input)
+        }, function (result) {
+            if (result.status != 200) {
+                return layer.msg(result.message),!1;
+            } else {
+                $('#sampleNo').html(data[0][1])
+                $('#variable').html(data[0][3])
+                $('#unit').html(data[0][4])
+                $('#median').html(result.median)
+                $('#stderr').html(result.standardVar)
+                return layer.msg("计算完成"),!1;
+            }
+        }, "json");
+    };
+
+    function calculate(){
+        var load = layer.load();
+        var std =$("#pt_1").val();
+        $.post("statistical/checkStability2.jhtml", {
+            "input": JSON.stringify(input),"para":std,
+        }, function (result) {
+            if (result.status != 200) {
+                return layer.msg(result.message),!1;
+            } else {
+                layer.close(load)
+                $('#singleFactory').html(result.singleFactory)
+                $('#extension').html(result.extension)
+                return layer.msg("计算完成"),!1;
+            }
+        }, "json");
+    }
+
+    function dealArray(input,start,end){
+        len = input.length
+        for(var i=0;i<len;i++){
+            input[i] = input[i].slice(start,end)
+        }
+        return input;
+    }
 
     </script>
   </body>

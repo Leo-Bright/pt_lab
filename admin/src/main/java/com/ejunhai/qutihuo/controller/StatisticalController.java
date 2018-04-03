@@ -63,6 +63,19 @@ public class StatisticalController extends BaseController {
 	}
 
 	@ResponseBody
+	@RequestMapping("/checkStability2")
+	public String checkStability2(String input,String para,HttpServletRequest request, ModelMap modelMap) {
+		double[][] matrix = JsonUtils.jsonString2double(input);
+        double parameter = 0.0;
+        if(null!=para&&!"".equals(para)){
+            parameter = Double.valueOf(para);
+        }
+        Map<String,Object> result = statisticsService.checkStability(matrix,matrix,"t2",parameter);
+
+		return gson.toJson(result);
+	}
+
+	@ResponseBody
 	@RequestMapping("/checkUniformity")
 	public String checkUniformity(String input,String method,String para,HttpServletRequest request, ModelMap modelMap) {
 		double[][] matrix = JsonUtils.jsonString2double(input);
