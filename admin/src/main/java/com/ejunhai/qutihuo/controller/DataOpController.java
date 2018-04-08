@@ -67,6 +67,18 @@ public class DataOpController extends BaseController {
         return "grid";
     }
 
+    @RequestMapping("saveCEdata")
+    public Map<String,Object> saveCEdata(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String input1,String input2,String id){
+        Map<String,Object> resultMap = new HashMap<>();
+        String[][] matrix1 = JsonUtils.jsonString2string(input1);
+        String[][] matrix2 = JsonUtils.jsonString2string(input2);
+        int ceid = Integer.valueOf(id);
+        capabilityEvaluationService.saveAll(ceid,1,matrix1);
+        capabilityEvaluationService.saveAll(ceid,2,matrix2);
+        resultMap.put("status",200);
+        return resultMap;
+    }
+
     /*@RequestMapping("saveCapacityValues")
     public String saveCapacityValues(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String input1,String input2,String xmethod,String smethod,
                                      String id,String c, String cfx,String zxx,String m,String std_spe,String xcrm,String ucrm,String x_spe,String u_spe){

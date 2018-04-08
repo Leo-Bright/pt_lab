@@ -388,11 +388,15 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/beyond.min.js"></script>
     <script src="assets_pt/js/layer/layer.js"></script>
     <script>
-    data = [
+    /*data = [
       ['1','婴幼儿奶粉中水溶性维生素','维生素B6','mg/100g','lab1','1.453','3.251','0.245','3.111','1.111'],
-    ];
+    ];*/
+
+    matrix1 = ${matrix1}
+    matrix2 = ${matrix2}
+
     $('#my').jexcel({
-      data:data,
+      data:matrix1,
       colHeaders: [ 'pt轮次','样品名称','被测量','单位','实验室编号','测量值1','测量值2','测量值3','测量值4','测量值5'],
       colWidths: [ 70, 70,70,70,100,70,70,70,70,70 ],
       minDimensions:[10,10],
@@ -403,7 +407,7 @@ Purchase: http://wrapbootstrap.com
     });
 	
 	 $('#my_ref').jexcel({
-      data:data,
+      data:matrix2,
       colHeaders: [ 'pt轮次','样品名称','被测量','单位','实验室编号','测量值1','测量值2','测量值3','测量值4','测量值5'],
       colWidths: [ 70, 70,70,70,100,70,70,70,70,70 ],
       minDimensions:[10,10],
@@ -423,6 +427,15 @@ Purchase: http://wrapbootstrap.com
         data2 = $('#my_ref').jexcel('getData');
         input1 = dealArray(data1,5,10);
         input2 = dealArray(data2,5,10);
+        $.post("saveCEdata.jhtml", {
+            "input1": JSON.stringify(data1),"input2": JSON.stringify(data2),"id":id
+        }, function (result) {
+            if (result.status != 200) {
+                return layer.msg(result.message),!1;
+            } else {
+                return layer.msg("数据保存完成"),!1;
+            }
+        }, "json");
     };
 
     function calculate(){
@@ -639,10 +652,11 @@ Purchase: http://wrapbootstrap.com
 
     function dealArray(input,start,end){
         len = input.length
+        var tmp = [];
         for(var i=0;i<len;i++){
-            input[i] = input[i].slice(start,end)
+            tmp[i] = input[i].slice(start,end)
         }
-        return input;
+        return tmp;
     }
 
     </script>

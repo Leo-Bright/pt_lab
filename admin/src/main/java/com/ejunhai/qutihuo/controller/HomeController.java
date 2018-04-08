@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ejunhai.qutihuo.statistical.dto.MeasurementDto;
 import com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation;
+import com.ejunhai.qutihuo.statistical.model.CapabilityEvaluationData;
 import com.ejunhai.qutihuo.statistical.model.CapabilityValue;
 import com.ejunhai.qutihuo.statistical.service.CapabilityEvaluationService;
 import com.ejunhai.qutihuo.statistical.service.CapabilityValueService;
@@ -50,7 +51,13 @@ public class HomeController {
 //		}
 		Integer ceId = Integer.valueOf(id);
 		List<CapabilityValue> capabilityValueList = capabilityValueService.getCapabilityValuesById(ceId);
+		String[][] matrix1 = capabilityEvaluationService.getCapabilityEvaluationData(ceId,1);
+		String[][] matrix2 = capabilityEvaluationService.getCapabilityEvaluationData(ceId,2);
+		JSONArray jsonMatrix1 = JSONArray.fromObject(matrix1);
+		JSONArray jsonMatrix2 = JSONArray.fromObject(matrix2);
 		modelMap.put("capabilityValueList",capabilityValueList);
+		modelMap.put("matrix1",jsonMatrix1);
+		modelMap.put("matrix2",jsonMatrix2);
 		modelMap.put("id",id);
 		modelMap.put("sampleNo",sampleNo);
 		return "pt";

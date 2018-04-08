@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ejunhai.qutihuo.statistical.dao.CapabilityEvaluationDataMapper" >
+    <resultMap id="CapabilityMap" type="com.ejunhai.qutihuo.statistical.model.CapabilityEvaluationData" >
+        <id column="ce_id" property="ceId" jdbcType="INTEGER" />
+        <id column="data_type" property="dataType" jdbcType="INTEGER" />
+        <result column="pt_no" property="ptNo" jdbcType="VARCHAR" />
+        <result column="sample_name" property="sampleName" jdbcType="VARCHAR" />
+        <result column="variable" property="variable" jdbcType="VARCHAR" />
+        <result column="unit" property="unit" jdbcType="VARCHAR" />
+        <result column="lab_no" property="labNo" jdbcType="VARCHAR" />
+        <result column="messure_1" property="messure1" jdbcType="VARCHAR" />
+        <result column="messure_2" property="messure2" jdbcType="VARCHAR" />
+        <result column="messure_3" property="messure3" jdbcType="VARCHAR" />
+        <result column="messure_4" property="messure4" jdbcType="VARCHAR" />
+        <result column="messure_5" property="messure5" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        ce_id,
+        data_type,
+        pt_no,
+        sample_name,
+        variable,
+        unit,
+        lab_no,
+        messure_1,
+        messure_2,
+        messure_3,
+        messure_4,
+        messure_5
+    </sql>
+
+    <select id="get" resultMap="CapabilityMap" resultType="com.ejunhai.qutihuo.statistical.model.CapabilityEvaluationData" parameterType="Integer">
+        SELECT <include refid="Base_Column_List" />
+        FROM capability_evaluation_data
+        WHERE ce_id =  #{ceId,jdbcType=INTEGER}
+    </select>
+
+    <insert id="save" parameterType="com.ejunhai.qutihuo.statistical.model.CapabilityEvaluationData">
+        insert into capability_evaluation_data (
+        ce_id,
+        data_type,
+        pt_no,
+        sample_name,
+        variable,
+        unit,
+        lab_no,
+        messure_1,
+        messure_2,
+        messure_3,
+        messure_4,
+        messure_5)
+        values (
+        #{ceId,jdbcType=INTEGER},
+        #{dataType,jdbcType=INTEGER},
+        #{ptNo,jdbcType=VARCHAR},
+        #{sampleName,jdbcType=VARCHAR},
+        #{variable,jdbcType=VARCHAR},
+        #{unit,jdbcType=VARCHAR},
+        #{labNo,jdbcType=VARCHAR},
+        #{messure1,jdbcType=VARCHAR},
+        #{messure2,jdbcType=VARCHAR},
+        #{messure3,jdbcType=VARCHAR},
+        #{messure4,jdbcType=VARCHAR},
+        #{messure5,jdbcType=VARCHAR}
+        )
+    </insert>
+</mapper>
