@@ -37,6 +37,12 @@
         WHERE ce_id =  #{ceId,jdbcType=INTEGER}
     </select>
 
+    <delete id="delete" parameterType="Integer">
+        DELETE
+        FROM capability_evaluation_data
+        WHERE ce_id=#{ceId,jdbcType=INTEGER}
+    </delete>
+
     <insert id="save" parameterType="com.ejunhai.qutihuo.statistical.model.CapabilityEvaluationData">
         insert into capability_evaluation_data (
         ce_id,

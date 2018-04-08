@@ -74,4 +74,10 @@ public class CapabilityEvaluationServiceIml implements CapabilityEvaluationServi
         return 0;
     }
 
+
+    @Override
+    public int delete(Integer ceId){
+        return capabilityEvaluationDataMapper.delete(ceId);
+    }
+
 }

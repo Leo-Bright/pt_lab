@@ -73,6 +73,7 @@ public class DataOpController extends BaseController {
         String[][] matrix1 = JsonUtils.jsonString2string(input1);
         String[][] matrix2 = JsonUtils.jsonString2string(input2);
         int ceid = Integer.valueOf(id);
+        capabilityEvaluationService.delete(ceid);
         capabilityEvaluationService.saveAll(ceid,1,matrix1);
         capabilityEvaluationService.saveAll(ceid,2,matrix2);
         resultMap.put("status",200);

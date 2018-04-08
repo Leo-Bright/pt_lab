@@ -15,6 +15,13 @@ public interface CapabilityEvaluationDataMapper {
     int save(CapabilityEvaluationData capabilityEvaluationData);
 
     /**
+     * 删除能力验证实验数据
+     *
+     * @return 能力验证列表
+     */
+    int delete(Integer ceId);
+
+    /**
      * 获取相应ceid的能力验证实验数据
      *
      * @return 能力验证列表

@@ -20,6 +20,11 @@ public interface CapabilityEvaluationService {
     /**
      * 获取所有能力验证信息
      */
+    int delete(Integer ceId);
+
+    /**
+     * 获取所有能力验证信息
+     */
     int saveAll(Integer id,Integer dataType, String[][] matrix);
 
     /**
