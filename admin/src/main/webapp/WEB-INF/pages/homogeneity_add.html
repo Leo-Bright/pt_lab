@@ -144,7 +144,7 @@ Purchase: http://wrapbootstrap.com
             <div class="col-xs-12 col-md-12">
               <div class="widget">
                 <div class="widget-body" >
-                  <button class="btn btn-success shiny" style="margin-top:10px;margin-left:10px;" id="btn_datainput" data-toggle="modal" data-target=".bs-example-modal-lg">导入数据</button>
+                  <button class="btn btn-success shiny" style="margin-top:10px;margin-left:10px;" id="btn_datainput" data-toggle="modal" data-target=".bs-example-modal-lg" >导入数据</button>
                   <br />
                   <br />
                   <table class="table table-bordered table-hover table-striped" id="homogeneitytable">
@@ -200,7 +200,7 @@ Purchase: http://wrapbootstrap.com
 
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title" id="myLargeModalLabel">导入实验室检测数据</h4>
+              <h4 class="modal-title" id="myLargeModalLabel">导入实验室均匀性检验数据</h4>
             </div>
             <div class="modal-body" id="my">
 
@@ -223,7 +223,7 @@ Purchase: http://wrapbootstrap.com
     <script src="assets_pt/js/layer/layer.js"></script>
     <script>
     data = [
-      ['1','10111','2018-1-12','\t维生素B6;维生素B2','mg/100g','2.2345',''],
+      ['1','10111','2018-1-12','\t维生素B6;维生素B2','mg/100g','2.2345','1.005'],
     ];
     $('#my').jexcel({
       data:data,
@@ -240,20 +240,15 @@ Purchase: http://wrapbootstrap.com
     var input;
 
     function getdata(){
-        data = $('#my').jexcel('getData');
-        input = dealArray(input,5,7);
-        $.post("statistical/calStatistics2.jhtml", {
-            "input": JSON.stringify(input)
+        data1 = $('#my').jexcel('getData');
+
+        $.post("saveHomoData.jhtml", {
+            "input1": JSON.stringify(data1)
         }, function (result) {
             if (result.status != 200) {
                 return layer.msg(result.message),!1;
             } else {
-                $('#sampleNo').html(data[0][1])
-                $('#variable').html(data[0][3])
-                $('#unit').html(data[0][4])
-                $('#median').html(result.median)
-                $('#stderr').html(result.standardVar)
-                return layer.msg("计算完成"),!1;
+                return layer.msg("数据保存完成"),!1;
             }
         }, "json");
     };
@@ -261,15 +256,17 @@ Purchase: http://wrapbootstrap.com
     function calculate(){
         var load = layer.load();
         var std =$("#pt_1").val();
+        var maxErr = $("#e_1").val();
         $.post("statistical/checkUniformity2.jhtml", {
-            "input": JSON.stringify(input),"para":std,
+            "input": JSON.stringify(input),"pt":std,"maxErr":maxErr
         }, function (result) {
             if (result.status != 200) {
                 return layer.msg(result.message),!1;
             } else {
                 layer.close(load)
                 $('#singleFactory').html(result.singleFactory)
-                $('#extension').html(result.extension)
+                $('#extension').html(result.extension);
+                $('#sscc').html(result.sscc);
                 return layer.msg("计算完成"),!1;
             }
         }, "json");

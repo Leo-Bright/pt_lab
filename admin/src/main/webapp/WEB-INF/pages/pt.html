@@ -147,20 +147,25 @@ Purchase: http://wrapbootstrap.com
         <!-- Sidebar Menu -->
         <ul class="nav sidebar-menu">
           <!--Dashboard-->
-          <li>
-            <a href="grid.jhtml">
+          <li class="open active">
+            <a href="#" class="menu-dropdown">
               <i class="menu-icon glyphicon glyphicon-home"></i>
               <span class="menu-text"> 能力评定列表 </span>
+              <i class="menu-expand"></i>
             </a>
+            <ul class="submenu">
+              <li class="active" ><a href="grid.jhtml">计算指定值与能力评定标准差</a></li>
+              <li ><a href="#">实验室能力评定</a></li>
+            </ul>
           </li>
           <!--Databoxes-->
           <li>
-            <a href="databoxes.jhtml" class="menu-dropdown">
+            <a href="#" class="menu-dropdown">
               <i class="menu-icon glyphicon glyphicon-tasks"></i>
               <span class="menu-text"> 均匀性与稳定性检验 </span>
-			<i class="menu-expand"></i>
+              <i class="menu-expand"></i>
             </a>
-				<ul class="submenu">
+            <ul class="submenu">
               <li ><a href="homogeneity.jhtml">均匀性检验</a></li>
               <li ><a href="stability.jhtml">稳定性检验</a></li>
             </ul>
@@ -189,7 +194,7 @@ Purchase: http://wrapbootstrap.com
         <div class="page-header position-relative">
           <div class="header-title">
             <h1>
-              能力评定
+              计算指定值和能力评定标准差
             </h1>
           </div>
           <!--Header Buttons-->

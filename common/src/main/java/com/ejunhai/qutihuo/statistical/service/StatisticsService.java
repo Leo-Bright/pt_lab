@@ -15,7 +15,8 @@ public interface StatisticsService {
 
     Map<String,Object> checkStability(double[][] matrix1,double[][] matrix2,String method,double parameter);
 
-    Map<String,Object> checkUniformity(double[][] matrix,String method,double stdORerror);
+    //计算均匀性检验
+    Map<String,Object> checkUniformity(double[][] matrix,String method,double stdORerror, double maxErr);
 
     Map<String,Object> confirm(double[][] matrix,String method,double xcrm,double ucrm);
 

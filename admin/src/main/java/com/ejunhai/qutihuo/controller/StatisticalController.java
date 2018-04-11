@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Controller
@@ -77,43 +78,75 @@ public class StatisticalController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/checkUniformity")
-	public String checkUniformity(String input,String method,String para,HttpServletRequest request, ModelMap modelMap) {
+	public String checkUniformity(String input,String method,String para,String maxErr, HttpServletRequest request, ModelMap modelMap) {
 		double[][] matrix = JsonUtils.jsonString2double(input);
         double stdORerror = 0.0;
+        double maxError = 0.0;
 		if(null!=para&&!"".equals(para)){
             stdORerror = Double.valueOf(para);
         }
-		Map<String,Object> result = statisticsService.checkUniformity(matrix,method,stdORerror);
+		if(null!=maxErr &&!"".equals(maxErr)){
+			maxError = Double.valueOf(maxErr);
+		}
+		Map<String,Object> result = statisticsService.checkUniformity(matrix,method,stdORerror,maxError);
 		return gson.toJson(result);
 	}
 
+	//均匀性检验结果
 	@ResponseBody
 	@RequestMapping("/checkUniformity2")
-	public String checkUniformity2(String input,String para,HttpServletRequest request, ModelMap modelMap) {
+	public String checkUniformity2(String input,String pt, String maxErr,  HttpServletRequest request, ModelMap modelMap) {
 		Map<String,Object> resultMap = new HashMap<>();
 		double[][] matrix = JsonUtils.jsonString2double(input);
         double stdORerror = 0.0;
-		if(null!=para&&!"".equals(para)){
-            stdORerror = Double.valueOf(para);
+        double maxError = 0.0;
+		if(null!=pt && !"".equals(pt)){
+            stdORerror = Double.valueOf(pt);
         }
-		Map<String,Object> singleFactory = statisticsService.checkUniformity(matrix,"danyinzi",stdORerror);
+		if(null!=maxErr && !"".equals(maxErr)){
+			maxError = Double.valueOf(maxErr);
+		}
+		//单因子方差分析
+		Map<String,Object> singleFactory = statisticsService.checkUniformity(matrix,"danyinzi",stdORerror,maxError);
 		double[][] singleFactoryMatrix = (double[][])singleFactory.get("result");
 		double F = singleFactoryMatrix[1][5];
 		double fa = singleFactoryMatrix[1][6];
 		if(F<=fa){
-			resultMap.put("singleFactory","OK");
+			resultMap.put("singleFactory","通过");
 		}else{
-			resultMap.put("singleFactory","NOT OK");
+			resultMap.put("singleFactory","不通过");
 		}
-		Map<String,Object> extension = statisticsService.checkUniformity(matrix,"extension",stdORerror);
+
+		//扩展方法
+		Map<String,Object> extension = statisticsService.checkUniformity(matrix,"extension",stdORerror,maxError);
 		double[] extensionMatrix = (double[])extension.get("result");
 		double outer_variance = extensionMatrix[0];
 		double sqrt_c = extensionMatrix[1];
-		if(outer_variance<=sqrt_c){
-			resultMap.put("extension","OK");
+		if(null!=pt && !"".equals(pt)){
+			resultMap.put("extension","不可用");
 		}else{
-			resultMap.put("extension","NOT OK");
+			if(outer_variance<=sqrt_c){
+				resultMap.put("extension","通过");
+			}else{
+				resultMap.put("extension","不通过");
+			}
 		}
+
+		//s_s≤0.3σ ̂准则
+		Map<String,Object> lesslaw  = statisticsService.checkUniformity(matrix,"sszz",stdORerror,maxError);
+		double[] lesslawMatrix = (double[])lesslaw.get("result");
+		double outer_variance_lesslaw = lesslawMatrix[0];
+
+		if(null!=pt && !"".equals(pt)){
+			resultMap.put("sscc","不可用");
+		}else{
+			if(outer_variance_lesslaw <= 0.3 * stdORerror || outer_variance_lesslaw <= 0.1 * maxError){
+				resultMap.put("sscc","通过");
+			}else{
+				resultMap.put("sscc","不通过");
+			}
+		}
+
 		resultMap.put("status",200);
 		return gson.toJson(resultMap);
 	}

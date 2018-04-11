@@ -76,7 +76,7 @@ public class StatisticsServiceImpl implements StatisticsService{
     }
 
     @Override
-    public Map<String,Object> checkUniformity(double[][] matrix,String method,double stdORerror){
+    public Map<String,Object> checkUniformity(double[][] matrix,String method,double stdORerror, double maxErr){
         Map<String,Object> resultMap = new HashMap<>();
         HomogeneityandStabilityCheck stabilityCheck = new HomogeneityandStabilityCheck();
         resultMap.put("message","计算发生错误，请查看后台报错！");
