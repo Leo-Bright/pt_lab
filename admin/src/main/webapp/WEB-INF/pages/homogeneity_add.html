@@ -165,11 +165,11 @@ Purchase: http://wrapbootstrap.com
                     </thead>
                     <tbody>
                       <tr>
-                        <td id="sampleNo"></td>
-                        <td id="variable"></td>
-                        <td id="unit"></td>
-                        <td id="median"></td>
-                        <td id="stderr"></td>
+                        <td id="h_sampleNo"></td>
+                        <td id="h_measurand"></td>
+                        <td id="h_unit"></td>
+                        <td id="h_median"></td>
+                        <td id="h_stderr"></td>
                         <td><input  type="text" id="e_1"/></td>
                         <td><input  type="text" id="pt_1"/></td>
                         <td id="singleFactory"></td>
@@ -257,6 +257,7 @@ Purchase: http://wrapbootstrap.com
         var load = layer.load();
         var std =$("#pt_1").val();
         var maxErr = $("#e_1").val();
+        input = dealArray(data,5,10);
         $.post("statistical/checkUniformity2.jhtml", {
             "input": JSON.stringify(input),"pt":std,"maxErr":maxErr
         }, function (result) {
