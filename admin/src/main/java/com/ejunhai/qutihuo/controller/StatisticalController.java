@@ -2,6 +2,7 @@ package com.ejunhai.qutihuo.controller;
 
 import com.ejunhai.qutihuo.common.base.BaseController;
 import com.ejunhai.qutihuo.statistical.service.StatisticsService;
+import com.ejunhai.qutihuo.statistical.utils.CommLib;
 import com.ejunhai.qutihuo.statistical.utils.JsonUtils;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
@@ -95,7 +96,7 @@ public class StatisticalController extends BaseController {
 	//均匀性检验结果
 	@ResponseBody
 	@RequestMapping("/checkUniformity2")
-	public String checkUniformity2(String input,String pt, String maxErr,  HttpServletRequest request, ModelMap modelMap) {
+	public String checkUniformity2(String input,String values, String pt, String maxErr,  HttpServletRequest request, ModelMap modelMap) {
 		Map<String,Object> resultMap = new HashMap<>();
 		double[][] matrix = JsonUtils.jsonString2double(input);
         double stdORerror = 0.0;
@@ -146,7 +147,11 @@ public class StatisticalController extends BaseController {
 				resultMap.put("sscc","不通过");
 			}
 		}
-
+		CommLib objCommLib = new CommLib();
+		double avg_total = objCommLib.getTotalAvg(matrix);
+		double var_total = objCommLib.getStdDeviation(matrix[0]);
+		resultMap.put("average",avg_total);
+		resultMap.put("variance",var_total);
 		resultMap.put("status",200);
 		return gson.toJson(resultMap);
 	}
