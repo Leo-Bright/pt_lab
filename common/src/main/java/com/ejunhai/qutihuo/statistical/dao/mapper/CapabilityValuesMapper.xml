@@ -52,7 +52,7 @@
         std_pt,
         uncertain_pt)
         values (
-        #{cdId,jdbcType=INTEGER},
+        #{ceId,jdbcType=INTEGER},
         #{sampleNo,jdbcType=VARCHAR},
         #{sampleName,jdbcType=VARCHAR},
         #{variable,jdbcType=VARCHAR},

@@ -236,7 +236,7 @@ Purchase: http://wrapbootstrap.com
                       <div class="form-group" id="div_spe_extensional" style="display:block">
                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">指定值：</label>
                         <div class="col-sm-1">
-                              <input type="text" id="txt_specialval" />
+                              <input type="text" id="txt_specialval1" />
                         </div>
                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">不确定度：</label>
                         <div class="col-sm-5">
@@ -270,7 +270,7 @@ Purchase: http://wrapbootstrap.com
                       <div class="form-group" id="div_stderr_extensional" style="display:block">
                         <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">指定值： </label>
                         <div class="col-sm-1">
-                            <input type="text" id="txt_specialval" />
+                            <input type="text" id="txt_specialval2" />
                         </div>
                       </div>
                       <div class="form-group" id="div_stderr_model" style="display:none">
@@ -447,23 +447,27 @@ Purchase: http://wrapbootstrap.com
         var load = layer.load();
         var x_method =$("#spemethod").val();
         var std_method =$("#stderrmethod").val();
-        var id = id;
+        var id = ${id};
         var xcrm = $("#txt_stdsampleval").val();
         var ucrm = $("#txt_uncertainty2").val();
-        var x_spe = $("#txt_specialval").val()
-        var u_spe = ("#txt_uncertainty").val()
+        var x_spe = $("#txt_specialval1").val()
+        var u_spe = $("#txt_uncertainty").val()
         if("spe_extensional"==x_method){
-            if ("" == x_spe || "" == u_spe) return layer.msg("请输入参数！"), !1;
-        }else {
-            if (data == null){
+            if ("" == x_spe || "" == u_spe) {
+                layer.close(load);
                 return layer.msg("请输入参数！"), !1;
+            }
+        }else {
+            if (input1 == null){
+                layer.close(load);
+                return layer.msg("请先确认导入数据！"), !1;
             }
         }
         var c = $("#txt_stdsampleval2").val()
         var cfx =$("#txt_cfxstdval").val()
         var zxx =$("#txt_zsxstdval").val()
         var m =$("#txt_mval").val()
-        var std_spe = $("#txt_specialval").val()
+        var std_spe = $("#txt_specialval2").val()
         if("stderr_extensional"==std_method){
             if ("" == std_spe) return layer.msg("请输入参数！"), !1;
         }else if("stderr_model"==std_method) {
@@ -476,16 +480,15 @@ Purchase: http://wrapbootstrap.com
             "m":m,"std_spe":std_spe,"xcrm":xcrm,"ucrm":ucrm,"x_spe":x_spe,"u_spe":u_spe,
         }, function (result) {
             if (result.status != 200) {
+                layer.close(load)
+                if(result.message == null) return layer.msg("计算出错，请检查后台！"),!1;
                 return layer.msg(result.message),!1;
             } else {
                 layer.close(load)
-                return layer.msg("计算完成"),!1;
+                layer.msg("计算完成");
                 setTimeout(function(){
-                    $('#computeForm').submit();
+                    window.location.href="pt.jhtml?id="+${id}+"&sampleNo="+${sampleNo}
                 },1000);
-                // x=result.result.key
-                // u=result.result.value
-                // calculateStd(x,u,load)
             }
         }, "json");
     }
@@ -658,8 +661,12 @@ Purchase: http://wrapbootstrap.com
     function dealArray(input,start,end){
         len = input.length
         var tmp = [];
+        var size = 0;
         for(var i=0;i<len;i++){
-            tmp[i] = input[i].slice(start,end)
+            if(input[i][0]==""){}else{
+                tmp[size] = input[i].slice(start,end)
+                size++
+            }
         }
         return tmp;
     }

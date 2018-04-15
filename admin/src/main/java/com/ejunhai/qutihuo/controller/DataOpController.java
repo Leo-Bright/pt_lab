@@ -175,8 +175,24 @@ public class DataOpController extends BaseController {
     public String saveCapacityValues(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String input1,String input2,String xmethod,
                                      String smethod, String id,String c,String cfx, String zxx,String m,String std_spe,String xcrm,String ucrm,String x_spe,String u_spe){
         Map<String,Object> resultMap = new HashMap<>();
-        double[][] matrix1 = JsonUtils.jsonString2double(input1);
-        double[][] matrix2 = JsonUtils.jsonString2double(input2);
+        resultMap.put("message","计算出错，请查看后台日志！");
+        double[][] matrix1 = null;
+        double[][] matrix2 = null;
+        if((input1==null||input1.length()==0)&&(!xmethod.equals("spe_extensional")||"stderr_qn".equals(smethod)||"stderr_alg_a".equals(smethod)||"stderr_qhampel".equals(smethod))){
+            resultMap.put("status",201);
+            resultMap.put("message","计算需要确认导入数据！");
+            return gson.toJson(resultMap);
+        }
+        if((!xmethod.equals("spe_extensional")||"stderr_qn".equals(smethod)||"stderr_alg_a".equals(smethod)||"stderr_qhampel".equals(smethod))){
+            matrix1 = JsonUtils.jsonString2double(input1);
+        }
+        if((input2==null||input2.length()==0)&&("spe_ref_sample".equals(xmethod))){
+            resultMap.put("status",201);
+            resultMap.put("message","计算需要确认导入数据！");
+            return gson.toJson(resultMap);
+        }
+        if("spe_ref_sample".equals(xmethod)) matrix2 = JsonUtils.jsonString2double(input2);
+
         CapabilityEvaluation ce = capabilityEvaluationService.getCapabilityEvaluationById(Integer.valueOf(id));
         String x = null;
         String u = null;
@@ -206,18 +222,19 @@ public class DataOpController extends BaseController {
                 CapabilityValue capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 capabilityValueService.insert(capabilityValue);
             }else if("stderr_model".equals(smethod)){
-                Map<String,Object> computResult = statisticsService.computStdVar("bymodel",Double.valueOf(c),Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
+                Map<String,Object> computResult = statisticsService.computStdVar("bymodel",Double.valueOf(c),0.0,0.0,0.0);
                  std = computResult.get("result").toString();
                 CapabilityValue capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 capabilityValueService.insert(capabilityValue);
             }else if("stderr_measurementmethod".equals(smethod)){
-                Map<String,Object> computResult = statisticsService.computStdVar("measurement",Double.valueOf(c),Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
+                Map<String,Object> computResult = statisticsService.computStdVar("measurement",0.0,Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
                 std = computResult.get("result").toString();
                 CapabilityValue capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 capabilityValueService.insert(capabilityValue);
             }else if("stderr_alg_a".equals(smethod)){
                 int len = matrix1.length;
-                double[][] tmpMatrix = new double[][]{};
+                int width = matrix1[0].length;
+                double[][] tmpMatrix = new double[1][width];
                 for(int i=0;i<len;i++){
                     tmpMatrix[0]=matrix1[i];
                     Map<String,Object> computResult = statisticsService.ensureStdVar(tmpMatrix,"algorithmA");
@@ -227,7 +244,8 @@ public class DataOpController extends BaseController {
                 }
             }else if("stderr_qn".equals(smethod)){
                 int len = matrix1.length;
-                double[][] tmpMatrix = new double[][]{};
+                int width = matrix1[0].length;
+                double[][] tmpMatrix = new double[1][width];
                 for(int i=0;i<len;i++){
                     tmpMatrix[0]=matrix1[i];
                     Map<String,Object> computResult = statisticsService.ensureStdVar(tmpMatrix,"Qn");
@@ -236,6 +254,10 @@ public class DataOpController extends BaseController {
                     capabilityValueService.insert(capabilityValue);
                 }
             }else{
+                if(matrix1.length<2){
+                    resultMap.put("message","hampel方法至少需要两行数据！");
+                    return gson.toJson(resultMap);
+                }
                 Map<String,Object> computResult = statisticsService.ensureStdVar(matrix1,"hampel");
                 std = computResult.get("result").toString();
                 CapabilityValue capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
@@ -243,7 +265,8 @@ public class DataOpController extends BaseController {
             }
         }else if("spe_ref_sample".equals(xmethod)) {
             trueXmethod = "参照有证标准样品确定";
-            double[][] tmpMatrix = new double[][]{};
+            int width = matrix1[0].length;
+            double[][] tmpMatrix = new double[2][width];
             int len1 = matrix1.length;
             int len2 = matrix2.length;
             if(len1!=len2){
@@ -260,31 +283,35 @@ public class DataOpController extends BaseController {
                 Pair<Double,Double> resultPair = (Pair<Double,Double>)result.get("result");
                 x = resultPair.getKey().toString();
                 u = resultPair.getValue().toString();
-                CapabilityValue capabilityValue = null;
+                CapabilityValue capabilityValue;
                 if("stderr_extensional".equals(smethod)){
                     std = std_spe;
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 }else if("stderr_model".equals(smethod)){
-                    Map<String,Object> computResult = statisticsService.computStdVar("bymodel",Double.valueOf(c),Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
+                    Map<String,Object> computResult = statisticsService.computStdVar("bymodel",Double.valueOf(c),0.0,0.0,0.0);
                     std = computResult.get("result").toString();
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 }else if("stderr_measurementmethod".equals(smethod)){
-                    Map<String,Object> computResult = statisticsService.computStdVar("measurement",Double.valueOf(c),Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
+                    Map<String,Object> computResult = statisticsService.computStdVar("measurement",0.0,Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
                     std = computResult.get("result").toString();
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 }else if("stderr_alg_a".equals(smethod)){
-                    double[][] newMatrix = new double[][]{};
+                    double[][] newMatrix = new double[1][matrix1[0].length];
                     newMatrix[0]=matrix1[i];
                     Map<String,Object> computResult = statisticsService.ensureStdVar(newMatrix,"algorithmA");
                     std = ((Pair<Double, Double>)computResult.get("result")).getValue().toString();
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 }else if("stderr_qn".equals(smethod)){
-                    double[][] newMatrix = new double[][]{};
+                    double[][] newMatrix = new double[1][matrix1[0].length];
                     newMatrix[0]=matrix1[i];
                     Map<String,Object> computResult = statisticsService.ensureStdVar(newMatrix,"Qn");
                     std = computResult.get("result").toString();
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 }else{
+                    if(matrix1.length<2){
+                        resultMap.put("message","hampel方法至少需要两行数据！");
+                        return gson.toJson(resultMap);
+                    }
                     Map<String,Object> computResult = statisticsService.ensureStdVar(matrix1,"hampel");
                     std = computResult.get("result").toString();
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
@@ -293,7 +320,8 @@ public class DataOpController extends BaseController {
             }
         }else if("spe_alg_a".equals(xmethod)) {
             trueXmethod = "由稳健方法确定-算法A";
-            double[][] tmpMatrix = new double[][]{};
+            int width = matrix1[0].length;
+            double[][] tmpMatrix = new double[1][width];
             int len = matrix1.length;
             for(int i=0;i<len;i++){
                 tmpMatrix[0]=matrix1[i];
@@ -305,26 +333,30 @@ public class DataOpController extends BaseController {
                     std = std_spe;
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 }else if("stderr_model".equals(smethod)){
-                    Map<String,Object> computResult = statisticsService.computStdVar("bymodel",Double.valueOf(c),Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
+                    Map<String,Object> computResult = statisticsService.computStdVar("bymodel",Double.valueOf(c),0.0,0.0,0.0);
                     std = computResult.get("result").toString();
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 }else if("stderr_measurementmethod".equals(smethod)){
-                    Map<String,Object> computResult = statisticsService.computStdVar("measurement",Double.valueOf(c),Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
+                    Map<String,Object> computResult = statisticsService.computStdVar("measurement",0.0,Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
                     std = computResult.get("result").toString();
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 }else if("stderr_alg_a".equals(smethod)){
-                    double[][] newMatrix = new double[][]{};
+                    double[][] newMatrix = new double[1][matrix1[0].length];
                     newMatrix[0]=matrix1[i];
                     Map<String,Object> computResult = statisticsService.ensureStdVar(newMatrix,"algorithmA");
                     std = ((Pair<Double, Double>)computResult.get("result")).getValue().toString();
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 }else if("stderr_qn".equals(smethod)){
-                    double[][] newMatrix = new double[][]{};
+                    double[][] newMatrix = new double[1][matrix1[0].length];
                     newMatrix[0]=matrix1[i];
                     Map<String,Object> computResult = statisticsService.ensureStdVar(newMatrix,"Qn");
                     std = computResult.get("result").toString();
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 }else{
+                    if(matrix1.length<2){
+                        resultMap.put("message","hampel方法至少需要两行数据！");
+                        return gson.toJson(resultMap);
+                    }
                     Map<String,Object> computResult = statisticsService.ensureStdVar(matrix1,"hampel");
                     std = computResult.get("result").toString();
                     capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
@@ -333,6 +365,10 @@ public class DataOpController extends BaseController {
             }
         }else {
             trueXmethod = "由稳健方法确定-Q/Hampel方法";
+            if(matrix1.length<2){
+                resultMap.put("message","hampel方法至少需要两行数据！");
+                return gson.toJson(resultMap);
+            }
             Map<String, Object> result = statisticsService.confirm(matrix1, "hampel", 0.0, 0.0);
             x = ((Pair<Double, Double>) result.get("result")).getKey().toString();
             u = ((Pair<Double, Double>) result.get("result")).getValue().toString();
@@ -341,18 +377,19 @@ public class DataOpController extends BaseController {
                 CapabilityValue capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 capabilityValueService.insert(capabilityValue);
             }else if("stderr_model".equals(smethod)){
-                Map<String,Object> computResult = statisticsService.computStdVar("bymodel",Double.valueOf(c),Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
+                Map<String,Object> computResult = statisticsService.computStdVar("bymodel",Double.valueOf(c),0.0,0.0,0.0);
                 std = computResult.get("result").toString();
                 CapabilityValue capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 capabilityValueService.insert(capabilityValue);
             }else if("stderr_measurementmethod".equals(smethod)){
-                Map<String,Object> computResult = statisticsService.computStdVar("measurement",Double.valueOf(c),Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
+                Map<String,Object> computResult = statisticsService.computStdVar("measurement",0.0,Double.valueOf(cfx),Double.valueOf(zxx),Double.valueOf(m));
                 std = computResult.get("result").toString();
                 CapabilityValue capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
                 capabilityValueService.insert(capabilityValue);
             }else if("stderr_alg_a".equals(smethod)){
                 int len = matrix1.length;
-                double[][] tmpMatrix = new double[][]{};
+                int width = matrix1[0].length;
+                double[][] tmpMatrix = new double[1][width];
                 for(int i=0;i<len;i++){
                     tmpMatrix[0]=matrix1[i];
                     Map<String,Object> computResult = statisticsService.ensureStdVar(tmpMatrix,"algorithmA");
@@ -362,7 +399,8 @@ public class DataOpController extends BaseController {
                 }
             }else if("stderr_qn".equals(smethod)){
                 int len = matrix1.length;
-                double[][] tmpMatrix = new double[][]{};
+                int width = matrix1[0].length;
+                double[][] tmpMatrix = new double[1][width];
                 for(int i=0;i<len;i++){
                     tmpMatrix[0]=matrix1[i];
                     Map<String,Object> computResult = statisticsService.ensureStdVar(tmpMatrix,"Qn");
@@ -371,6 +409,10 @@ public class DataOpController extends BaseController {
                     capabilityValueService.insert(capabilityValue);
                 }
             }else{
+                if(matrix1.length<2){
+                    resultMap.put("message","hampel方法至少需要两行数据！");
+                    return gson.toJson(resultMap);
+                }
                 Map<String,Object> computResult = statisticsService.ensureStdVar(matrix1,"hampel");
                 std = computResult.get("result").toString();
                 CapabilityValue capabilityValue = new CapabilityValue(Integer.valueOf(id),ce.getSampleNo(),ce.getSampleName(),ce.getVariable(),ce.getUnit(),trueXmethod,trueSmethod,x,std,u);
