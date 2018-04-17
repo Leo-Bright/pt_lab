@@ -63,11 +63,29 @@ public class HomeController {
 		return "pt";
 	}
 
+	@RequestMapping("/pt2")
+	public String pt2(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String id) throws IOException {
+//		if(null==id||"".equals(id)){
+//			return "pt";
+//		}
+		Integer ceId = Integer.valueOf(id);
+		List<CapabilityValue> capabilityValueList = capabilityValueService.getCapabilityValuesById(ceId);
+		modelMap.put("capabilityValueList",capabilityValueList);
+		return "pt2";
+	}
+
 	@RequestMapping("/grid")
 	public String grid(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
 		List<CapabilityEvaluation> capabilityEvaluationList = capabilityEvaluationService.getAll();
 		modelMap.put("capabilityEvaluationList",capabilityEvaluationList);
 		return "grid";
+	}
+
+	@RequestMapping("/grid2")
+	public String grid2(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws IOException {
+		List<CapabilityEvaluation> capabilityEvaluationList = capabilityEvaluationService.getAll();
+		modelMap.put("capabilityEvaluationList",capabilityEvaluationList);
+		return "grid2";
 	}
 
 	@RequestMapping("/stab")
