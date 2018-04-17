@@ -4,6 +4,7 @@ import com.ejunhai.qutihuo.statistical.model.CapabilityEvaluation;
 import com.ejunhai.qutihuo.statistical.model.CapabilityValue;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CapabilityValueService {
     /**
@@ -22,4 +23,6 @@ public interface CapabilityValueService {
      * 获取指定CEid下的能力验证记录
      */
     List<com.ejunhai.qutihuo.statistical.model.CapabilityValue> getCapabilityValuesById(Integer ceId);
+
+    Map<String,Object> capacityEvaluate(String method, Integer id);
 }
