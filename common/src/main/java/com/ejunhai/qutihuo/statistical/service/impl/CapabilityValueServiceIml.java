@@ -41,6 +41,7 @@ public class CapabilityValueServiceIml implements CapabilityValueService {
         Map<String,Object> resultMap = new HashMap<>();
         List<String> th = new ArrayList<>();
         List<CapabilityValue> capabilityValues = capabilityValuesMapper.getCapabilityValuesById(id);
+        List<List<String>> result = new ArrayList<>();
         if(method.equals("checkuncertainty")){
             th.add("样品编号");
             th.add("样品名称");
@@ -48,15 +49,23 @@ public class CapabilityValueServiceIml implements CapabilityValueService {
             th.add("X_pt");
             th.add("Std_pt");
             th.add("评定结果");
-            List<CheckUncertainty> result = new ArrayList<>();
+
             for(CapabilityValue value:capabilityValues){
+                List<String> oneObject = new ArrayList<>();
                 String str = null;
                 if(Integer.valueOf(value.getxPt()) >= 0.3*Integer.valueOf(value.getStdPt())) str="该指定值的不确定度不可忽略，请使用z'值、Zeta值或En值";
                 else str="该指定值的不确定度可忽略";
-                result.add(new CheckUncertainty());//todo
+                oneObject.add(value.getSampleNo());
+                oneObject.add(value.getSampleName());
+                oneObject.add(value.getVariable());
+                oneObject.add(value.getxPt());
+                oneObject.add(value.getStdPt());
+                oneObject.add(str);
+                result.add(oneObject);
             }
+            resultMap.put("th",th);
+            resultMap.put("result",result);
         }
-
         return resultMap;
     }
 

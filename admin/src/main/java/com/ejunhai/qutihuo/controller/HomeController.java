@@ -79,7 +79,7 @@ public class HomeController {
 	public String CapacityEvaluate(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String id,String method) throws IOException {
 		Integer ceId = Integer.valueOf(id);
 		Map<String,Object> result = capabilityValueService.capacityEvaluate(method,ceId);
-		modelMap.put("capabilityValueList","");
+		modelMap.mergeAttributes(result);
 		return "pt2";
 	}
 
