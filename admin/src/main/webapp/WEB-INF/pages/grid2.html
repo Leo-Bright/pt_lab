@@ -189,15 +189,17 @@ Purchase: http://wrapbootstrap.com
                   <div id="horizontal-form">
                     <form class="form-horizontal" role="form" id="computeForm">
                       <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">能力评定计算方法：</label>
-                        <div class="col-sm-10">
-                          <select id="spemethod" >
-                            <option value="spe_extensional">由外部值确定</option>
-                            <option value="spe_ref_sample">参照有证标准样品确定</option>
-                            <option value="spe_alg_a">由稳健方法确定-算法A</option>
-                            <option value="spe_qhampel">由稳健方法确定-Q/Hampel方法</option>
-                          </select>
-                        </div>
+                        <div style="width:160px">能力评定方法:</div>
+                            <div class="select-wrapper" id="div_cemethod" name="div_cemethod">
+                              <select  id="cmb_cemethod" >
+                                <option value="checkuncertainty">检查指定值不确定度</option>
+                                <option value="bais">偏倚</option>
+                                <option value="zvalue">z值</option>
+                                <option value="z_value">z'值</option>
+                                <option value="zetavalue">zeta值</option>
+                                <option value="envalue">En值</option>
+                              </select>
+                          </div>
                       </div>
                     </form>
 
@@ -223,7 +225,7 @@ Purchase: http://wrapbootstrap.com
                         <td style="width:170px">${item.ptNo}</td>
                         <td class=" ">${item.variable}</td>
                         <td class="center ">${item.unit}</td>
-                        <td class="center "><a href="pt2.jhtml?id=${item.id}">能力评定</a></td>
+                        <td class="center "><a href="javascript:calculate(${item.id});">能力评定</a></td>
                       </tr>
                     </#list>
                     </tbody>
@@ -238,57 +240,6 @@ Purchase: http://wrapbootstrap.com
       <!-- /Page Content -->
     </div>
     <!-- /Page Container -->
-    <!-- Main Container -->
-    <!--LArge Modal Templates-->
-    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-      <form action="insertOne2CE.jhtml" method="post" id="dataForm">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title" id="myLargeModalLabel">新增能力验证评定</h4>
-          </div>
-          <div class="modal-body" style="height:230px">
-            <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right" style="margin-top:5px">能力验证计划编号：</label>
-              <div class="col-sm-10" style="margin-bottom:4px">
-                <input type="text" class="form-control" style="width:200px" id="txt_ptno" name="ptNo">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" style="margin-top:5px">样品编号：</label>
-              <div class="col-sm-10"  style="margin-bottom:4px">
-                <input type="text" class="form-control" style="width:200px" id="txt_sampleno" name="sampleNo">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" style="margin-top:5px">样品名称：</label>
-              <div class="col-sm-10"  style="margin-bottom:4px">
-                <input type="text" class="form-control" style="width:200px" id="txt_samplename" name="sampleName">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" style="margin-top:5px">被测量：</label>
-              <div class="col-sm-10"  style="margin-bottom:4px">
-                <input type="text" class="form-control" style="width:200px" id="txt_measured" name="variable">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" style="margin-top:5px">计量单位：</label>
-              <div class="col-sm-10"  style="margin-bottom:4px">
-                <input type="text" class="form-control" style="width:200px" id="txt_unit" name="unit">
-              </div>
-            </div>
-          </div>
-          <div style="margin-left:20%;margin-bottom:24px">
-            <button id="btn_save" class="btn btn-primary shiny" onclick="saveData()" style="margin-bottom:20px" data-dismiss="modal" aria-hidden="true">保存</button>
-            <button id="btn_cancel" class="btn btn-primary shiny" style="margin-bottom:20px" data-dismiss="modal" aria-hidden="true">取消</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-      </form>
-    </div>
   </div>
 
   <!--Basic Scripts-->
@@ -299,25 +250,21 @@ Purchase: http://wrapbootstrap.com
   <!--Beyond Scripts-->
   <script src="assets/js/beyond.min.js"></script>
   <script>
-      function saveData(){
-          /*txt_ptno = $('#txt_ptno').val();
-          txt_sampleno = $('#txt_sampleno').val();
-          txt_samplename = $('#txt_samplename').val();
-          txt_measured = $('#txt_measured').val();
-          txt_unit = $('#txt_unit').val();
-          var load = layer.load();
-          $.post('hive/synchronRoles.shtml',function(result){
-              layer.close(load);
-              if(result && result.status != 200){
-                  return layer.msg(result.message,so.default),!0;
-              }else{
-                  layer.msg(result.message);
-                  setTimeout(function(){
-                      $('#formId').submit();
-                  },1000);
+      function calculate(id) {
+        var method =$("#cmb_cemethod").val()
+          console.log(id)
+          console.log(method)
+          $.post("CapacityEvaluate.jhtml", {
+              "method": method, "id": id
+          }, function (result) {
+              if (result.status != 200) {
+                  return layer.msg(result.message), !1;
+              } else {
+                  // $('#div_v_avg').html(result.average)
+                  console.log(result)
               }
-          },'json');*/
-          $('#dataForm').submit();
+          }, "json");
+
       };
   </script>
 </body>

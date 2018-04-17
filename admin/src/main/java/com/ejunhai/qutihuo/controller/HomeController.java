@@ -2,6 +2,7 @@ package com.ejunhai.qutihuo.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,22 @@ public class HomeController {
 //		if(null==id||"".equals(id)){
 //			return "pt";
 //		}
+		Integer ceId = Integer.valueOf(id);
+		List<CapabilityValue> capabilityValueList = capabilityValueService.getCapabilityValuesById(ceId);
+		modelMap.put("capabilityValueList",capabilityValueList);
+		return "pt2";
+	}
+
+	@RequestMapping("/CapacityEvaluate")
+	public String CapacityEvaluate(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String id,String method) throws IOException {
+		Integer ceId = Integer.valueOf(id);
+		Map<String,Object> result = capabilityValueService.capacityEvaluate(method,ceId);
+		modelMap.put("capabilityValueList","");
+		return "pt2";
+	}
+
+	@RequestMapping("/checkuncertainty")
+	public String checkuncertainty(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String id) throws IOException {
 		Integer ceId = Integer.valueOf(id);
 		List<CapabilityValue> capabilityValueList = capabilityValueService.getCapabilityValuesById(ceId);
 		modelMap.put("capabilityValueList",capabilityValueList);
