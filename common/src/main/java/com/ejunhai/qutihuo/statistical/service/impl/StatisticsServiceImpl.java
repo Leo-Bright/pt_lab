@@ -59,18 +59,22 @@ public class StatisticsServiceImpl implements StatisticsService{
         return resultMap;
     }
 
+    //mactrix1:homodata, matrix2:stabdata
     @Override
     public Map<String,Object> checkStability(double[][] matrix1,double[][] matrix2,String method,double parameter){
         Map<String,Object> resultMap = new HashMap<>();
+        double[] stab_b = new double[matrix2.length];
+        double[] stab_e = new double[matrix2.length];
+        for(int i = 0; i< matrix2.length;i++){
+            stab_b[i] = matrix2[i][0];
+            stab_e[i] = matrix2[i][1];
+        }
         HomogeneityandStabilityCheck stabilityCheck = new HomogeneityandStabilityCheck();
         resultMap.put("message","计算发生错误，请查看后台报错！");
-        if("lessthan".equals(method)){
-            resultMap.put("result",stabilityCheck.absolutlyLessLaw(matrix1,matrix2));
-        }else if("t_check_ref".equals(method)){
-            resultMap.put("result",stabilityCheck.tCheckMethod(matrix1[0],parameter,0.95));
-        }else{
-            resultMap.put("result",stabilityCheck.tCheckComparison(matrix2[0],matrix2[1]));
-        }
+
+        resultMap.put("absolutlyLessLaw",stabilityCheck.absolutlyLessLaw(matrix1,matrix2));
+
+        resultMap.put("tcheckcomparison",stabilityCheck.tCheckComparison(stab_b,stab_e));
         resultMap.put("status",200);
         return resultMap;
     }

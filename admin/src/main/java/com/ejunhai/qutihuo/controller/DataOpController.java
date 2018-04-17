@@ -14,6 +14,7 @@ import com.ejunhai.qutihuo.statistical.model.CapabilityValue;
 import com.ejunhai.qutihuo.statistical.service.CapabilityEvaluationService;
 import com.ejunhai.qutihuo.statistical.service.CapabilityValueService;
 import com.ejunhai.qutihuo.statistical.service.HomoCheckService;
+import com.ejunhai.qutihuo.statistical.service.StabCheckService;
 import com.ejunhai.qutihuo.statistical.service.StatisticsService;
 import com.ejunhai.qutihuo.statistical.utils.JsonUtils;
 import javafx.util.Pair;
@@ -57,6 +58,9 @@ public class DataOpController extends BaseController {
     @Resource
     private HomoCheckService homoCheckService;
 
+    @Resource
+    private StabCheckService stabCheckService;
+
     @RequestMapping("insertOne2CE")
     public String insertOne2CE(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String sampleNo,String sampleName,String ptNo,String variable,String unit){
         CapabilityEvaluation capabilityEvaluation = new CapabilityEvaluation();
@@ -89,7 +93,7 @@ public class DataOpController extends BaseController {
     }
 
     /*
-    * 保存均匀性和稳定性检验的数据
+    * 保存均匀性检验的数据
     * */
     @RequestMapping("saveHomoData")
     public Map<String,Object> saveHomoData(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, String input1){
@@ -99,9 +103,21 @@ public class DataOpController extends BaseController {
         homoCheckService.saveHomoCheckData(maxtrix_homodata);
         resultMap.put("status",200);
         return resultMap;
-
-
     }
+
+    /*
+    *保存稳定性检验的数据
+    * */
+    @RequestMapping("saveStabData")
+    public Map<String,Object> saveStabData(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, String input1){
+        Map<String,Object> resultMap = new HashMap<>();
+        String[][] maxtrix_stabdata = JsonUtils.jsonString2string(input1);
+        System.out.print(maxtrix_stabdata);
+        stabCheckService.saveStabCheckData(maxtrix_stabdata);
+        resultMap.put("status",200);
+        return resultMap;
+    }
+
     /*@RequestMapping("saveCapacityValues")
     public String saveCapacityValues(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap,String input1,String input2,String xmethod,String smethod,
                                      String id,String c, String cfx,String zxx,String m,String std_spe,String xcrm,String ucrm,String x_spe,String u_spe){

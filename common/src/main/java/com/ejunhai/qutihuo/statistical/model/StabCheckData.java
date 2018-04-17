@@ -1,14 +1,8 @@
 package com.ejunhai.qutihuo.statistical.model;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-
-/*均匀性检验的数据信息
-* created by wugang on 2018-4-8
-*
-* */
-public class HomoCheckData {
+public class StabCheckData {
     //id
-    private  String id;
+    private  String ID;
     //样品编号
     private String sampleID;
     //样品份样编号
@@ -31,12 +25,8 @@ public class HomoCheckData {
     private double value9;
     private double value10;
 
-    public HomoCheckData(){
-        this.id = java.util.UUID.randomUUID().toString().replace("-","");
-    }
-
-    public HomoCheckData(String sampleid, String samplepartname, String measurand, java.sql.Date checkdate, String unit, double value1, double value2, double value3,double value4, double value5,double value6, double value7,double value8, double value9,double value10){
-        this.id = java.util.UUID.randomUUID().toString().replace("-","");
+    public StabCheckData(String sampleid, String samplepartname, String measurand, java.sql.Date checkdate, String unit, double value1, double value2, double value3,double value4, double value5,double value6, double value7,double value8, double value9,double value10){
+        this.ID = java.util.UUID.randomUUID().toString().replace("-","");
         this.sampleID = sampleid;
         this.samplePartName = samplepartname;
         this.measurand = measurand;
@@ -55,7 +45,7 @@ public class HomoCheckData {
     }
 
     public String getID(){
-        return id;
+        return ID;
     }
     public String getMeasurand(){
         return measurand;
@@ -73,7 +63,6 @@ public class HomoCheckData {
     public Double getValue8(){return value8;}
     public Double getValue9(){return value9;}
     public Double getValue10(){return value10;}
-    public void setId(String id){this.id = id;}
     public void setSampleID(String sampleID){this.sampleID = sampleID;}
     public void setSamplePartName(String samplePartName){this.samplePartName = samplePartName;}
     public void setMeasurand(String measurand){this.measurand = measurand;}
@@ -89,4 +78,5 @@ public class HomoCheckData {
     public void setValue8(Double value8){this.value8 = value8;}
     public void setValue9(Double value9){this.value9 = value9;}
     public void setValue10(Double value10){this.value10 = value10;}
+
 }

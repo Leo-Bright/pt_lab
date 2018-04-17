@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ejunhai.qutihuo.statistical.dao.HomoCheckMapper" >
-    <resultMap id="BaseMap" type="com.ejunhai.qutihuo.statistical.model.HomoCheckData" >
-        <id column="ID" property="id" jdbcType="VARCHAR" />
+<mapper namespace="com.ejunhai.qutihuo.statistical.dao.StabCheckMapper" >
+    <resultMap id="BaseMap" type="com.ejunhai.qutihuo.statistical.model.StabCheckData" >
+        <id column="ID" property="ID" jdbcType="VARCHAR" />
         <result column="SampleID" property="sampleID" jdbcType="VARCHAR" />
         <result column="Sample_PartName" property="samplePartName" jdbcType="VARCHAR" />
         <result column="CheckDate"  property="checkDate" jdbcType="DATE" />
@@ -22,39 +22,39 @@
 
     </resultMap>
     <sql id="Base_Column_List" >
-          ID,
-          SampleID,
-          Sample_PartName,
-          CheckDate,
-          Measurand,
-          Unit,
-          value1,
-          value2,
-          value3,
-          value4,
-          value5,
-          value6,
-          value7,
-          value8,
-          value9,
-          value10
+        ID,
+        SampleID,
+        Sample_PartName,
+        CheckDate,
+        Measurand,
+        Unit,
+        value1,
+        value2,
+        value3,
+        value4,
+        value5,
+        value6,
+        value7,
+        value8,
+        value9,
+        value10
 
     </sql>
 
-    <select id="getHomoCheckDatabySampleID" parameterType="String" resultMap="BaseMap" resultType="com.ejunhai.qutihuo.statistical.model.HomoCheckData">
+    <select id="getStabCheckDataBySampleID" parameterType="String" resultMap="BaseMap" resultType="com.ejunhai.qutihuo.statistical.model.StabCheckData">
         SELECT <include refid="Base_Column_List" />
-        FROM data_homogeneity_stability
+        FROM stability_check_data
         WHERE SampleID=#{sampleID}
     </select>
 
-    <delete id="delHomoCheckDatabySampleID" parameterType="String">
+    <delete id="delStabCheckDataBySampleID" parameterType="String">
         DELETE
-        FROM data_homogeneity_stability
+        FROM stability_check_data
         WHERE SampleID=#{sampleID}
     </delete>
 
-    <insert id="addHomoCheckData" parameterType="com.ejunhai.qutihuo.statistical.model.HomoCheckData">
-        insert into data_homogeneity_stability (
+    <insert id="addStabCheckData" parameterType="com.ejunhai.qutihuo.statistical.model.StabCheckData">
+        insert into stability_check_data (
         ID,
         SampleID,
         Sample_PartName,

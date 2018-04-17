@@ -1,7 +1,11 @@
 package com.ejunhai.qutihuo.controller;
 
 import com.ejunhai.qutihuo.common.base.BaseController;
+import com.ejunhai.qutihuo.statistical.dao.HomoCheckMapper;
+import com.ejunhai.qutihuo.statistical.model.HomoCheckData;
+import com.ejunhai.qutihuo.statistical.service.HomoCheckService;
 import com.ejunhai.qutihuo.statistical.service.StatisticsService;
+import com.ejunhai.qutihuo.statistical.utils.CommLib;
 import com.ejunhai.qutihuo.statistical.utils.JsonUtils;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,8 @@ public class StatisticalController extends BaseController {
 
 	@Resource
 	private StatisticsService statisticsService;
+	@Resource
+	private HomoCheckService homoCheckService;
 
 	@ResponseBody
 	@RequestMapping("/calStatistics")
@@ -65,13 +71,21 @@ public class StatisticalController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/checkStability2")
-	public String checkStability2(String input,String para,HttpServletRequest request, ModelMap modelMap) {
+	public String checkStability2(String input,String para,String sampleID,  HttpServletRequest request, ModelMap modelMap) {
 		double[][] matrix = JsonUtils.jsonString2double(input);
+		//均匀性检验结果只取2个数值，稳定性检验数据同理
+		List<HomoCheckData> listHCD = homoCheckService.getHomoCheckDatabySampleID(sampleID);
+		double[][] homoData = new double[listHCD.size()][2];
+		for(int i = 0; i < listHCD.size(); i++){
+			HomoCheckData objData = (HomoCheckData)listHCD.get(i);
+			homoData[i][0] = objData.getValue1();
+			homoData[i][1] = objData.getValue2();
+		}
         double parameter = 0.0;
         if(null!=para&&!"".equals(para)){
             parameter = Double.valueOf(para);
         }
-        Map<String,Object> result = statisticsService.checkStability(matrix,matrix,"t2",parameter);
+        Map<String,Object> result = statisticsService.checkStability(homoData,matrix,"t2",parameter);
 
 		return gson.toJson(result);
 	}
@@ -95,7 +109,7 @@ public class StatisticalController extends BaseController {
 	//均匀性检验结果
 	@ResponseBody
 	@RequestMapping("/checkUniformity2")
-	public String checkUniformity2(String input,String pt, String maxErr,  HttpServletRequest request, ModelMap modelMap) {
+	public String checkUniformity2(String input,String values, String pt, String maxErr,  HttpServletRequest request, ModelMap modelMap) {
 		Map<String,Object> resultMap = new HashMap<>();
 		double[][] matrix = JsonUtils.jsonString2double(input);
         double stdORerror = 0.0;
@@ -146,7 +160,11 @@ public class StatisticalController extends BaseController {
 				resultMap.put("sscc","不通过");
 			}
 		}
-
+		CommLib objCommLib = new CommLib();
+		double avg_total = objCommLib.getTotalAvg(matrix);
+		double var_total = objCommLib.getStdDeviation(matrix[0]);
+		resultMap.put("average",avg_total);
+		resultMap.put("variance",var_total);
 		resultMap.put("status",200);
 		return gson.toJson(resultMap);
 	}
