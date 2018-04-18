@@ -254,17 +254,7 @@ Purchase: http://wrapbootstrap.com
         var method =$("#cmb_cemethod").val()
           console.log(id)
           console.log(method)
-          $.post("CapacityEvaluate.jhtml", {
-              "method": method, "id": id
-          }, function (result) {
-              if (result.status != 200) {
-                  return layer.msg(result.message), !1;
-              } else {
-                  // $('#div_v_avg').html(result.average)
-                  console.log(result)
-              }
-          }, "json");
-
+          window.location.href="CapacityEvaluate.jhtml?id="+id+"&method="+method
       };
   </script>
 </body>

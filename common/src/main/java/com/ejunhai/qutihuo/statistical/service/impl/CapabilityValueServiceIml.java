@@ -49,11 +49,10 @@ public class CapabilityValueServiceIml implements CapabilityValueService {
             th.add("X_pt");
             th.add("Std_pt");
             th.add("评定结果");
-
             for(CapabilityValue value:capabilityValues){
                 List<String> oneObject = new ArrayList<>();
                 String str = null;
-                if(Integer.valueOf(value.getxPt()) >= 0.3*Integer.valueOf(value.getStdPt())) str="该指定值的不确定度不可忽略，请使用z'值、Zeta值或En值";
+                if(Double.valueOf(value.getxPt()) >= 0.3*Double.valueOf(value.getStdPt())) str="该指定值的不确定度不可忽略，请使用z'值、Zeta值或En值";
                 else str="该指定值的不确定度可忽略";
                 oneObject.add(value.getSampleNo());
                 oneObject.add(value.getSampleName());

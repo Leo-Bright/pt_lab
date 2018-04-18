@@ -157,30 +157,18 @@ Purchase: http://wrapbootstrap.com
                     <table class="table table-bordered table-hover table-striped" id="searchable" style="margin-top:5px">
                       <thead class="bordered-darkorange">
                         <tr role="row">
-                          <th>样品编号</th>
-                          <th>样品名称</th>
-                          <th>被测量</th>
-                          <th>单位</th>
-                          <th>X<sub>pt</sub></th>
-                          <th>σ<sub>pt</sub></th>
-                          <th>U(<sub>σ<sub>pt</sub></sub>)</th>
-                          <th>能力评定计算方法</th>
-                          <th>能力评定计算结果</th>
+                          <#list th as item>
+                            <th>${item}</th>
+                          </#list>
                         </tr>
                       </thead>
                       <tbody>
-                      <#if capabilityValueList??>
-                        <#list capabilityValueList as item>
+                      <#if result??>
+                        <#list result as row>
                           <tr>
-                            <td class=" sorting_1"><#if item.sampleNo??>${item.sampleNo}</#if></td>
-                            <td style="width:170px"><#if item.sampleName??>${item.sampleName}</#if></td>
-                            <td class="center "><#if item.variable??>${item.variable}</#if></td>
-                            <td class="center "><#if item.unit??>${item.unit}</#if></td>
-                            <td class="center "><#if item.computeMethod??>${item.computeMethod}</#if></td>
-                            <td class="center "><#if item.standardMethod??>${item.standardMethod}</#if></td>
-                            <td class="center "><#if item.xPt??>${item.xPt}</#if></td>
-                            <td class="center "><#if item.stdPt??>${item.stdPt}</#if></td>
-                            <td class="center "><#if item.uncertainPt??>${item.uncertainPt}</#if></td>
+                            <#list row as td>
+                              <td class="center ">${td}</td>
+                            </#list>
                           </tr>
                         </#list>
                       </#if>
